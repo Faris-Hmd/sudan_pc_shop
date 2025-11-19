@@ -1,42 +1,27 @@
 @import "tailwindcss";
-/* @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"); */
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
-/* 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-} */
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #ededed;
     --foreground: #ededed;
   }
 }
-
+html {
+  font-size: larger;
+}
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: "Open Sans", sans-serif;
-  font-optical-sizing: auto;
-  /* font-weight: <weight>; */
-  font-style: normal;
-}
-
-/* ========== Base Styles ========== */
-body {
-  font-family: "Open Sans", sans-serif;
-  font-weight: 600;
   color: #333;
   margin: 0;
   padding: 0;
-  background-color: #fcfcfc;
 }
+
+/* ========== Base Styles ========== */
 
 /* ========== Layout Containers ========== */
 .wrapper {
@@ -206,7 +191,7 @@ input[type="submit"]:hover {
 .add_form,
 .update_form {
   margin: auto;
-  width: 90%;
+  width: 95%;
   background-color: #fff;
   padding: 10px;
   display: flex;
@@ -236,7 +221,7 @@ input[type="submit"]:hover {
 
 /* ========== Tables ========== */
 table {
-  width: 92%;
+  width: 95%;
   border-collapse: collapse;
   margin: 5px auto;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);

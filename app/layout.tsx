@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Linden_Hill, Roboto } from "next/font/google";
+import { Linden_Hill, Nunito } from "next/font/google";
 import "./globals.css";
 import Head from "next/head";
 import Link from "next/link";
 
-const roboto = Roboto({
-  weight: "400",
+const roboto = Nunito({
+  weight: "500",
   subsets: ["latin"],
 });
 
