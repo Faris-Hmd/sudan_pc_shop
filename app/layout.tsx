@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Linden_Hill, Roboto } from "next/font/google";
 import "./globals.css";
 import Head from "next/head";
+import Link from "next/link";
 
 const roboto = Roboto({
   weight: "400",
@@ -24,10 +25,9 @@ export default function RootLayout({
         <nav>
           <div className="logo"> Elneelen shop</div>
           <div>
-            <a href="shop.php">Home</a>
-            <a href="products.php">Settings</a>
-            {/* <a href="actions/logout.php">Logout</a> */}
-            <a href="loginpage.php">Login</a>
+            <Link href="/products">Home</Link>
+            <Link href="/products">Settings</Link>
+            <Link href="/products">Login</Link>
           </div>
         </nav>
         {children}

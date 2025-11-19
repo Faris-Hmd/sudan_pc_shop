@@ -3,8 +3,7 @@ import { db } from "../../db/firebase";
 
 export default async function ProductsDetails({ params }) {
   const { productId } = await params;
-  console.log(productId);
-
+  // console.log(productId);
   const docRef = doc(db, "products", productId);
   const docsnapshot = await getDoc(docRef);
   const product = docsnapshot.exists() ? docsnapshot.data() : {};
