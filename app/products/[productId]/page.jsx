@@ -25,7 +25,6 @@ export default async function ProductsDetails({ params }) {
         <span className="cost">{product.p_cost}</span>
         <span className="category"> | {product.p_cat}</span>
       </div>
-
       <div className="product_d_details">
         Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi,
         similique dolorem, delectus fugit optio provident omnis quia dolorum

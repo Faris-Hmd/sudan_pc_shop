@@ -58,10 +58,7 @@ export default async function ProductTable() {
                 </a>
               </td>
               <td>
-                <a
-                  className="edit_btn"
-                  href={`/prod_updateform?id=${row.p_id}`}
-                >
+                <a className="edit_btn" href={`productsSet/${row.id}`}>
                   {/* Edit Icon */}
                   <svg
                     width="14px"
