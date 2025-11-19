@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ServerComp from "./comp/servercomo";
+import Link from "next/link";
 
 export default function Home() {
   const products = [
@@ -80,11 +80,17 @@ export default function Home() {
       {products && products.length > 0 ? (
         products.map((row) => (
           <div className="product_card" key={row.p_id}>
-            <a href={`prod_details?id=${row.p_id}`}>
+            <Link href={`prod_details?id=${row.p_id}`}>
               <div className="img_container">
-                <img height={120} src={row.p_img} alt="Product Image" />
+                <Image
+                  src={row.p_img}
+                  alt="Product Image"
+                  height={200}
+                  width={200}
+                  unoptimized
+                />
               </div>
-            </a>
+            </Link>
             <div className="name">{row.p_name}</div>
             <div className="wrapper">
               <span className="cost">{row.p_cost}</span>
