@@ -79,16 +79,10 @@ export default function Home() {
     <div className="list">
       {products && products.length > 0 ? (
         products.map((row) => (
-          <div className="product_card" key={row.p_id}>
+          <div className="product_card bg-amber-900" key={row.p_id}>
             <Link href={`prod_details?id=${row.p_id}`}>
               <div className="img_container">
-                <Image
-                  src={row.p_img}
-                  alt="Product Image"
-                  height={200}
-                  width={200}
-                  unoptimized
-                />
+                <img src={row.p_img} alt="Product Image" />
               </div>
             </Link>
             <div className="name">{row.p_name}</div>
