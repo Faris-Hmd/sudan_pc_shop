@@ -1,5 +1,7 @@
-import Image from "next/image";
+// "use client";
+import { collection, addDoc } from "firebase/firestore";
 import Link from "next/link";
+import { db } from "./db/firebase";
 
 export default function Home() {
   const products = [
@@ -74,6 +76,15 @@ export default function Home() {
       p_cat: "PC",
     },
   ];
+
+  async function getData() {
+    await addDoc(collection(db, "users"), {
+      first: "Ada",
+      last: "Lovelace",
+      born: 1815,
+    });
+  }
+  getData();
 
   return (
     <div className="list">
