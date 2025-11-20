@@ -108,19 +108,20 @@ body {
 
 /* ========== Buttons ========== */
 .dlt_btn {
+  font-size: small;
   color: white;
   padding: 8px;
-  border-radius: 50%;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 12px;
-  height: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 .dlt_btn:hover {
-  background-color: #da190b3c;
+  /* background-color: #da190b69; */
+  opacity: 90%;
 }
 
 .edit_btn {
@@ -147,7 +148,7 @@ body {
   background-color: #777;
   color: white;
   padding: 7px;
-  font-size: 13px;
+  font-size: 14px;
   border: none;
   border-radius: 4px;
   text-decoration: none;
@@ -237,9 +238,7 @@ tr {
 tr:hover {
   background-color: #008bba22;
 }
-tr:nth-child(odd) {
-  background-color: #008bba09;
-}
+
 tr:nth-child(odd):hover {
   background-color: #008bba22;
 }

@@ -8,9 +8,9 @@ import { randomInt } from "crypto";
 export async function product_update(formData) {
   const title = formData.get("title");
   const content = formData.get("content");
-  console.log(formData);
+  // console.log(formData);
   function displayedImg() {
-    return "pc" + randomInt(3) + ".png";
+    return "pc" + randomInt(1, 3) + ".png";
   }
 
   // Add a new document with a generated id.
@@ -22,7 +22,7 @@ export async function product_update(formData) {
     p_details: formData.get("p_details"),
     p_img: displayedImg(),
   });
-  console.log("Document written with ID: ", docRef.id);
+  // console.log("Document written with ID: ", docRef.id);
 
   redirect("/products/" + docRef.id);
   // Process data (e.g., save to database)

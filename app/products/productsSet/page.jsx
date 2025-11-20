@@ -1,5 +1,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../db/firebase";
+import Dlt_btn from "../../comp/dlt_btn";
+import Link from "next/link";
 
 export default async function ProductTable() {
   const productsRef = collection(db, "products");
@@ -16,20 +18,20 @@ export default async function ProductTable() {
           <th colSpan="3" style={{ textAlign: "center" }}>
             Products
           </th>
-          <td colSpan="2">
-            <a
+          <td colSpan="1">
+            <Link
               href="/products/productsSet/prod_add"
               className="add_product_link"
             >
               Add Product
-            </a>
+            </Link>
           </td>
         </tr>
-        <tr className="bg-blue-300">
+        <tr className="bg-blue-200 hover:bg-blue-200">
           <th>Name</th>
           <th>Cost</th>
           <th>Category</th>
-          <th colSpan="2">Actions</th>
+          <th colSpan="1">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -39,26 +41,8 @@ export default async function ProductTable() {
               <td>{row.p_name}</td>
               <td>{row.p_cost}</td>
               <td>{row.p_cat}</td>
-              <td>
-                <a
-                  className="dlt_btn bg-red-400"
-                  href={`/actions/product_delete?dlt_p_id=${row.p_id}`}
-                >
-                  {/* Delete Icon */}
-                  <svg
-                    fill="#fe4949ff"
-                    width="14px"
-                    height="14px"
-                    viewBox="0 0 408.483 408.483"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M87.748,388.784c0.461,11.01,9.521,19.699,20.539,19.699h191.911c11.018,0,20.078-8.689,20.539-19.699l13.705-289.316 H74.043L87.748,388.784z M247.655,171.329c0-4.61,3.738-8.349,8.35-8.349h13.355c4.609,0,8.35,3.738,8.35,8.349v165.293 c0,4.611-3.738,8.349-8.35,8.349h-13.355c-4.61,0-8.35-3.736-8.35-8.349V171.329z M189.216,171.329 c0-4.61,3.738-8.349,8.349-8.349h13.355c4.609,0,8.349,3.738,8.349,8.349v165.293c0,4.611-3.737,8.349-8.349,8.349h-13.355 c-4.61,0-8.349-3.736-8.349-8.349V171.329L189.216,171.329z M130.775,171.329c0-4.61,3.738-8.349,8.349-8.349h13.356 c4.61,0,8.349,3.738,8.349,8.349v165.293c0,4.611-3.738,8.349-8.349,8.349h-13.356c-4.61,0-8.349-3.736-8.349-8.349V171.329z"></path>
-                    <path d="M343.567,21.043h-88.535V4.305c0-2.377-1.927-4.305-4.305-4.305h-92.971c-2.377,0-4.304,1.928-4.304,4.305v16.737H64.916 c-7.125,0-12.9,5.776-12.9,12.901V74.47h304.451V33.944C356.467,26.819,350.692,21.043,343.567,21.043z"></path>
-                  </svg>
-                </a>
-              </td>
-              <td>
-                <a className="edit_btn" href={`productsSet/${row.id}`}>
+              <td className="flex justify-center">
+                <Link className="edit_btn" href={`productsSet/${row.id}`}>
                   {/* Edit Icon */}
                   <svg
                     width="14px"
@@ -76,7 +60,7 @@ export default async function ProductTable() {
                       fill="#fff"
                     />
                   </svg>
-                </a>
+                </Link>
               </td>
             </tr>
           ))

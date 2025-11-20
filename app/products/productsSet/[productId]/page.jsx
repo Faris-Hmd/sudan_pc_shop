@@ -1,6 +1,8 @@
 import { doc, getDoc } from "firebase/firestore";
 import { product_update } from "../../../actions/product_update";
 import { db } from "../../../db/firebase";
+import Link from "next/link";
+import Dlt_btn from "../../../comp/dlt_btn";
 export async function page({ params }) {
   const { productId } = await params;
 
@@ -8,7 +10,7 @@ export async function page({ params }) {
   const docsnapshot = await getDoc(docRef);
   const product = docsnapshot.exists() ? { ...docsnapshot.data() } : {};
   const categories = ["Electronics", "Accessories", "Clothing"];
-  console.log(product);
+  // console.log(product);
 
   return (
     <form action={product_update} name="shopform" className="add_form">
@@ -59,10 +61,8 @@ export async function page({ params }) {
           gap: "2px",
         }}
       >
-        <a className="cancel_btn" href="/shop">
-          Cancel
-        </a>
-        <input type="submit" value="Add Product" style={{ flexGrow: 1 }} />
+        <Dlt_btn id={productId} />
+        <input type="submit" value="Update Product" style={{ flexGrow: 1 }} />
       </div>
     </form>
   );

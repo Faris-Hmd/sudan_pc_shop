@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { product_add } from "../../../actions/product_add";
 
 export default function AddProductForm() {
@@ -39,9 +40,9 @@ export default function AddProductForm() {
           gap: "2px",
         }}
       >
-        <a className="cancel_btn" href="/shop">
+        <Link className="cancel_btn" href="/products/productsSet">
           Cancel
-        </a>
+        </Link>
         <input type="submit" value="Add Product" style={{ flexGrow: 1 }} />
       </div>
     </form>
