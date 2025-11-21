@@ -41,14 +41,11 @@ function SearchForm() {
         required
         type="text"
         name="search_word"
-        placeholder="product"
+        placeholder="Enter product name"
         defaultValue={searchParams.get("search_word") || ""}
       />
-      {/* <select name="search_opt" id="" required>
-          <option value="p_name">Name</option>
-          <option value="p_cat">category</option>
-        </select> */}
-      <input type="submit" value="Search" id="" className="pr-1 pl-1" />
+
+      <input type="submit" value="Search" id="" className="" />
     </form>
   );
 }

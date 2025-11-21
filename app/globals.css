@@ -7,17 +7,20 @@
     --primary: #5598b7;
     --secondary: #94c4db;
     --accent: #6bb5d8;
+    --borders-and-shadows: #ccc;
   }
 }
-/* @media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: light) {
   :root {
     --text: #e6ecef;
-    --background: #030607;
+    --background: #12181c;
+    --foreround: #1e262a;
     --primary: #4889a8;
     --secondary: #24546b;
     --accent: #287295;
+    --borders-and-shadows: #2d393f;
   }
-} */
+}
 
 html {
   font-size: larger;
@@ -54,10 +57,10 @@ body {
 
 /* ========== Product Cards ========== */
 .product_card {
-  border: 1px solid #ddd;
+  border: 1px solid var(--borders-and-shadows);
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  background-color: var(--background);
+  background-color: var(--foreround);
   width: 49%;
   display: flex;
   flex-direction: column;
@@ -137,7 +140,7 @@ body {
 .edit_btn {
   border-radius: 5px;
   background-color: var(--primary);
-  color: var(--background);
+  color: white;
   padding: 2px 5px;
   font-size: 10px;
   text-decoration: none;
@@ -176,13 +179,13 @@ textarea,
 input[type="number"],
 select {
   padding: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--borders-and-shadows);
   border-radius: 4px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 input[type="submit"] {
-  background-color: #4caf50;
+  background-color: #45a049;
   color: white;
   border: none;
   border-radius: 4px;
@@ -192,7 +195,7 @@ input[type="submit"] {
   padding: 8px;
 }
 input[type="submit"]:hover {
-  background-color: #45a049;
+  background-color: #4caf50;
 }
 
 .add_form,
@@ -200,13 +203,13 @@ input[type="submit"]:hover {
   font-size: small;
   margin: 5px auto;
   width: 95%;
-  background-color: #fff;
+  background-color: var(--foreround);
   padding: 10px;
   display: flex;
   flex-direction: column;
   gap: 5px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ddd;
+  border: 1px solid var(--borders-and-shadows);
   border-radius: 8px;
 }
 
@@ -214,16 +217,24 @@ input[type="submit"]:hover {
   font-size: 12px;
   margin: auto;
   width: 99%;
-  padding: 5px 0;
+  padding: 0px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   gap: 5px;
   border-radius: 8px;
+  background-color: var(--foreround);
+  border: 1px solid var(--borders-and-shadows);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 .searchform input[type="text"] {
   width: 100%;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+  outline: var(--borders-and-shadows);
+  box-shadow: none;
+}
+.searchform input[type="submit"] {
+  transform: scale(0.8);
 }
 
 /* ========== Tables ========== */
@@ -232,10 +243,11 @@ table {
   width: 95%;
   border-collapse: collapse;
   margin: 5px auto;
+  background-color: var(--foreround);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  border: 1px solid #ddd;
+  border: 1px solid var(--borders-and-shadows);
   border-radius: 8px;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 .table_header {
   background-color: var(--primary);
@@ -249,7 +261,7 @@ table {
   padding: 8px;
 }
 tr {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--borders-and-shadows);
   transition: background-color 0.3s ease;
   cursor: pointer;
 }
@@ -259,7 +271,7 @@ td {
 
 /* ========== Navigation ========== */
 nav {
-  background-color: var(--background);
+  color: white;
   width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   display: flex;
@@ -272,7 +284,6 @@ nav a {
   font-size: 14px;
   padding: 3px;
   margin-right: 5px;
-  color: var(--background);
 }
 .add_product_link {
   color: white;
@@ -282,13 +293,16 @@ nav a {
   padding: 5px;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+.add_product_link:hover {
+  background-color: #4caf50;
 }
 .logo {
   padding: 10px;
   font-size: 16px;
   text-transform: uppercase;
   font-weight: 600;
-  color: var(--background);
   /* text gradaint */
   /* background: -webkit-linear-gradient(45deg, #5598b7, #6bb5d8); */
   /* -webkit-background-clip: text; */
@@ -298,14 +312,15 @@ nav a {
 /* ========== Categories ========== */
 .cat_con {
   margin-top: 5px;
-  border-top: 1px solid #ccc;
+  border: 1px solid var(--borders-and-shadows);
+  border-top: 1px solid;
   padding-top: 5px;
 }
 .cat_con .cat_card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid #ccc;
+  border: 1px solid var(--borders-and-shadows);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   margin-top: 3px;
   border-radius: 5px;
@@ -317,7 +332,7 @@ nav a {
 
 /* ========== Product Details ========== */
 .product_d_card {
-  background-color: #fff;
+  background-color: var(--foreround);
   display: flex;
   flex-direction: column;
   padding: 20px;

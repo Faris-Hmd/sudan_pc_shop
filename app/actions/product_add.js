@@ -4,6 +4,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { db } from "../db/firebase";
 import { redirect } from "next/navigation";
 import { randomInt } from "crypto";
+import { revalidatePath } from "next/cache";
 
 export async function product_add(formData) {
   const title = formData.get("title");
@@ -21,7 +22,7 @@ export async function product_add(formData) {
     p_img: displayedImg(),
   });
   // console.log("Document written with ID: ", docRef.id);
-
+  // revalidatePath("/products");
   redirect("/products/" + docRef.id);
   // Process data (e.g., save to database)
   console.log(formData);

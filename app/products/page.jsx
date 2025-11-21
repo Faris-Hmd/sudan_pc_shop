@@ -26,6 +26,7 @@ export default async function Home({ searchParams }) {
 
   return (
     <>
+      <div className="mt-1"></div>
       <SearchForm />
       <div className="list">
         {products && products?.length > 0 ? (

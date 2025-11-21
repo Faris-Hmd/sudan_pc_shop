@@ -25,6 +25,7 @@ export default function RootLayout({
           <Link href={"/products"} className="logo">
             Elneelen shop
           </Link>
+
           <div>
             {/* drop down menu for links */}
 
