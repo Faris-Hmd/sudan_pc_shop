@@ -1,11 +1,19 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../db/firebase";
 import Link from "next/link";
 import Dlt_btn from "../../comp/dlt_btn";
+import SearchForm from "../../comp/SearchForm";
 
-export default async function ProductTable() {
+export default async function ProductTable({ searchParams }) {
+  const { search_word } = await searchParams;
+
   const productsRef = collection(db, "products");
-  const querySnapshot = await getDocs(productsRef);
+  const q = query(
+    productsRef,
+    where("p_name", ">=", search_word || ""),
+    where("p_name", "<=", (search_word || "") + "\uf8ff")
+  );
+  const querySnapshot = await getDocs(search_word ? q : productsRef);
   const products = querySnapshot.docs.map((doc) => ({
     ...doc.data(),
     id: doc.id,
@@ -25,6 +33,11 @@ export default async function ProductTable() {
             >
               Add Product
             </Link>
+          </td>
+        </tr>
+        <tr>
+          <td colSpan={4}>
+            <SearchForm />
           </td>
         </tr>
         <tr className="table_header">
