@@ -8,7 +8,7 @@ export default function AddProductForm() {
 
   return (
     <form action={product_add} name="shopform" className="add_form">
-      <h3>Add Product</h3>
+      <h3 className="text-lg font-bold">Add Product</h3>
 
       <label htmlFor="p_name">Product Name</label>
       <input type="text" name="p_name" required />

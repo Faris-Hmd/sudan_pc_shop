@@ -13,7 +13,8 @@ export async function UpdateForm({ params }) {
 
   return (
     <form action={product_update} name="shopform" className="add_form">
-      <h3>Update Product</h3>
+      <h3 className="text-lg font-bold">Update Product</h3>
+
       <input type="hidden" value={productId} name="id" />
       <label htmlFor="p_name">Product Name</label>
       <input
