@@ -61,7 +61,7 @@ export async function UpdateForm({ params }) {
           gap: "2px",
         }}
       >
-        <Dlt_btn id={productId} />
+        {/* <Dlt_btn id={productId} /> */}
         <input type="submit" value="Update Product" style={{ flexGrow: 1 }} />
       </div>
     </form>

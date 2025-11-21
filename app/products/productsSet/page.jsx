@@ -1,6 +1,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../db/firebase";
 import Link from "next/link";
+import Dlt_btn from "../../comp/dlt_btn";
 
 export default async function ProductTable() {
   const productsRef = collection(db, "products");
@@ -44,6 +45,7 @@ export default async function ProductTable() {
                 <Link className="edit_btn" href={`productsSet/${row.id}`}>
                   Edit
                 </Link>
+                <Dlt_btn id={row.id} />
               </td>
             </tr>
           ))

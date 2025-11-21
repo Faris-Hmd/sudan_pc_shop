@@ -9,11 +9,11 @@ export async function product_dlt(formData, id) {
   function wait(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
-  // await wait(2000);
+  // await wait(3000);
   // console.log(formData, "-----", id);
   // console.log("from server");
 
   await deleteDoc(doc(db, "products", id));
-  // refresh();
+  refresh();
   // redirect("/products/" + docRef.id);
 }
