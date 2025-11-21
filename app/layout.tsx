@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import { Linden_Hill, Nunito } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "./globals.css";
-import Head from "next/head";
 import Link from "next/link";
 
 const roboto = Nunito({
@@ -23,9 +22,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${roboto.className}  antialiased`}>
         <nav>
-          <div className="logo"> Elneelen shop</div>
+          <Link href={"/products"} className="logo">
+            Elneelen shop
+          </Link>
           <div>
-            <Link href="/products">Home</Link>
+            {/* drop down menu for links */}
+
             <Link href="/products/productsSet">Settings</Link>
             <Link href="/products">Login</Link>
           </div>

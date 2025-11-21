@@ -1,9 +1,8 @@
 import { doc, getDoc } from "firebase/firestore";
 import { product_update } from "../../../actions/product_update";
 import { db } from "../../../db/firebase";
-import Link from "next/link";
 import Dlt_btn from "../../../comp/dlt_btn";
-export async function page({ params }) {
+export async function UpdateForm({ params }) {
   const { productId } = await params;
 
   const docRef = doc(db, "products", productId);
@@ -14,7 +13,7 @@ export async function page({ params }) {
 
   return (
     <form action={product_update} name="shopform" className="add_form">
-      <h3>Add Product</h3>
+      <h3>Update Product</h3>
       <input type="hidden" value={productId} name="id" />
       <label htmlFor="p_name">Product Name</label>
       <input
@@ -68,4 +67,4 @@ export async function page({ params }) {
   );
 }
 
-export default page;
+export default UpdateForm;
