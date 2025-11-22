@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
 const roboto = Nunito({
   weight: "500",
@@ -39,6 +40,14 @@ function Navbar() {
         <Link href="/products/productsSet">Settings</Link>
         <Link href="/products">Login</Link>
       </div>
+      <Avatar>
+        <AvatarImage
+          width={35}
+          className="m-1 rounded-full"
+          src="https://github.com/evilrabbit.png"
+        />
+        <AvatarFallback className="m-1">CN</AvatarFallback>
+      </Avatar>
     </nav>
   );
 }

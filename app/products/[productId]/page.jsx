@@ -1,5 +1,6 @@
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "../../db/firebase";
+import ProductImgCarousel from "@/app/comp/carousel";
 
 export const metadata = {
   title: `SPS | product detail`,
@@ -15,9 +16,13 @@ export default async function ProductsDetails({ params }) {
 
   return (
     <div className="product_d_card">
-      <div className="product_d_img">
-        <img src={`../${product.p_img}`} alt="Product Image" />
-      </div>
+      <ProductImgCarousel
+        imgs={[
+          { url: product.p_img },
+          { url: product.p_img },
+          { url: product.p_img },
+        ]}
+      />
 
       <div className="product_d_name">{product.p_name}</div>
 

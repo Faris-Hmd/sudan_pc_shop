@@ -6,7 +6,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --text: #101619;
-    --primary: #5598b7;
+    --my-primary: #5598b7;
     --secondary: #94c4db;
     --accent: #6bb5d8;
     --borders-and-shadows: #ccc;
@@ -23,7 +23,7 @@
     --text: #e6ecef;
     --background: #12181c;
     --foreround: #1e262a;
-    --primary: #4889a8;
+    --my-primary: #4889a8;
     --secondary: #24546b;
     --accent: #287295;
     --borders-and-shadows: #2d393f;
@@ -152,7 +152,7 @@ body {
 
 .edit_btn {
   border-radius: 5px;
-  background-color: var(--primary);
+  background-color: var(--my-primary);
   color: white;
   padding: 2px 5px;
   font-size: 10px;
@@ -263,7 +263,7 @@ table {
   overflow: hidden;
 }
 .table_header {
-  background-color: var(--primary);
+  background-color: var(--my-primary);
 }
 .table_header:hover {
   background-color: var(--accent);
