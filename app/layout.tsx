@@ -21,21 +21,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto.className}  antialiased`}>
-        <nav>
-          <Link href={"/"} className="logo">
-            Elneelen shop
-          </Link>
-
-          <div>
-            {/* drop down menu for links */}
-
-            <Link href="/products/productsSet">Settings</Link>
-            <Link href="/products">Search</Link>
-            <Link href="/products">Login</Link>
-          </div>
-        </nav>
+        <Navbar />
         {children}
       </body>
     </html>
+  );
+}
+function Navbar() {
+  return (
+    <nav>
+      <Link href={"/products"} className="logo">
+        Elneelen shop
+      </Link>
+      <div>
+        <Link href="/products">Search</Link>
+        <Link href="/Dashboard">Dashboard</Link>
+        <Link href="/products/productsSet">Settings</Link>
+        <Link href="/products">Login</Link>
+      </div>
+    </nav>
   );
 }
