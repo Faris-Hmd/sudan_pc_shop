@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${roboto.className}  antialiased`}>
         <nav>
-          <Link href={"/products"} className="logo">
+          <Link href={"/"} className="logo">
             Elneelen shop
           </Link>
 
@@ -30,6 +30,7 @@ export default function RootLayout({
             {/* drop down menu for links */}
 
             <Link href="/products/productsSet">Settings</Link>
+            <Link href="/products">Search</Link>
             <Link href="/products">Login</Link>
           </div>
         </nav>

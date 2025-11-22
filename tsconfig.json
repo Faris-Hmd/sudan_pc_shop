@@ -31,7 +31,9 @@
     "**/*.mts",
     "app/products/[productId]/page.jsx",
     "app/products/page.jsx",
-    "app/comp/servercomo.jsx"
+    "app/comp/servercomo.jsx",
+    "app/page.jsx",
+    "app/api/route.js"
   ],
   "exclude": ["node_modules"]
 }
