@@ -56,8 +56,9 @@ export default function ProductImgCarousel({ imgs }: any) {
         <CarouselPrevious />
         <CarouselNext />
       </Carousel>
+
       <div className="text-muted-foreground py-2 text-center text-sm">
-        Slide {current} of {count}
+        picture {current} of {count}
       </div>
     </div>
   );

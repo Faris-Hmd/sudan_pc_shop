@@ -31,13 +31,12 @@ export default function RootLayout({
 function Navbar() {
   return (
     <nav>
-      <Link href={"/products"} className="logo">
+      <Link href={"/"} className="logo">
         Elneelen shop
       </Link>
       <div>
         <Link href="/products">Search</Link>
         <Link href="/Dashboard">Dashboard</Link>
-        <Link href="/products/productsSet">Settings</Link>
         <Link href="/products">Login</Link>
       </div>
       <Avatar>

@@ -10,6 +10,8 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Section } from "lucide-react";
+import SectionCards from "../comp/Section";
 
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
@@ -34,7 +36,13 @@ const chartConfig = {
 export default function Component() {
   return (
     <>
-      <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+      <div className="mt-1"></div>
+      <SectionCards />
+
+      <ChartContainer
+        config={chartConfig}
+        className="min-h-[200px] max-h-72 w-full"
+      >
         <BarChart accessibilityLayer data={chartData}>
           <CartesianGrid vertical={false} />
           <XAxis
