@@ -87,44 +87,9 @@ export default function ChartPieInteractive({ categories }) {
           <CardDescription>
             show all products in diffrent category
           </CardDescription>
-          <Select value={activeMonth} onValueChange={setActiveMonth}>
-            <SelectTrigger
-              className="ml-auto h-7 w-[180px] rounded-lg pl-2.5  text-sm"
-              aria-label="Select a value"
-            >
-              <SelectValue placeholder="Select category" className="text-sm" />
-            </SelectTrigger>
-            <SelectContent align="end" className="rounded-xl">
-              {months.map((key) => {
-                const config = chartConfig[key];
-
-                if (!config) {
-                  return null;
-                }
-
-                return (
-                  <SelectItem
-                    key={key}
-                    value={key}
-                    className="rounded-lg [&_span]:flex w-full"
-                  >
-                    <div className="flex items-center gap-2">
-                      <span
-                        className="flex h-3 w-3 shrink-0 rounded-xs "
-                        style={{
-                          backgroundColor: `var(--color-${key})`,
-                        }}
-                      />
-                      {config?.label}
-                    </div>
-                  </SelectItem>
-                );
-              })}
-            </SelectContent>
-          </Select>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-1 justify-center pb-0">
+      <CardContent className="flex flex-1 justify-center items-center pb-0">
         <ChartContainer
           id={id}
           config={chartConfig}
@@ -185,6 +150,41 @@ export default function ChartPieInteractive({ categories }) {
             </Pie>
           </PieChart>
         </ChartContainer>
+        <Select value={activeMonth} onValueChange={setActiveMonth}>
+          <SelectTrigger
+            className="ml-auto h-7 w-[180px] rounded-lg pl-2.5  text-sm"
+            aria-label="Select a value"
+          >
+            <SelectValue placeholder="Select category" className="text-sm" />
+          </SelectTrigger>
+          <SelectContent align="end" className="rounded-xl">
+            {months.map((key) => {
+              const config = chartConfig[key];
+
+              if (!config) {
+                return null;
+              }
+
+              return (
+                <SelectItem
+                  key={key}
+                  value={key}
+                  className="rounded-lg [&_span]:flex w-full"
+                >
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="flex h-3 w-3 shrink-0 rounded-xs "
+                      style={{
+                        backgroundColor: `var(--color-${key})`,
+                      }}
+                    />
+                    {config?.label}
+                  </div>
+                </SelectItem>
+              );
+            })}
+          </SelectContent>
+        </Select>
       </CardContent>
     </Card>
   );

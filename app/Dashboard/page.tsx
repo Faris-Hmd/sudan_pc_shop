@@ -64,10 +64,10 @@ export default async function Component() {
           <SectionCards productsNum={productsNum} />
         </div>
         <div className="">
-          <Chart data={chartData} />
+          <ChartPieInteractive categories={chartData} />
         </div>
         <div className="">
-          <ChartPieInteractive categories={chartData} />
+          <Chart data={chartData} />
         </div>
       </div>
     </>
