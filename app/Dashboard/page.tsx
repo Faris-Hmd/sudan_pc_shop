@@ -1,63 +1,67 @@
-"use client";
-
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import {
-  ChartConfig,
-  ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
-import { Section } from "lucide-react";
+import Chart from "../comp/Chart";
 import SectionCards from "../comp/Section";
+import {
+  collection,
+  query,
+  where,
+  getCountFromServer,
+} from "firebase/firestore";
+import { db } from "../db/firebase";
+import ChartPieInteractive from "../comp/Pie";
+export default async function Component() {
+  const categories = [
+    "MONITORS",
+    "SSD",
+    "LAPTOP",
+    "WEBCAMS",
+    "HEADSETS",
+    "KEYBOARDS",
+    "SPEAKERS",
+    "MICROPHONES",
+    "TABLETS",
+    "PROJECTORS",
+    "SCANNERS",
+    "HARD_DRIVES",
+    "PRINTERS",
+    "MOUSES",
+    "PC",
+    "DESKTOP",
+  ];
+  let productsNum = 0;
+  async function countProductsByCategory(): Promise<
+    { category: string; quantity: number; fill: string }[]
+  > {
+    const results: { category: string; quantity: number; fill: string }[] = [];
+    for (const category of categories.slice(0, 16)) {
+      const q = query(
+        collection(db, "products"),
+        where("p_cat", "==", category)
+      );
+      const snapshot = await getCountFromServer(q); // v9 tree-shakable count
+      const count = snapshot.data().count ?? 0;
+      console.log(count);
 
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-];
+      productsNum = productsNum + count;
 
-const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "#2563eb",
-  },
-  mobile: {
-    label: "Mobile",
-    color: "#60a5fa",
-  },
-} satisfies ChartConfig;
+      results.push({
+        category,
+        quantity: count,
+        fill: `var(--color-${category})`,
+      });
+    }
+    console.log(productsNum);
+    return results;
+  }
 
-export default function Component() {
+  const chartData = await countProductsByCategory();
+  // console.log(chartData);
+
   return (
     <>
       <div className="mt-1"></div>
-      <SectionCards />
-
-      <ChartContainer
-        config={chartConfig}
-        className="min-h-[200px] max-h-72 w-full"
-      >
-        <BarChart accessibilityLayer data={chartData}>
-          <CartesianGrid vertical={false} />
-          <XAxis
-            dataKey="month"
-            tickLine={false}
-            tickMargin={10}
-            axisLine={false}
-            tickFormatter={(value) => value.slice(0, 3)}
-          />
-          <ChartTooltip content={<ChartTooltipContent />} />
-          <ChartLegend content={<ChartLegendContent />} />
-          <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
-          <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} />
-        </BarChart>
-      </ChartContainer>
+      <ChartPieInteractive categories={chartData} />
+      <Chart data={chartData} />
+      <SectionCards productsNum={productsNum} />
     </>
   );
 }

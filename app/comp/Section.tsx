@@ -1,24 +1,26 @@
 // import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react";
 
-import { Badge } from "@/components/ui/badge";
 import {
   Card,
-  CardAction,
   CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 
-export default function SectionCards() {
+export default function SectionCards({
+  productsNum,
+}: {
+  productsNum?: number;
+}) {
   return (
-    <div className="flex flex-wrap gap-1 justify-around  w-full ">
+    <div className="flex flex-wrap gap-1 justify-around  w-full mt-1 ">
       {Array.from({ length: 4 }).map((_, index) => (
-        <Card className="@container/card w-50 p-1 gap-0 bg-accent">
+        <Card className="@container/card w-48  p-1 gap-0 bg-accent" key={index}>
           <CardHeader className="">
-            <CardDescription>Total Revenue</CardDescription>
+            <CardDescription>Total Products</CardDescription>
             <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-3xl ">
-              $1,250.00
+              {productsNum ?? 0}
             </CardTitle>
           </CardHeader>
           <CardFooter className=" flex-col items-start gap-1.5 text-sm">

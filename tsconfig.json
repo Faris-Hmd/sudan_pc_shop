@@ -33,7 +33,8 @@
     "app/products/page.jsx",
     "app/comp/servercomo.jsx",
     "app/page.jsx",
-    "app/api/route.js"
+    "app/api/route.js",
+    "app/comp/Pie.jsx"
   ],
   "exclude": ["node_modules"]
 }
