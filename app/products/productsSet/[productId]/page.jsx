@@ -1,14 +1,14 @@
 import { doc, getDoc } from "firebase/firestore";
 import { product_update } from "../../../actions/product_update";
 import { db } from "../../../db/firebase";
-import Dlt_btn from "../../../comp/dlt_btn";
+import { categories } from "../../../data/categories";
+
 export async function UpdateForm({ params }) {
   const { productId } = await params;
 
   const docRef = doc(db, "products", productId);
   const docsnapshot = await getDoc(docRef);
   const product = docsnapshot.exists() ? { ...docsnapshot.data() } : {};
-  const categories = ["Electronics", "Accessories", "Clothing"];
   // console.log(product);
 
   return (

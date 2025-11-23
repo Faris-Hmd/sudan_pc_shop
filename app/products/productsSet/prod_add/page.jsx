@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
 import { product_add } from "../../../actions/product_add";
+import { categories } from "../../../data/categories";
 
 export default function AddProductForm() {
   // Example categories (replace with Firestore or API later)
-  const categories = ["Electronics", "Accessories", "Clothing"];
 
   return (
     <form action={product_add} name="shopform" className="add_form">

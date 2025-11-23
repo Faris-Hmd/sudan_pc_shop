@@ -89,7 +89,7 @@ export default function ChartPieInteractive({ categories }) {
           </CardDescription>
         </div>
       </CardHeader>
-      <CardContent className="flex flex-1 justify-center items-center pb-0">
+      <CardContent className="flex flex-1 justify-center items-start pb-0">
         <ChartContainer
           id={id}
           config={chartConfig}

@@ -266,7 +266,7 @@ table {
   background-color: var(--my-primary);
 }
 .table_header:hover {
-  background-color: var(--accent);
+  background-color: var(--);
 }
 .table_header td {
   color: white;

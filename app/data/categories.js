@@ -1,0 +1,18 @@
+export const categories = [
+  "MONITORS",
+  "SSD",
+  "LAPTOP",
+  "WEBCAMS",
+  "HEADSETS",
+  "KEYBOARDS",
+  "SPEAKERS",
+  "MICROPHONES",
+  "TABLETS",
+  "PROJECTORS",
+  "SCANNERS",
+  "HARD_DRIVES",
+  "PRINTERS",
+  "MOUSES",
+  "PC",
+  "DESKTOP",
+];
