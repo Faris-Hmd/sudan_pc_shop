@@ -38,12 +38,12 @@ function Navbar() {
       <div>
         <Link href="/products">Search</Link>
         <Link href="/Dashboard">Dashboard</Link>
-        <Link href="/products">Login</Link>
+        {/* <Link href="/products">Login</Link> */}
       </div>
       <Avatar>
         <AvatarImage
           width={35}
-          className="m-1 rounded-full"
+          className="m-2 rounded-full"
           src="https://github.com/evilrabbit.png"
         />
         <AvatarFallback className="m-1">CN</AvatarFallback>
