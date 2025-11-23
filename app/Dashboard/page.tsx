@@ -15,7 +15,7 @@ export default async function Component() {
     { category: string; quantity: number; fill: string }[]
   > {
     const results: { category: string; quantity: number; fill: string }[] = [];
-    for (const category of categories.slice(0, 1)) {
+    for (const category of categories.slice(0, 16)) {
       const q = query(
         collection(db, "products"),
         where("p_cat", "==", category)
