@@ -79,54 +79,56 @@ export default function ChartPieInteractive({ categories }) {
   );
 
   return (
-    <Card data-chart={id} className="flex flex-col">
+    <Card data-chart={id} className="flex flex-col p-1">
       <ChartStyle id={id} config={chartConfig} />
       <CardHeader className="flex-row items-start space-y-0 pb-0">
-        <div className="grid gap-1">
-          <CardTitle>Pie Chart - Interactive</CardTitle>
-          <CardDescription>January - June 2024</CardDescription>
+        <div className="grid gap-1 pt-3 ">
+          <CardTitle>Products By Category</CardTitle>
+          <CardDescription>
+            show all products in diffrent category
+          </CardDescription>
+          <Select value={activeMonth} onValueChange={setActiveMonth}>
+            <SelectTrigger
+              className="ml-auto h-7 w-[180px] rounded-lg pl-2.5  text-sm"
+              aria-label="Select a value"
+            >
+              <SelectValue placeholder="Select category" className="text-sm" />
+            </SelectTrigger>
+            <SelectContent align="end" className="rounded-xl">
+              {months.map((key) => {
+                const config = chartConfig[key];
+
+                if (!config) {
+                  return null;
+                }
+
+                return (
+                  <SelectItem
+                    key={key}
+                    value={key}
+                    className="rounded-lg [&_span]:flex w-full"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="flex h-3 w-3 shrink-0 rounded-xs "
+                        style={{
+                          backgroundColor: `var(--color-${key})`,
+                        }}
+                      />
+                      {config?.label}
+                    </div>
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
         </div>
-        <Select value={activeMonth} onValueChange={setActiveMonth}>
-          <SelectTrigger
-            className="ml-auto h-7 w-[130px] rounded-lg pl-2.5"
-            aria-label="Select a value"
-          >
-            <SelectValue placeholder="Select category" />
-          </SelectTrigger>
-          <SelectContent align="end" className="rounded-xl">
-            {months.map((key) => {
-              const config = chartConfig[key];
-
-              if (!config) {
-                return null;
-              }
-
-              return (
-                <SelectItem
-                  key={key}
-                  value={key}
-                  className="rounded-lg [&_span]:flex"
-                >
-                  <div className="flex items-center gap-2 text-xs">
-                    <span
-                      className="flex h-3 w-3 shrink-0 rounded-xs"
-                      style={{
-                        backgroundColor: `var(--color-${key})`,
-                      }}
-                    />
-                    {config?.label}
-                  </div>
-                </SelectItem>
-              );
-            })}
-          </SelectContent>
-        </Select>
       </CardHeader>
       <CardContent className="flex flex-1 justify-center pb-0">
         <ChartContainer
           id={id}
           config={chartConfig}
-          className="mx-auto aspect-square w-full max-w-[300px]"
+          className="mx-auto aspect-square w-full max-w-[200px]"
         >
           <PieChart>
             <ChartTooltip
@@ -173,7 +175,7 @@ export default function ChartPieInteractive({ categories }) {
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          category
+                          products
                         </tspan>
                       </text>
                     );

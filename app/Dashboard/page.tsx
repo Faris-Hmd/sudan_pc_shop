@@ -58,10 +58,18 @@ export default async function Component() {
 
   return (
     <>
-      <div className="mt-1"></div>
-      <ChartPieInteractive categories={chartData} />
-      <Chart data={chartData} />
-      <SectionCards productsNum={productsNum} />
+      <div className="m-1 md:m-4 grid gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {" "}
+        <div className="">
+          <SectionCards productsNum={productsNum} />
+        </div>
+        <div className="">
+          <Chart data={chartData} />
+        </div>
+        <div className="">
+          <ChartPieInteractive categories={chartData} />
+        </div>
+      </div>
     </>
   );
 }

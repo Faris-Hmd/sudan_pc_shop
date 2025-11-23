@@ -14,9 +14,12 @@ export default function SectionCards({
   productsNum?: number;
 }) {
   return (
-    <div className="flex flex-wrap gap-1 justify-around  w-full mt-1 ">
+    <div className="flex flex-row flex-wrap border rounded-2xl overflow-hidden shadow">
       {Array.from({ length: 4 }).map((_, index) => (
-        <Card className="@container/card w-48  p-1 gap-0 bg-accent" key={index}>
+        <Card
+          className="@container/card  rounded-none w-1/2 md:w-1/4 gap-0 p-0.5 m-0"
+          key={index}
+        >
           <CardHeader className="">
             <CardDescription>Total Products</CardDescription>
             <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-3xl ">
