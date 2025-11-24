@@ -16,17 +16,48 @@ export default function RootLayout({ children }) {
 }
 function Navbar() {
   return (
-    <div className="p-1 flex items-center text-sm border-b">
-      <Link className="p-1 flex gap-2 border-r" href="/Dashboard">
-        <ChartLine size={20} /> Aanaltics
-      </Link>
-      <Link className="p-1 flex gap-2 border-r" href="/Dashboard/productsSet">
-        <Settings size={20} /> Mange Products
-      </Link>
+    <div className="flex items-center text-sm  border-b flex-wrap">
+      <small>
+        <Link
+          className="p-1 flex items-center gap-1 border-r"
+          href="/Dashboard"
+        >
+          <ChartLine size={16} /> Aanaltics
+        </Link>
+      </small>
+      <small>
+        {" "}
+        <Link
+          className="p-1 flex items-center gap-1 border-r"
+          href="/Dashboard/productsSet"
+        >
+          <Settings size={16} /> Products
+        </Link>
+      </small>
 
-      <Link className="p-1 flex gap-2" href="/Dashboard">
-        <UserCog2 size={20} /> Users
-      </Link>
+      <small>
+        {" "}
+        <Link className="p-1 items-center flex gap-1" href="/Dashboard">
+          <UserCog2 size={16} /> Users
+        </Link>
+      </small>
+      <small>
+        <Link
+          className="p-1 flex items-center gap-1 border-r"
+          href="/Dashboard"
+        >
+          <ChartLine size={16} /> Aanaltics
+        </Link>
+      </small>
+      <small>
+        {" "}
+        <Link
+          className="p-1 flex items-center gap-1 border-r"
+          href="/Dashboard/productsSet"
+        >
+          <Settings size={16} /> Products
+        </Link>
+      </small>
     </div>
   );
 }

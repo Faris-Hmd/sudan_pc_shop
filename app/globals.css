@@ -324,6 +324,7 @@ nav a {
 }
 .product_d_card .product_d_img {
   object-fit: cover;
+  height: 100px;
 }
 .product_d_card img {
   aspect-ratio: 16/9;

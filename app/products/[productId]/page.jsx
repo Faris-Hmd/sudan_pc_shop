@@ -14,13 +14,47 @@ export default async function ProductsDetails({ params }) {
   const docsnapshot = await getDoc(docRef);
   const product = docsnapshot.exists() ? docsnapshot.data() : {};
 
+  const categories = [
+    "MONITORS",
+    "SSD",
+    "LAPTOP",
+    "WEBCAMS",
+    "HEADSETS",
+    "KEYBOARDS",
+    "SPEAKERS",
+    "MICROPHONES",
+    "TABLETS",
+    "PROJECTORS",
+    "SCANNERS",
+    "HARD_DRIVES",
+    "PRINTERS",
+    "MOUSES",
+    "PC",
+    "DESKTOP",
+  ];
+
+  function randomImgUrl(seed, w = 400, h = 300) {
+    // use picsum with a semi-random seed so URLs differ each run
+    const rnd = Math.floor(Math.random() * 10000);
+    return `https://picsum.photos/seed/${encodeURIComponent(
+      seed + "-" + rnd
+    )}/${w}/${h}`;
+  }
+
+  const productImageMap = new Map(
+    categories.map((cat) => [cat, randomImgUrl(cat)])
+  );
+
+  // example usage:
+  console.log(productImageMap.get("MONITORS")); // image url for MONITORS
+
   return (
     <div className="product_d_card">
       <ProductImgCarousel
         imgs={[
-          { url: product.p_img },
-          { url: product.p_img },
-          { url: product.p_img },
+          { url: productImageMap.get("MONITORS") },
+          { url: productImageMap.get("PC") },
+          { url: productImageMap.get("DESKTOP") },
         ]}
       />
 

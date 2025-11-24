@@ -2,7 +2,6 @@
 
 import * as React from "react";
 
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -11,6 +10,7 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
+import Image from "next/image";
 
 export default function ProductImgCarousel({ imgs }: any) {
   const [api, setApi] = React.useState<CarouselApi>();
@@ -31,24 +31,13 @@ export default function ProductImgCarousel({ imgs }: any) {
   }, [api]);
 
   return (
-    <div className="mx-auto max-w-xs">
+    <div className="mx-auto max-w-xs w-full">
       <Carousel setApi={setApi} className="w-full max-w-xs">
-        {/* <CarouselContent>
-          {Array.from({ length: 5 }).map((_, index) => (
-            <CarouselItem key={index}>
-              <Card>
-                <CardContent className="flex aspect-square items-center justify-center p-6">
-                  <span className="text-4xl font-semibold">{index + 1}</span>
-                </CardContent>
-              </Card>
-            </CarouselItem>
-          ))}
-        </CarouselContent> */}
-        <CarouselContent>
+        <CarouselContent className="w-full">
           {imgs.map(
             (img: { url: string }, index: React.Key | null | undefined) => (
-              <CarouselItem key={index}>
-                <img src={"../" + img.url} alt={`Product Image ${img.url}`} />
+              <CarouselItem className="h-60 w-full" key={index}>
+                <Image fill src={img.url} alt={`Product Image ${img.url}`} />
               </CarouselItem>
             )
           )}

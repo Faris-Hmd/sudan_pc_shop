@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getProducts } from "./data/products";
+import Image from "next/image";
 
 export const metadata = {
   title: "SPS | products Home",
@@ -8,6 +9,40 @@ export const metadata = {
 
 export default async function Home() {
   const products = await getProducts("", 500);
+
+  const categories = [
+    "MONITORS",
+    "SSD",
+    "LAPTOP",
+    "WEBCAMS",
+    "HEADSETS",
+    "KEYBOARDS",
+    "SPEAKERS",
+    "MICROPHONES",
+    "TABLETS",
+    "PROJECTORS",
+    "SCANNERS",
+    "HARD_DRIVES",
+    "PRINTERS",
+    "MOUSES",
+    "PC",
+    "DESKTOP",
+  ];
+
+  function randomImgUrl(seed, w = 400, h = 300) {
+    // use picsum with a semi-random seed so URLs differ each run
+    const rnd = Math.floor(Math.random() * 10000);
+    return `https://picsum.photos/seed/${encodeURIComponent(
+      seed + "-" + rnd
+    )}/${w}/${h}`;
+  }
+
+  const productImageMap = new Map(
+    categories.map((cat) => [cat, randomImgUrl(cat)])
+  );
+
+  // example usage:
+  console.log(productImageMap.get("MONITORS")); // image url for MON
 
   return (
     <>
@@ -18,7 +53,12 @@ export default async function Home() {
             <div className="product_card" key={row.id}>
               <Link href={`products/${row.id}`}>
                 <div className="img_container">
-                  <img src={row.p_img} alt="Product Image" />
+                  <Image
+                    width={188}
+                    height={50}
+                    src={productImageMap.get(row.p_cat)}
+                    alt="Product Image"
+                  />
                 </div>
               </Link>
               <div className="name">{row.p_name}</div>
