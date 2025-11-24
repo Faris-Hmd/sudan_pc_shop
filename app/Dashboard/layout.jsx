@@ -1,3 +1,4 @@
+import { ChartLine, Settings, UserCog2 } from "lucide-react";
 import Link from "next/link";
 
 export const metadata = {
@@ -15,18 +16,17 @@ export default function RootLayout({ children }) {
 }
 function Navbar() {
   return (
-    <div className="dashboard_navbar bg-gray-700 p-1 text-white flex justify-between items-center text-sm">
-      <div>
-        <Link className="p-1" href="/products">
-          Search
-        </Link>
-        <Link className="p-1" href="/products/productsSet">
-          Products Set
-        </Link>
-        <Link className="p-1" href="/products">
-          Orders
-        </Link>
-      </div>
+    <div className="p-1 flex items-center text-sm border-b">
+      <Link className="p-1 flex gap-2 border-r" href="/Dashboard">
+        <ChartLine size={20} /> Aanaltics
+      </Link>
+      <Link className="p-1 flex gap-2 border-r" href="/Dashboard/productsSet">
+        <Settings size={20} /> Mange Products
+      </Link>
+
+      <Link className="p-1 flex gap-2" href="/Dashboard">
+        <UserCog2 size={20} /> Users
+      </Link>
     </div>
   );
 }

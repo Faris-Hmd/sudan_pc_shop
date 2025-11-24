@@ -29,12 +29,13 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts",
-    "app/products/[productId]/page.jsx",
+    "app/Dashboard/[productId]/page.jsx",
     "app/products/page.jsx",
     "app/comp/servercomo.jsx",
     "app/page.jsx",
     "app/api/route.js",
-    "app/comp/Pie.jsx"
+    "app/comp/Pie.jsx",
+    "app/comp/Dropdown.jsx"
   ],
   "exclude": ["node_modules"]
 }

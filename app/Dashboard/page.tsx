@@ -16,7 +16,7 @@ export default async function Component() {
     { category: string; quantity: number; fill: string }[]
   > {
     const results: { category: string; quantity: number; fill: string }[] = [];
-    for (const category of categories.slice(15, 16)) {
+    for (const category of categories.slice(0, 16)) {
       const q = query(
         collection(db, "products"),
         where("p_cat", "==", category)
@@ -45,6 +45,7 @@ export default async function Component() {
       <div className="m-2  grid gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {" "}
         <div className="grid gap-2">
+          {/* <ChartRadialStacked /> */}
           <SectionCards productsNum={productsNum} />
           <Chart data={chartData} />
         </div>

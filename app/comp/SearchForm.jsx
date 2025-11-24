@@ -1,4 +1,5 @@
 "use client";
+import { Search } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 function SearchForm() {
@@ -44,8 +45,12 @@ function SearchForm() {
         placeholder="Enter product name"
         defaultValue={searchParams.get("search_word") || ""}
       />
-
-      <input type="submit" value="Search" id="" className="" />
+      <div className="flex items-center submitBtn">
+        <Search size={18} />{" "}
+        <button type="submit" value="Search" id="" className="">
+          Search
+        </button>
+      </div>
     </form>
   );
 }
