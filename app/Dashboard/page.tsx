@@ -41,17 +41,16 @@ export default async function Component() {
 
   return (
     <>
-      <div className="m-1 md:m-4 grid gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="m-2  grid gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {" "}
-        <div className="">
+        <div className="grid gap-2">
           <SectionCards productsNum={productsNum} />
+          <Chart data={chartData} />
         </div>
         <div className="">
           <ChartPieInteractive categories={chartData} />
         </div>
-        <div className="">
-          <Chart data={chartData} />
-        </div>
+        <div className=""></div>
       </div>
     </>
   );

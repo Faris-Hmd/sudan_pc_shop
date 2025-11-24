@@ -54,13 +54,13 @@ const chartConfig = {
 export default function Component({ data }: any) {
   // console.log(data);
   return (
-    <Card className=" gap-0 p-0">
+    <Card className=" gap-0 p-0 rounded">
       <CardTitle className="ms-3 mt-3 text-lg font-semibold">
         Sales by Months
       </CardTitle>
       <ChartContainer
         config={chartConfig}
-        className="max-h-[200px] w-full  p-2 rounded-lg "
+        className="max-h-[200px] w-full  p-2 rounded"
       >
         <BarChart accessibilityLayer data={data}>
           <CartesianGrid vertical={false} />

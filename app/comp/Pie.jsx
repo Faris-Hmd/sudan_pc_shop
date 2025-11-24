@@ -27,24 +27,24 @@ import {
 
 export const description = "An interactive pie chart";
 
-const categories = [
-  { category: "MONITORS", quantity: 42, fill: "var(--color-MONITORS)" },
-  { category: "SSD", quantity: 40, fill: "var(--color-SSD)" },
-  { category: "LAPTOP", quantity: 36, fill: "var(--color-LAPTOP)" },
-  { category: "WEBCAMS", quantity: 34, fill: "var(--color-WEBCAMS)" },
-  { category: "HEADSETS", quantity: 34, fill: "var(--color-HEADSETS)" },
-  { category: "KEYBOARDS", quantity: 33, fill: "var(--color-KEYBOARDS)" },
-  { category: "SPEAKERS", quantity: 32, fill: "var(--color-SPEAKERS)" },
-  { category: "MICROPHONES", quantity: 32, fill: "var(--color-MICROPHONES)" },
-  { category: "TABLETS", quantity: 30, fill: "var(--color-TABLETS)" },
-  { category: "PROJECTORS", quantity: 28, fill: "var(--color-PROJECTORS)" },
-  { category: "SCANNERS", quantity: 28, fill: "var(--color-SCANNERS)" },
-  { category: "HARD_DRIVES", quantity: 28, fill: "var(--color-HARD_DRIVES)" },
-  { category: "PRINTERS", quantity: 27, fill: "var(--color-PRINTERS)" },
-  { category: "MOUSES", quantity: 27, fill: "var(--color-MOUSES)" },
-  { category: "PC", quantity: 26, fill: "var(--color-PC)" },
-  { category: "DESKTOP", quantity: 23, fill: "var(--color-DESKTOP)" },
-];
+// const categories = [
+//   { category: "MONITORS", quantity: 42, fill: "var(--color-MONITORS)" },
+//   { category: "SSD", quantity: 40, fill: "var(--color-SSD)" },
+//   { category: "LAPTOP", quantity: 36, fill: "var(--color-LAPTOP)" },
+//   { category: "WEBCAMS", quantity: 34, fill: "var(--color-WEBCAMS)" },
+//   { category: "HEADSETS", quantity: 34, fill: "var(--color-HEADSETS)" },
+//   { category: "KEYBOARDS", quantity: 33, fill: "var(--color-KEYBOARDS)" },
+//   { category: "SPEAKERS", quantity: 32, fill: "var(--color-SPEAKERS)" },
+//   { category: "MICROPHONES", quantity: 32, fill: "var(--color-MICROPHONES)" },
+//   { category: "TABLETS", quantity: 30, fill: "var(--color-TABLETS)" },
+//   { category: "PROJECTORS", quantity: 28, fill: "var(--color-PROJECTORS)" },
+//   { category: "SCANNERS", quantity: 28, fill: "var(--color-SCANNERS)" },
+//   { category: "HARD_DRIVES", quantity: 28, fill: "var(--color-HARD_DRIVES)" },
+//   { category: "PRINTERS", quantity: 27, fill: "var(--color-PRINTERS)" },
+//   { category: "MOUSES", quantity: 27, fill: "var(--color-MOUSES)" },
+//   { category: "PC", quantity: 26, fill: "var(--color-PC)" },
+//   { category: "DESKTOP", quantity: 23, fill: "var(--color-DESKTOP)" },
+// ];
 
 const chartConfig = {
   MONITORS: { label: "MONITORS", color: "#e6f4ff" },
@@ -79,10 +79,10 @@ export default function ChartPieInteractive({ categories }) {
   );
 
   return (
-    <Card data-chart={id} className="flex flex-col p-1">
+    <Card data-chart={id} className="flex flex-col p-1 rounded h-full">
       <ChartStyle id={id} config={chartConfig} />
-      <CardHeader className="flex-row items-start space-y-0 pb-0">
-        <div className="grid gap-1 pt-3 ">
+      <CardHeader className="flex-row items-start space-y-0 p-0">
+        <div className="grid gap p-0  m-0   pt-2 ">
           <CardTitle>Products By Category</CardTitle>
           <CardDescription>
             show all products in diffrent category
@@ -93,7 +93,7 @@ export default function ChartPieInteractive({ categories }) {
         <ChartContainer
           id={id}
           config={chartConfig}
-          className="mx-auto aspect-square w-full max-w-[200px]"
+          className="mx-auto aspect-square w-full max-w-[220px]"
         >
           <PieChart>
             <ChartTooltip

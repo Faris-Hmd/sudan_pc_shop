@@ -14,24 +14,24 @@ export default function SectionCards({
   productsNum?: number;
 }) {
   return (
-    <div className="flex flex-row flex-wrap border rounded-2xl overflow-hidden shadow">
+    <div className="flex flex-row flex-wrap border rounded overflow-hidden shadow ">
       {Array.from({ length: 4 }).map((_, index) => (
         <Card
-          className="@container/card  rounded-none w-1/2 md:w-1/4 gap-0 p-0.5 m-0"
+          className="@container/card shadow-0 rounded-none w-1/2 md:w-1/2  gap-0 p-0.5 m-0  border-0 border-b "
           key={index}
         >
-          <CardHeader className="">
+          <CardHeader className="p-1 pb-0">
             <CardDescription>Total Products</CardDescription>
             <CardTitle className="text-1xl font-semibold tabular-nums @[250px]/card:text-3xl ">
               {productsNum ?? 0}
             </CardTitle>
           </CardHeader>
-          <CardFooter className=" flex-col items-start gap-1.5 text-sm">
+          <CardFooter className=" flex-col items-start gap-1.5 text-sm p-2 pt-0 pb-0">
             <div className="line-clamp-1 flex gap-1 font-medium">
               {/* Trending up this month <IconTrendingUp className="size-4" /> */}
             </div>
-            <div className="text-muted-foreground text-sm">
-              Visitors for the last 6 months
+            <div className="text-muted-foreground text-xs">
+              <small>Visitors for the last 6 months</small>
             </div>
           </CardFooter>
         </Card>
