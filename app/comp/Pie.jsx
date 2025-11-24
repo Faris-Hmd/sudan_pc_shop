@@ -27,24 +27,24 @@ import {
 
 export const description = "An interactive pie chart";
 
-// const categories = [
-//   { category: "MONITORS", quantity: 42, fill: "var(--color-MONITORS)" },
-//   { category: "SSD", quantity: 40, fill: "var(--color-SSD)" },
-//   { category: "LAPTOP", quantity: 36, fill: "var(--color-LAPTOP)" },
-//   { category: "WEBCAMS", quantity: 34, fill: "var(--color-WEBCAMS)" },
-//   { category: "HEADSETS", quantity: 34, fill: "var(--color-HEADSETS)" },
-//   { category: "KEYBOARDS", quantity: 33, fill: "var(--color-KEYBOARDS)" },
-//   { category: "SPEAKERS", quantity: 32, fill: "var(--color-SPEAKERS)" },
-//   { category: "MICROPHONES", quantity: 32, fill: "var(--color-MICROPHONES)" },
-//   { category: "TABLETS", quantity: 30, fill: "var(--color-TABLETS)" },
-//   { category: "PROJECTORS", quantity: 28, fill: "var(--color-PROJECTORS)" },
-//   { category: "SCANNERS", quantity: 28, fill: "var(--color-SCANNERS)" },
-//   { category: "HARD_DRIVES", quantity: 28, fill: "var(--color-HARD_DRIVES)" },
-//   { category: "PRINTERS", quantity: 27, fill: "var(--color-PRINTERS)" },
-//   { category: "MOUSES", quantity: 27, fill: "var(--color-MOUSES)" },
-//   { category: "PC", quantity: 26, fill: "var(--color-PC)" },
-//   { category: "DESKTOP", quantity: 23, fill: "var(--color-DESKTOP)" },
-// ];
+const categories = [
+  { category: "MONITORS", quantity: 42, fill: "var(--color-MONITORS)" },
+  { category: "SSD", quantity: 40, fill: "var(--color-SSD)" },
+  { category: "LAPTOP", quantity: 36, fill: "var(--color-LAPTOP)" },
+  { category: "WEBCAMS", quantity: 34, fill: "var(--color-WEBCAMS)" },
+  { category: "HEADSETS", quantity: 34, fill: "var(--color-HEADSETS)" },
+  { category: "KEYBOARDS", quantity: 33, fill: "var(--color-KEYBOARDS)" },
+  { category: "SPEAKERS", quantity: 32, fill: "var(--color-SPEAKERS)" },
+  { category: "MICROPHONES", quantity: 32, fill: "var(--color-MICROPHONES)" },
+  { category: "TABLETS", quantity: 30, fill: "var(--color-TABLETS)" },
+  { category: "PROJECTORS", quantity: 28, fill: "var(--color-PROJECTORS)" },
+  { category: "SCANNERS", quantity: 28, fill: "var(--color-SCANNERS)" },
+  { category: "HARD_DRIVES", quantity: 28, fill: "var(--color-HARD_DRIVES)" },
+  { category: "PRINTERS", quantity: 27, fill: "var(--color-PRINTERS)" },
+  { category: "MOUSES", quantity: 27, fill: "var(--color-MOUSES)" },
+  { category: "PC", quantity: 26, fill: "var(--color-PC)" },
+  { category: "DESKTOP", quantity: 23, fill: "var(--color-DESKTOP)" },
+];
 
 const chartConfig = {
   MONITORS: { label: "MONITORS", color: "#e6f4ff" },
@@ -150,42 +150,42 @@ export default function ChartPieInteractive({ categories }) {
             </Pie>
           </PieChart>
         </ChartContainer>
-        <Select value={activeMonth} onValueChange={setActiveMonth}>
-          <SelectTrigger
-            className="ml-auto h-7 w-[180px] rounded-lg pl-2.5  text-sm"
-            aria-label="Select a value"
-          >
-            <SelectValue placeholder="Select category" className="text-sm" />
-          </SelectTrigger>
-          <SelectContent align="end" className="rounded-xl">
-            {months.map((key) => {
-              const config = chartConfig[key];
+      </CardContent>{" "}
+      <Select value={activeMonth} onValueChange={setActiveMonth}>
+        <SelectTrigger
+          className="ml-auto h-7 w-[180px] rounded-lg pl-2.5  text-sm"
+          aria-label="Select a value"
+        >
+          <SelectValue placeholder="Select category" className="text-sm" />
+        </SelectTrigger>
+        <SelectContent align="end" className="rounded-xl">
+          {months.map((key) => {
+            const config = chartConfig[key];
 
-              if (!config) {
-                return null;
-              }
+            if (!config) {
+              return null;
+            }
 
-              return (
-                <SelectItem
-                  key={key}
-                  value={key}
-                  className="rounded-lg [&_span]:flex w-full"
-                >
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="flex h-3 w-3 shrink-0 rounded-xs "
-                      style={{
-                        backgroundColor: `var(--color-${key})`,
-                      }}
-                    />
-                    {config?.label}
-                  </div>
-                </SelectItem>
-              );
-            })}
-          </SelectContent>
-        </Select>
-      </CardContent>
+            return (
+              <SelectItem
+                key={key}
+                value={key}
+                className="rounded-lg [&_span]:flex w-full"
+              >
+                <div className="flex items-center gap-2">
+                  <span
+                    className="flex h-3 w-3 shrink-0 rounded-xs "
+                    style={{
+                      backgroundColor: `var(--color-${key})`,
+                    }}
+                  />
+                  {config?.label}
+                </div>
+              </SelectItem>
+            );
+          })}
+        </SelectContent>
+      </Select>
     </Card>
   );
 }
