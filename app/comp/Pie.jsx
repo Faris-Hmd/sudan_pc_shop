@@ -82,7 +82,7 @@ export default function ChartPieInteractive({ categories }) {
     <Card data-chart={id} className="flex flex-col p-1 rounded h-full">
       <ChartStyle id={id} config={chartConfig} />
       <CardHeader className="flex-row items-start space-y-0 p-0">
-        <div className="grid gap p-0  m-0   pt-2 ">
+        <div className="grid gap p-2  m-0   pt-2 ">
           <CardTitle>Products By Category</CardTitle>
           <CardDescription>
             show all products in diffrent category

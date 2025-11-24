@@ -17,7 +17,7 @@ export default function SectionCards({
     <div className="flex flex-row flex-wrap border rounded overflow-hidden shadow ">
       {Array.from({ length: 4 }).map((_, index) => (
         <Card
-          className="@container/card shadow-0 rounded-none w-1/2 md:w-1/2  gap-0 p-0.5 m-0  border-0 border-b "
+          className="@container/card shadow-0 rounded-none w-1/2  gap-0 p-0.5 border-0 border-b"
           key={index}
         >
           <CardHeader className="p-1 pb-0">

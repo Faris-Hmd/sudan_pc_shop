@@ -9,13 +9,14 @@ import {
 import { db } from "../db/firebase";
 import ChartPieInteractive from "../comp/Pie";
 import { categories } from "../data/categories";
+import { Suspense } from "react";
 export default async function Component() {
   let productsNum = 0;
   async function countProductsByCategory(): Promise<
     { category: string; quantity: number; fill: string }[]
   > {
     const results: { category: string; quantity: number; fill: string }[] = [];
-    for (const category of categories.slice(0, 16)) {
+    for (const category of categories.slice(15, 16)) {
       const q = query(
         collection(db, "products"),
         where("p_cat", "==", category)
@@ -48,7 +49,9 @@ export default async function Component() {
           <Chart data={chartData} />
         </div>
         <div className="">
-          <ChartPieInteractive categories={chartData} />
+          <Suspense fallback={<div>Loading...</div>}>
+            <ChartPieInteractive categories={chartData} />
+          </Suspense>
         </div>
         <div className=""></div>
       </div>
