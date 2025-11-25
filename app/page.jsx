@@ -51,13 +51,13 @@ export default async function Home() {
         {products && products?.length > 0 ? (
           products.map((row) => (
             <div className="product_card" key={row.id}>
-              <Link href={`products/${row.id}`}>
-                <div className="img_container">
+              <Link href={`products/${row.id}`} className="relative">
+                <div className="h-30 w-full ms-auto relative bg-amber-300">
                   <Image
-                    width={188}
-                    height={50}
-                    src={productImageMap.get(row.p_cat)}
+                    fill
+                    src={row.p_imgs[0].url}
                     alt="Product Image"
+                    // className="ms-auto"
                   />
                 </div>
               </Link>

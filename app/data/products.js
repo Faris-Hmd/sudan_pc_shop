@@ -2,7 +2,7 @@ import { collection, getDocs, limit, query, where } from "firebase/firestore";
 import { db } from "../db/firebase";
 
 export async function getProducts(search_word, limitCount = 100) {
-  const productsRef = collection(db, "products");
+  const productsRef = collection(db, "productsTest");
   const limitQ = query(productsRef, limit(limitCount));
   const q = query(
     productsRef,

@@ -5,7 +5,9 @@ const nextConfig: NextConfig = {
 };
 module.exports = {
   images: {
-    remotePatterns: [new URL("https://picsum.photos/**")],
+    remotePatterns: [
+      new URL("https://lzmijym9f9dkp5qm.public.blob.vercel-storage.com/**"),
+    ],
   },
 };
 

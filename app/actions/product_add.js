@@ -7,23 +7,16 @@ import { randomInt } from "crypto";
 import { revalidatePath } from "next/cache";
 
 export async function product_add(formData) {
-  const title = formData.get("title");
-  const content = formData.get("content");
-  function displayedImg() {
-    return "pc" + randomInt(1, 4) + ".png";
-  }
+  console.log("foooorm data === ", formData);
 
-  // Add a new document with a generated id.
-  const docRef = await addDoc(collection(db, "products"), {
+  const docRef = await addDoc(collection(db, "productsTest"), {
     p_name: formData.get("p_name"),
     p_cat: formData.get("p_cat"),
     p_cost: formData.get("p_cost"),
     p_details: formData.get("p_details"),
-    p_img: displayedImg(),
+    p_imgs: JSON.parse(formData.get("p_imgs")),
   });
-  // console.log("Document written with ID: ", docRef.id);
+  console.log("Document written with ID: ", docRef.id);
   // revalidatePath("/products");
-  redirect("/products/" + docRef.id);
-  // Process data (e.g., save to database)
-  console.log(formData);
+  // redirect("/products/" + docRef.id);
 }

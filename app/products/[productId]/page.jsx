@@ -57,17 +57,19 @@ export default async function ProductsDetails({ params }) {
           { url: productImageMap.get("DESKTOP") },
         ]}
       />
+      <div className="p-1">
+        <div className="product_d_name">{product.p_name}</div>
 
-      <div className="product_d_name">{product.p_name}</div>
-
-      <div className="wrapper">
-        <span className="cost">{product.p_cost}</span>
-        <span className="category"> | {product.p_cat}</span>
-      </div>
-      <div className="product_d_details">
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi,
-        similique dolorem, delectus fugit optio provident omnis quia dolorum
-        labore magni nostrum quae amet, in beatae ut ab voluptatibus nihil quam!
+        <div className="wrapper">
+          <span className="cost">{product.p_cost}</span>
+          <span className="category"> | {product.p_cat}</span>
+        </div>
+        <div className="product_d_details">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi,
+          similique dolorem, delectus fugit optio provident omnis quia dolorum
+          labore magni nostrum quae amet, in beatae ut ab voluptatibus nihil
+          quam!
+        </div>
       </div>
     </div>
   );
