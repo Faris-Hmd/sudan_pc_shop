@@ -28,20 +28,21 @@ export default function ProductImgCarousel({ imgs }: any) {
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap() + 1);
     });
-  }, [api, imgs]);
+  }, [api]);
 
   return (
     <div className="w-full ">
       <Carousel setApi={setApi} className="w-full  ">
         <CarouselContent className="w-full m-auto ">
-          {imgs.map(
-            (img: { url: string }, index: React.Key | null | undefined) => (
-              <CarouselItem className="h-60   w-full relative" key={index}>
-                {/* <img src={img.url} alt="" /> */}
-                <Image fill src={img.url} alt={`Product Image ${img.url}`} />
-              </CarouselItem>
-            )
-          )}
+          {imgs.length > 0 &&
+            imgs?.map(
+              (img: { url: string }, index: React.Key | null | undefined) => (
+                <CarouselItem className="h-60   w-full relative" key={index}>
+                  {/* <img src={img.url} alt="" /> */}
+                  <Image fill src={img.url} alt={`Product Image ${img.url}`} />
+                </CarouselItem>
+              )
+            )}
         </CarouselContent>
         <CarouselPrevious className="ms-12" />
         <CarouselNext className="me-12" />

@@ -10,9 +10,10 @@ export const metadata = {
 export default async function ProductsDetails({ params }) {
   const { productId } = await params;
 
-  const docRef = doc(db, "products", productId);
+  const docRef = doc(db, "productsTest", productId);
   const docsnapshot = await getDoc(docRef);
   const product = docsnapshot.exists() ? docsnapshot.data() : {};
+  console.log(product);
 
   const categories = [
     "MONITORS",
@@ -50,13 +51,7 @@ export default async function ProductsDetails({ params }) {
 
   return (
     <div className="product_d_card">
-      <ProductImgCarousel
-        imgs={[
-          { url: productImageMap.get("MONITORS") },
-          { url: productImageMap.get("PC") },
-          { url: productImageMap.get("DESKTOP") },
-        ]}
-      />
+      <ProductImgCarousel imgs={product.p_imgs} />
       <div className="p-1">
         <div className="product_d_name">{product.p_name}</div>
 

@@ -4,9 +4,8 @@ import { product_add } from "../../../actions/product_add";
 import { categories } from "../../../data/categories";
 import { CircleX, Upload } from "lucide-react";
 import { put } from "@vercel/blob";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ProductImgCarousel from "../../../comp/carousel";
-import { randomInt } from "crypto";
 
 export default function ProductImgUplpad() {
   const [imgs, setImgs] = useState([]);
