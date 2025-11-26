@@ -17,13 +17,17 @@ export default async function Home({ searchParams }) {
   return (
     <>
       <SearchForm />
-      <div className="list mt-1">
+      <div className="p-1 flex justify-around flex-wrap gap-1">
         {products && products?.length > 0 ? (
           products.map((row) => (
-            <div className="product_card" key={row.id}>
+            <div
+              className="w-full flex items-center gap-2 bg-white shadow border rounded overflow-hidden"
+              key={row.id}
+            >
               <Link href={`products/${row.id}`} className="relative">
-                <div className="h-30 w-full ms-auto relative bg-amber-300">
+                <div className="h-20 w-20 ms-auto relative bg-amber-300">
                   <Image
+                    sizes="100"
                     fill
                     src={row.p_imgs[0].url}
                     alt="Product Image"
@@ -31,10 +35,15 @@ export default async function Home({ searchParams }) {
                   />
                 </div>
               </Link>
-              <div className="name">{row.p_name}</div>
-              <div className="wrapper">
-                <span className="cost">{row.p_cost}</span>
-                <span className="category"> | {row.p_cat}</span>
+              <div className="p-1 ">
+                <div className="name text-sm font-bold">{row.p_name}</div>
+                <span className="cost text-xs  text-green-600">
+                  {row.p_cost} SDG
+                </span>
+                <span className="category text-xs text-gray-500">
+                  {" "}
+                  | {row.p_cat}
+                </span>
               </div>
             </div>
           ))

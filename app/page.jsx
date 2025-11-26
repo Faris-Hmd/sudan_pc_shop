@@ -11,7 +11,7 @@ export default async function Home() {
   function wait(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
-  await wait(3000);
+  // await wait(3000);
   const products = await getProducts("", 500);
 
   console.log("revalidate homepage ----"); // image url for MON

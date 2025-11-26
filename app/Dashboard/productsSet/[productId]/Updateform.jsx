@@ -79,16 +79,28 @@ export default function UpdateForm({ product }) {
       ) : (
         <img className="h-60" src={"/placeholder.png"} />
       )}
-      <div className="flex justify-end">
-        {" "}
-        <label
-          className="bg-green-600 text-white p-2 rounded shadow flex items-center justify-center gap-2 hover:opacity-80"
-          htmlFor="imgsInput"
-        >
-          <Camera size={17} /> Upload
-        </label>
-      </div>
+      {pending ? (
+        <div className="flex justify-end">
+          <button
+            type="button"
+            disabled
+            className="bg-green-600 text-white p-2 rounded shadow flex items-center justify-center gap-2 disabled:opacity-80 hover:opacity-80"
+          >
+            <Camera size={17} /> Upload
+          </button>
+        </div>
+      ) : (
+        <div className="flex justify-end">
+          <label
+            className="bg-green-600 text-white p-2 rounded shadow flex items-center justify-center gap-2 hover:opacity-80"
+            htmlFor="imgsInput"
+          >
+            <Camera size={17} /> Upload
+          </label>
+        </div>
+      )}
       <input
+        className="absolute right-1000"
         multiple
         id="imgsInput"
         name="file"
