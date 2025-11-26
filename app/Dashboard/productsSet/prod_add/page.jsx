@@ -6,6 +6,7 @@ import { Camera, CircleX, Loader, Upload } from "lucide-react";
 import { useState } from "react";
 import ProductImgCarousel from "../../../comp/carousel";
 import { upload } from "@vercel/blob/client";
+import { toast } from "sonner";
 
 export default function ProductImgUplpad() {
   const [imgs, setImgs] = useState([]);
@@ -25,8 +26,8 @@ export default function ProductImgUplpad() {
   }
 
   async function handleProductImgsSubmit(e) {
-    setPending(true);
     e.preventDefault();
+    setPending(true);
     function wait(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
@@ -34,6 +35,7 @@ export default function ProductImgUplpad() {
     if (imgs.length === 0) {
       setPending(false);
       console.log("empty imgas");
+      toast.error("Empty Imgs");
       return;
     }
     const fd = new FormData(e.target);

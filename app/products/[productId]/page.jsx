@@ -1,6 +1,12 @@
+export async function generateStaticParams() {
+  console.log(await getProductsIds());
+
+  return await getProductsIds();
+}
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "../../db/firebase";
 import ProductImgCarousel from "@/app/comp/carousel";
+import { getProductsIds } from "../../actions/product_ids";
 
 export const metadata = {
   title: `SPS | product detail`,

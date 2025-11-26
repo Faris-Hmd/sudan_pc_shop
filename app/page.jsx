@@ -8,48 +8,27 @@ export const metadata = {
 };
 
 export default async function Home() {
+  function wait(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
+  await wait(3000);
   const products = await getProducts("", 500);
 
-  // const categories = [
-  //   "MONITORS",
-  //   "SSD",
-  //   "LAPTOP",
-  //   "WEBCAMS",
-  //   "HEADSETS",
-  //   "KEYBOARDS",
-  //   "SPEAKERS",
-  //   "MICROPHONES",
-  //   "TABLETS",
-  //   "PROJECTORS",
-  //   "SCANNERS",
-  //   "HARD_DRIVES",
-  //   "PRINTERS",
-  //   "MOUSES",
-  //   "PC",
-  //   "DESKTOP",
-  // ];
-
-  // function randomImgUrl(seed, w = 400, h = 300) {
-  //   // use picsum with a semi-random seed so URLs differ each run
-  //   const rnd = Math.floor(Math.random() * 10000);
-  //   return `https://picsum.photos/seed/${encodeURIComponent(
-  //     seed + "-" + rnd
-  //   )}/${w}/${h}`;
-  // }
-
-  // example usage:
   console.log("revalidate homepage ----"); // image url for MON
 
   return (
     <>
-      <div className="mt-1"></div>
-      <div className="list">
+      <div className="p-1 flex justify-around flex-wrap gap-2">
         {products && products?.length > 0 ? (
           products.map((row) => (
-            <div className="product_card" key={row.id}>
+            <div
+              className="w-40 bg-white shadow border rounded overflow-hidden"
+              key={row.id}
+            >
               <Link href={`products/${row.id}`} className="relative">
                 <div className="h-30 w-full ms-auto relative bg-amber-300">
                   <Image
+                    sizes="100"
                     fill
                     src={row.p_imgs[0].url}
                     alt="Product Image"
@@ -57,10 +36,15 @@ export default async function Home() {
                   />
                 </div>
               </Link>
-              <div className="name">{row.p_name}</div>
-              <div className="wrapper">
-                <span className="cost">{row.p_cost}</span>
-                <span className="category"> | {row.p_cat}</span>
+              <div className="p-1 ">
+                <div className="name text-sm font-bold">{row.p_name}</div>
+                <span className="cost text-xs  text-green-600">
+                  {row.p_cost} SDG
+                </span>
+                <span className="category text-xs text-gray-500">
+                  {" "}
+                  | {row.p_cat}
+                </span>
               </div>
             </div>
           ))

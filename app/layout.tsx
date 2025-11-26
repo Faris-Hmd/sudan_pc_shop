@@ -4,7 +4,8 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { LayoutDashboard, Search, Settings } from "lucide-react";
+import { Search, Settings } from "lucide-react";
+import { Toaster } from "@/components/ui/sonner";
 
 const roboto = Nunito({
   weight: "500",
@@ -24,6 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto.className}  antialiased`}>
+        <Toaster position="top-center" expand />
         <Navbar />
         {children}
       </body>

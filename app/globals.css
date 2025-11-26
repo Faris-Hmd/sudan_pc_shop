@@ -39,7 +39,7 @@
 } */
 
 html {
-  font-size: larger;
+  font-size: 19px;
 }
 body {
   color: var(--text);
@@ -51,56 +51,6 @@ body {
 /* ========== Base Styles ========== */
 
 /* ========== Layout Containers ========== */
-.wrapper {
-  display: flex;
-  flex-direction: row;
-  align-items: start;
-  justify-content: start;
-  gap: 5px;
-}
-
-.list {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  width: 100%;
-  gap: 5px;
-  padding: 5px 0;
-  margin: auto;
-}
-
-/* ========== Product Cards ========== */
-.product_card {
-  border: 1px solid var(--borders-and-shadows);
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  background-color: var(--my-foreground);
-  padding: 0 5px 2px;
-  width: 45%;
-}
-
-.name {
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.cost {
-  font-size: 12px;
-  font-weight: 600;
-  margin-bottom: 5px;
-  color: #45a049;
-}
-.cost::after {
-  content: " SDG";
-}
-
-.category {
-  font-size: 12px;
-  font-weight: 500;
-  color: #777;
-}
 
 /* ========== Buttons ========== */
 
@@ -259,7 +209,7 @@ nav a {
 }
 
 /* ========== Responsive ========== */
-@media screen and (min-width: 600px) {
+/* @media screen and (min-width: 600px) {
   .product_card {
     width: 30%;
   }
@@ -273,7 +223,7 @@ nav a {
   form {
     max-width: 400px;
   }
-}
+} */
 
 /* ========== Error Messages ========== */
 .error_msg {
