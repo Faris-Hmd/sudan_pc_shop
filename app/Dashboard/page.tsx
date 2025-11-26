@@ -23,7 +23,7 @@ export default async function Component() {
       );
       const snapshot = await getCountFromServer(q); // v9 tree-shakable count
       const count = snapshot.data().count ?? 0;
-      console.log(count);
+      // console.log(count);
 
       productsNum = productsNum + count;
 

@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
 }
 function Navbar() {
   return (
-    <div className="flex items-center text-sm  border-b flex-wrap">
+    <div className="bg-white flex items-center text-sm  border-b flex-wrap">
       <small>
         <Link
           className="p-1 flex items-center gap-1 border-r"

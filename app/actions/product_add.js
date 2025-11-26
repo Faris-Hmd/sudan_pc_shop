@@ -3,11 +3,10 @@
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../db/firebase";
 import { redirect } from "next/navigation";
-import { randomInt } from "crypto";
 import { revalidatePath } from "next/cache";
 
 export async function product_add(formData) {
-  console.log("foooorm data === ", formData);
+  // console.log("foooorm data === ", formData);
 
   const docRef = await addDoc(collection(db, "productsTest"), {
     p_name: formData.get("p_name"),
@@ -17,6 +16,6 @@ export async function product_add(formData) {
     p_imgs: JSON.parse(formData.get("p_imgs")),
   });
   console.log("Document written with ID: ", docRef.id);
-  // revalidatePath("/products");
-  // redirect("/products/" + docRef.id);
+  revalidatePath("/");
+  redirect("/products/" + docRef.id);
 }

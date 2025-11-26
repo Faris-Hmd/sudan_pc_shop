@@ -7,11 +7,12 @@ import { put } from "@vercel/blob";
 import { useState } from "react";
 import ProductImgCarousel from "../../../comp/carousel";
 
-export default function ProductImgUplpad() {
-  const [imgs, setImgs] = useState([]);
-  //   const [blob, setBlob] = useState(null);
+export default function UpdateForm({ product }) {
+  console.log("prod update info", product);
 
-  async function handleImgChange(e) {
+  const [imgs, setImgs] = useState(product.p_imgs);
+
+  function handleImgChange(e) {
     const { files } = e.target;
 
     for (let index = 0; index < files.length; index++) {
@@ -25,25 +26,8 @@ export default function ProductImgUplpad() {
     }
   }
 
-  async function handleProductImgsSubmit(e) {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    console.log(imgs);
-
-    let productImgsUrl = [];
-    for (const img of imgs) {
-      const newBlob = await put(img.productImgFile.name, img.productImgFile, {
-        access: "public",
-        token: "vercel_blob_rw_lzmijYm9F9DKp5qM_FjmOaOg64bys3Xrlt9vynEZ9tZwoR2",
-        allowOverwrite: "true",
-      });
-      productImgsUrl.push({ url: newBlob.url });
-    }
-    // console.log(productImgsUrl);
-    fd.set("p_imgs", JSON.stringify(productImgsUrl));
-    await product_add(fd);
-  }
   function handleRemove(imgUrl) {
+    console.log(imgUrl);
     const newImgs = [];
     imgs.forEach((img) => {
       // console.log(img);
@@ -52,40 +36,67 @@ export default function ProductImgUplpad() {
     setImgs(newImgs);
   }
 
+  async function handleProductImgsSubmit(e) {
+    e.preventDefault();
+    const fd = new FormData(e.target);
+    // console.log(imgs);
+
+    let productImgsUrl = [];
+    for (const img of imgs) {
+      const newBlob = await put(img.productImgFile.name, img.productImgFile, {
+        access: "public",
+        token: "vercel_blob_rw_lzmijYm9F9DKp5qM_FjmOaOg64bys3Xrlt9vynEZ9tZwoR2",
+      });
+      productImgsUrl.push({ url: newBlob.url });
+    }
+    // console.log(productImgsUrl);
+    fd.set("p_imgs", JSON.stringify(productImgsUrl));
+    await product_add(fd);
+  }
+
   return (
     <>
-      <div className="bg-white flex justify-between items-center mb-2 p-2 border-b shadow flex-wrap">
-        <h3>Add Product</h3>
-      </div>
       <form
         onSubmit={(e) => handleProductImgsSubmit(e)}
         name="shopform"
         className="add_form"
       >
-        <>
-          {imgs.length > 0 && (
-            <ProductImgCarousel handleRemove={handleRemove} imgs={imgs} />
-          )}
-          <input
-            multiple
-            name="file"
-            type="file"
-            accept="image/jpeg, image/png, image/webp"
-            required
-            onChange={(e) => handleImgChange(e)}
-            defaultValue={imgs}
-          />
-        </>
+        {imgs.length > 0 && (
+          <ProductImgCarousel imgs={imgs} handleRemove={handleRemove} />
+        )}
+        <input
+          multiple
+          name="file"
+          type="file"
+          accept="image/jpeg, image/png, image/webp"
+          required
+          onChange={(e) => handleImgChange(e)}
+        />
         <label htmlFor="p_name">Product Name</label>
-        <input type="text" name="p_name" required />
+        <input
+          defaultValue={product.p_name}
+          type="text"
+          name="p_name"
+          required
+        />
         <label htmlFor="p_details">Details</label>
-        <textarea name="p_details" required rows="3"></textarea>
+        <textarea
+          defaultValue={product.p_details}
+          name="p_details"
+          required
+          rows="3"
+        ></textarea>
 
         <label htmlFor="p_cost">Cost</label>
-        <input type="number" name="p_cost" required />
+        <input
+          defaultValue={product.p_cost}
+          type="number"
+          name="p_cost"
+          required
+        />
 
         <label htmlFor="p_cat">Categories</label>
-        <select name="p_cat" id="p_cat" required>
+        <select defaultValue={product.p_cat} name="p_cat" id="p_cat" required>
           {categories.length > 0 ? (
             categories.map((cat, index) => (
               <option key={index} value={cat}>

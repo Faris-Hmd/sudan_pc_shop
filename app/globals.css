@@ -10,6 +10,8 @@
     --secondary: #94c4db;
     --accent: #6bb5d8;
     --borders-and-shadows: #ccc;
+    --my-background: #eee;
+    --my-foreground: #fff;
 
     --chart-1: oklch(0.646 0.222 41.116);
     --chart-2: oklch(0.6 0.118 184.704);
@@ -18,7 +20,7 @@
     --chart-5: oklch(0.769 0.188 70.08);
   }
 }
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   :root {
     --text: #e6ecef;
     --background: #12181c;
@@ -34,13 +36,14 @@
     --chart-4: oklch(0.627 0.265 303.9);
     --chart-5: oklch(0.645 0.246 16.439);
   }
-}
+} */
 
 html {
   font-size: larger;
 }
 body {
   color: var(--text);
+  background-color: var(--my-background);
   margin: 0;
   padding: 0;
 }
@@ -73,7 +76,7 @@ body {
   border: 1px solid var(--borders-and-shadows);
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  background-color: var(--foreround);
+  background-color: var(--my-foreground);
   padding: 0 5px 2px;
   width: 45%;
 }
@@ -99,38 +102,7 @@ body {
   color: #777;
 }
 
-.details {
-  display: none;
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 10px;
-}
-
-.btn_container {
-  display: flex;
-  width: 100%;
-  justify-content: flex-end;
-  gap: 5px;
-}
-
 /* ========== Buttons ========== */
-
-.cancel_btn {
-  background-color: #777;
-  color: white;
-  padding: 7px;
-  padding-bottom: 0;
-  font-size: 14px;
-  border: none;
-  border-radius: 4px;
-  text-decoration: none;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease;
-}
-.cancel_btn:hover {
-  background-color: #555;
-}
 
 /* ========== Forms ========== */
 input[type="text"],
@@ -150,7 +122,7 @@ select {
   font-size: small;
   margin: 5px auto;
   width: 95%;
-  background-color: var(--foreround);
+  background-color: var(--my-foreground);
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -200,7 +172,7 @@ table {
   width: 97%;
   border-collapse: collapse;
   margin: 5px auto;
-  background-color: var(--foreround);
+  background-color: var(--my-foreground);
   padding: 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   border: 1px solid var(--borders-and-shadows);
@@ -242,7 +214,8 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: -webkit-linear-gradient(45deg, #1a79a4, #0882ba);
+  background: -webkit-linear-gradient(45deg, #1a79a4, #0975a8);
+  /* background-color: var(--my-background); */
 }
 nav a {
   text-decoration: none;
@@ -275,41 +248,14 @@ nav a {
 }
 
 /* ========== Categories ========== */
-.cat_con {
-  margin-top: 5px;
-  border: 1px solid var(--borders-and-shadows);
-  border-top: 1px solid;
-  padding-top: 5px;
-}
-.cat_con .cat_card {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid var(--borders-and-shadows);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 3px;
-  border-radius: 5px;
-  padding: 5px;
-}
-.cat_con .cat_card:hover {
-  background-color: #eee;
-}
 
 /* ========== Product Details ========== */
 .product_d_card {
-  background-color: var(--foreround);
+  background-color: var(--my-foreground);
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-}
-.product_d_card .product_d_img {
-  object-fit: cover;
-  height: 100px;
-}
-.product_d_card img {
-  /* aspect-ratio: 16/9; */
-  width: 100%;
 }
 
 /* ========== Responsive ========== */
@@ -317,9 +263,7 @@ nav a {
   .product_card {
     width: 30%;
   }
-  .product_card .img_container {
-    height: 200px;
-  }
+
   .list,
   .product_d_card,
   table {

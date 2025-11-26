@@ -13,7 +13,7 @@ export async function product_dlt(id) {
   // console.log("delete -----", id);
   // console.log("from server");
 
-  await deleteDoc(doc(db, "products", id));
+  await deleteDoc(doc(db, "productsTest", id));
   refresh();
   // redirect("/products/" + docRef.id);
 }

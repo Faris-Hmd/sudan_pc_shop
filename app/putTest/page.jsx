@@ -10,7 +10,7 @@ export default function ProductImgUplpad() {
 
   async function handleImgChange(e) {
     const { files } = e.target;
-    console.log(files);
+    // console.log(files);
     for (let index = 0; index < files.length; index++) {
       setImgs((prevImg) => [
         ...prevImg,
@@ -32,7 +32,7 @@ export default function ProductImgUplpad() {
       });
       productImgsUrl.push({ url: newBlob.url });
     }
-    console.log(productImgsUrl);
+    // console.log(productImgsUrl);
   }
   return (
     <div className="m-auto flex justify-center flex-col items-center">

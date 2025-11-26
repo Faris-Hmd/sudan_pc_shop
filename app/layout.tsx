@@ -4,7 +4,7 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { LayoutDashboard, Search } from "lucide-react";
+import { LayoutDashboard, Search, Settings } from "lucide-react";
 
 const roboto = Nunito({
   weight: "500",
@@ -34,24 +34,22 @@ function Navbar() {
   return (
     <nav>
       <div className="flex justify-between items-center">
-        {" "}
         <Link href={"/"} className="logo">
           Elneelen shop
         </Link>{" "}
         <Link className="p-1 flex gap-1 items-center" href="/products">
-          <Search size={18} /> Search
-        </Link>
-        <Link className="p-1 flex gap-1 items-center" href="/Dashboard">
-          <LayoutDashboard size={18} />
-          Dashboard
+          <Search size={18} />
         </Link>
       </div>
 
-      <div className="flex justify-between items-center">
+      <div className="flex m-2 p-0.5 rounded-full border border-gray-400 justify-around items-center">
+        <Link className="flex items-center" href="/Dashboard">
+          <Settings size={18} />
+        </Link>
         <Avatar>
           <AvatarImage
             width={30}
-            className="m-2 rounded-full"
+            className="rounded-full"
             src="https://github.com/evilrabbit.png"
           />
           <AvatarFallback className="m-1">CN</AvatarFallback>

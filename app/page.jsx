@@ -10,39 +10,35 @@ export const metadata = {
 export default async function Home() {
   const products = await getProducts("", 500);
 
-  const categories = [
-    "MONITORS",
-    "SSD",
-    "LAPTOP",
-    "WEBCAMS",
-    "HEADSETS",
-    "KEYBOARDS",
-    "SPEAKERS",
-    "MICROPHONES",
-    "TABLETS",
-    "PROJECTORS",
-    "SCANNERS",
-    "HARD_DRIVES",
-    "PRINTERS",
-    "MOUSES",
-    "PC",
-    "DESKTOP",
-  ];
+  // const categories = [
+  //   "MONITORS",
+  //   "SSD",
+  //   "LAPTOP",
+  //   "WEBCAMS",
+  //   "HEADSETS",
+  //   "KEYBOARDS",
+  //   "SPEAKERS",
+  //   "MICROPHONES",
+  //   "TABLETS",
+  //   "PROJECTORS",
+  //   "SCANNERS",
+  //   "HARD_DRIVES",
+  //   "PRINTERS",
+  //   "MOUSES",
+  //   "PC",
+  //   "DESKTOP",
+  // ];
 
-  function randomImgUrl(seed, w = 400, h = 300) {
-    // use picsum with a semi-random seed so URLs differ each run
-    const rnd = Math.floor(Math.random() * 10000);
-    return `https://picsum.photos/seed/${encodeURIComponent(
-      seed + "-" + rnd
-    )}/${w}/${h}`;
-  }
-
-  const productImageMap = new Map(
-    categories.map((cat) => [cat, randomImgUrl(cat)])
-  );
+  // function randomImgUrl(seed, w = 400, h = 300) {
+  //   // use picsum with a semi-random seed so URLs differ each run
+  //   const rnd = Math.floor(Math.random() * 10000);
+  //   return `https://picsum.photos/seed/${encodeURIComponent(
+  //     seed + "-" + rnd
+  //   )}/${w}/${h}`;
+  // }
 
   // example usage:
-  console.log(productImageMap.get("MONITORS")); // image url for MON
+  console.log("revalidate homepage ----"); // image url for MON
 
   return (
     <>

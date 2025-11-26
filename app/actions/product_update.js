@@ -1,29 +1,20 @@
 // app/actions.ts
 "use server";
-import { collection, addDoc, updateDoc, doc } from "firebase/firestore";
+import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../db/firebase";
 import { redirect } from "next/navigation";
-import { randomInt } from "crypto";
 
 export async function product_update(formData) {
-  const title = formData.get("title");
-  const content = formData.get("content");
-  // console.log(formData);
-  function displayedImg() {
-    return "pc" + randomInt(1, 3) + ".png";
-  }
-
   // Add a new document with a generated id.
-  const docRef = doc(db, "products", formData.get("id"));
+  const docRef = doc(db, "productsTest", formData.get("id"));
   await updateDoc(docRef, {
     p_name: formData.get("p_name"),
     p_cat: formData.get("p_cat"),
     p_cost: formData.get("p_cost"),
     p_details: formData.get("p_details"),
-    p_img: displayedImg(),
   });
   // console.log("Document written with ID: ", docRef.id);
 
-  redirect("/products/" + docRef.id);
+  redirect("/dashboard/products/" + docRef.id);
   // Process data (e.g., save to database)
 }

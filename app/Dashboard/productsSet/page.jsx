@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Dlt_btn from "../../comp/dlt_btn";
 import SearchForm from "../../comp/SearchForm";
 import { getProducts } from "../../data/products";
 import { Plus } from "lucide-react";
@@ -14,7 +13,7 @@ export default async function ProductTable({ searchParams }) {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-2 p-2 border-b shadow flex-wrap">
+      <div className="bg-white flex justify-between items-center mb-2 p-2 border-b shadow flex-wrap">
         <div className="w-full flex justify-between items-center mb-2">
           <span> Producst list </span>
           <Link

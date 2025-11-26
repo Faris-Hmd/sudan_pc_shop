@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 
-export default function ProductImgCarousel({ imgs }: any) {
+export default function ProductImgCarousel({ imgs, handleRemove }: any) {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
@@ -37,7 +37,11 @@ export default function ProductImgCarousel({ imgs }: any) {
           {imgs.length > 0 &&
             imgs?.map(
               (img: { url: string }, index: React.Key | null | undefined) => (
-                <CarouselItem className="h-60   w-full relative" key={index}>
+                <CarouselItem
+                  onDoubleClick={() => handleRemove && handleRemove(img.url)}
+                  className="h-60   w-full relative"
+                  key={index}
+                >
                   {/* <img src={img.url} alt="" /> */}
                   <Image fill src={img.url} alt={`Product Image ${img.url}`} />
                 </CarouselItem>
