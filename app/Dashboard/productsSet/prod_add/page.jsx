@@ -30,7 +30,7 @@ export default function ProductImgUplpad() {
     function wait(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
-    await wait(3000);
+    // await wait(3000);
     if (imgs.length === 0) {
       setPending(false);
       console.log("empty imgas");
@@ -78,18 +78,29 @@ export default function ProductImgUplpad() {
           ) : (
             <img className="h-60" src={"/placeholder.png"} />
           )}
-          <div className="flex justify-end">
-            {" "}
-            <label
-              className="bg-green-600 text-white p-2 rounded shadow flex items-center justify-center gap-2 hover:opacity-80"
-              htmlFor="imgsInput"
-            >
-              <Camera size={17} /> Upload
-            </label>
-          </div>
-
+          {pending ? (
+            <div className="flex justify-end">
+              <button
+                type="button"
+                disabled
+                className="bg-green-600 text-white p-2 rounded shadow flex items-center justify-center gap-2 disabled:opacity-80 hover:opacity-80"
+              >
+                <Camera size={17} /> Upload
+              </button>
+            </div>
+          ) : (
+            <div className="flex justify-end">
+              <label
+                className="bg-green-600 text-white p-2 rounded shadow flex items-center justify-center gap-2 hover:opacity-80"
+                htmlFor="imgsInput"
+              >
+                <Camera size={17} /> Upload
+              </label>
+            </div>
+          )}
           <input
-            className="hidden"
+            // className="hidden"
+            className="absolute right-1000"
             id="imgsInput"
             multiple
             name="file"
@@ -120,7 +131,6 @@ export default function ProductImgUplpad() {
             <option disabled>No categories found</option>
           )}
         </select>
-
         <div
           style={{
             display: "flex",

@@ -11,6 +11,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import Image from "next/image";
+import { Trash2 } from "lucide-react";
 
 export default function ProductImgCarousel({ imgs, handleRemove }: any) {
   const [api, setApi] = React.useState<CarouselApi>();
@@ -31,19 +32,25 @@ export default function ProductImgCarousel({ imgs, handleRemove }: any) {
   }, [api]);
 
   return (
-    <div className="w-full ">
-      <Carousel setApi={setApi} className="w-full  ">
-        <CarouselContent className="w-full m-auto ">
+    <>
+      <Carousel setApi={setApi} className="bg-amber-600">
+        <CarouselContent className="m-auto">
           {imgs.length > 0 &&
             imgs?.map(
               (img: { url: string }, index: React.Key | null | undefined) => (
-                <CarouselItem
-                  onDoubleClick={() => handleRemove && handleRemove(img.url)}
-                  className="h-60   w-full relative"
-                  key={index}
-                >
-                  {/* <img src={img.url} alt="" /> */}
+                <CarouselItem className="h-60 w-full relative" key={index}>
                   <Image fill src={img.url} alt={`Product Image ${img.url}`} />
+                  {handleRemove && (
+                    <button
+                      type="button"
+                      onDoubleClick={() =>
+                        handleRemove && handleRemove(img.url)
+                      }
+                      className=" cursor-pointer text-red-700 bg-white rounded-2xl opacity-60 gap-2 absolute top-1 right-1 flex items-center p-2  backdrop-blur-3xl hover:opacity-100"
+                    >
+                      <Trash2 size={17} /> Remove
+                    </button>
+                  )}
                 </CarouselItem>
               )
             )}
@@ -53,8 +60,12 @@ export default function ProductImgCarousel({ imgs, handleRemove }: any) {
       </Carousel>
 
       <div className="text-muted-foreground py-2 text-center text-sm">
-        picture {current} of {imgs.length}
+        {!handleRemove && (
+          <>
+            picture {current} of {imgs.length}
+          </>
+        )}
       </div>
-    </div>
+    </>
   );
 }

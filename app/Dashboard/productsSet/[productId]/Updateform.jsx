@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { categories } from "../../../data/categories";
-import { CircleX, Edit2, Loader } from "lucide-react";
+import { Camera, CircleX, Edit2, Loader } from "lucide-react";
 import { useState } from "react";
 import ProductImgCarousel from "../../../comp/carousel";
 import { upload } from "@vercel/blob/client";
@@ -74,11 +74,23 @@ export default function UpdateForm({ product }) {
       name="shopform"
       className="add_form"
     >
-      {imgs.length > 0 && (
-        <ProductImgCarousel imgs={imgs} handleRemove={handleRemove} />
+      {imgs.length > 0 ? (
+        <ProductImgCarousel handleRemove={handleRemove} imgs={imgs} />
+      ) : (
+        <img className="h-60" src={"/placeholder.png"} />
       )}
+      <div className="flex justify-end">
+        {" "}
+        <label
+          className="bg-green-600 text-white p-2 rounded shadow flex items-center justify-center gap-2 hover:opacity-80"
+          htmlFor="imgsInput"
+        >
+          <Camera size={17} /> Upload
+        </label>
+      </div>
       <input
         multiple
+        id="imgsInput"
         name="file"
         type="file"
         accept="image/jpeg, image/png, image/webp"
