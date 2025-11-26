@@ -3,23 +3,21 @@ import Link from "next/link";
 import { product_add } from "../../../actions/product_add";
 import { categories } from "../../../data/categories";
 import { CircleX, Upload } from "lucide-react";
-import { put } from "@vercel/blob";
 import { useState } from "react";
 import ProductImgCarousel from "../../../comp/carousel";
+import { upload } from "@vercel/blob/client";
 
 export default function ProductImgUplpad() {
   const [imgs, setImgs] = useState([]);
-  //   const [blob, setBlob] = useState(null);
 
   async function handleImgChange(e) {
     const { files } = e.target;
-
-    for (let index = 0; index < files.length; index++) {
+    for (const file of files) {
       setImgs((prevImg) => [
         ...prevImg,
         {
-          url: URL.createObjectURL(files[index]),
-          productImgFile: files[index],
+          url: URL.createObjectURL(file),
+          productImgFile: file,
         },
       ]);
     }
@@ -28,21 +26,22 @@ export default function ProductImgUplpad() {
   async function handleProductImgsSubmit(e) {
     e.preventDefault();
     const fd = new FormData(e.target);
-    console.log(imgs);
-
     let productImgsUrl = [];
     for (const img of imgs) {
-      const newBlob = await put(img.productImgFile.name, img.productImgFile, {
-        access: "public",
-        token: "vercel_blob_rw_lzmijYm9F9DKp5qM_FjmOaOg64bys3Xrlt9vynEZ9tZwoR2",
-        allowOverwrite: "true",
-      });
+      const newBlob = await upload(
+        img.productImgFile.name,
+        img.productImgFile,
+        {
+          access: "public",
+          handleUploadUrl: "/api/uploadImgs",
+        }
+      );
       productImgsUrl.push({ url: newBlob.url });
     }
-    // console.log(productImgsUrl);
     fd.set("p_imgs", JSON.stringify(productImgsUrl));
     await product_add(fd);
   }
+
   function handleRemove(imgUrl) {
     const newImgs = [];
     imgs.forEach((img) => {
