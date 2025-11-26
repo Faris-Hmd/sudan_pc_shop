@@ -2,13 +2,14 @@
 import Link from "next/link";
 import { product_add } from "../../../actions/product_add";
 import { categories } from "../../../data/categories";
-import { CircleX, Upload } from "lucide-react";
+import { Camera, CircleX, Loader, Upload } from "lucide-react";
 import { useState } from "react";
 import ProductImgCarousel from "../../../comp/carousel";
 import { upload } from "@vercel/blob/client";
 
 export default function ProductImgUplpad() {
   const [imgs, setImgs] = useState([]);
+  const [pending, setPending] = useState(false);
 
   async function handleImgChange(e) {
     const { files } = e.target;
@@ -24,7 +25,17 @@ export default function ProductImgUplpad() {
   }
 
   async function handleProductImgsSubmit(e) {
+    setPending(true);
     e.preventDefault();
+    function wait(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+    await wait(3000);
+    if (imgs.length === 0) {
+      setPending(false);
+      console.log("empty imgas");
+      return;
+    }
     const fd = new FormData(e.target);
     let productImgsUrl = [];
     for (const img of imgs) {
@@ -62,10 +73,24 @@ export default function ProductImgUplpad() {
         className="add_form"
       >
         <>
-          {imgs.length > 0 && (
+          {imgs.length > 0 ? (
             <ProductImgCarousel handleRemove={handleRemove} imgs={imgs} />
+          ) : (
+            <img className="h-60" src={"/placeholder.png"} />
           )}
+          <div className="flex justify-end">
+            {" "}
+            <label
+              className="bg-green-600 text-white p-2 rounded shadow flex items-center justify-center gap-2 hover:opacity-80"
+              htmlFor="imgsInput"
+            >
+              <Camera size={17} /> Upload
+            </label>
+          </div>
+
           <input
+            className="hidden"
+            id="imgsInput"
             multiple
             name="file"
             type="file"
@@ -117,7 +142,15 @@ export default function ProductImgUplpad() {
             value="Add Product"
             style={{ flexGrow: 1 }}
           >
-            <Upload size={17} /> Add Product
+            {pending ? (
+              <>
+                <Loader size={17} className="animate-spin" /> loading...
+              </>
+            ) : (
+              <>
+                <Upload size={17} /> Add Product
+              </>
+            )}
           </button>
         </div>
       </form>

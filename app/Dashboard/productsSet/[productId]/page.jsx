@@ -6,7 +6,9 @@ export async function UpdateFormPage({ params }) {
 
   const docRef = doc(db, "productsTest", productId);
   const docsnapshot = await getDoc(docRef);
-  const product = docsnapshot.exists() ? { ...docsnapshot.data() } : {};
+  const product = docsnapshot.exists()
+    ? { ...docsnapshot.data(), id: docsnapshot.id }
+    : {};
   console.log(product);
 
   return (

@@ -1,26 +1,24 @@
 "use client";
 import Link from "next/link";
-import { product_add } from "../../../actions/product_add";
 import { categories } from "../../../data/categories";
-import { CircleX, Upload } from "lucide-react";
-import { put } from "@vercel/blob";
+import { CircleX, Edit2, Loader } from "lucide-react";
 import { useState } from "react";
 import ProductImgCarousel from "../../../comp/carousel";
+import { upload } from "@vercel/blob/client";
+import { product_update } from "../../../actions/product_update";
 
 export default function UpdateForm({ product }) {
-  console.log("prod update info", product);
-
   const [imgs, setImgs] = useState(product.p_imgs);
+  const [pending, setPending] = useState(false);
 
   function handleImgChange(e) {
     const { files } = e.target;
-
-    for (let index = 0; index < files.length; index++) {
+    for (const file of files) {
       setImgs((prevImg) => [
         ...prevImg,
         {
-          url: URL.createObjectURL(files[index]),
-          productImgFile: files[index],
+          url: URL.createObjectURL(file),
+          productImgFile: file,
         },
       ]);
     }
@@ -35,104 +33,122 @@ export default function UpdateForm({ product }) {
     });
     setImgs(newImgs);
   }
-
   async function handleProductImgsSubmit(e) {
     e.preventDefault();
+    setPending(true);
+    function wait(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
+    await wait(3000);
+    if (imgs.length === 0) {
+      setPending(false);
+      console.log("empty imgas");
+      return;
+    }
     const fd = new FormData(e.target);
-    // console.log(imgs);
-
     let productImgsUrl = [];
     for (const img of imgs) {
-      const newBlob = await put(img.productImgFile.name, img.productImgFile, {
-        access: "public",
-        token: "vercel_blob_rw_lzmijYm9F9DKp5qM_FjmOaOg64bys3Xrlt9vynEZ9tZwoR2",
-      });
-      productImgsUrl.push({ url: newBlob.url });
+      if (img.url) {
+        productImgsUrl.push({ url: img.url });
+      } else {
+        const newBlob = await upload(
+          img.productImgFile.name,
+          img.productImgFile,
+          {
+            access: "public",
+            handleUploadUrl: "/api/uploadImgs",
+          }
+        );
+        productImgsUrl.push({ url: newBlob.url });
+      }
     }
-    // console.log(productImgsUrl);
+
     fd.set("p_imgs", JSON.stringify(productImgsUrl));
-    await product_add(fd);
+    fd.set("id", product.id);
+    await product_update(fd);
   }
 
   return (
-    <>
-      <form
-        onSubmit={(e) => handleProductImgsSubmit(e)}
-        name="shopform"
-        className="add_form"
-      >
-        {imgs.length > 0 && (
-          <ProductImgCarousel imgs={imgs} handleRemove={handleRemove} />
+    <form
+      onSubmit={(e) => handleProductImgsSubmit(e)}
+      name="shopform"
+      className="add_form"
+    >
+      {imgs.length > 0 && (
+        <ProductImgCarousel imgs={imgs} handleRemove={handleRemove} />
+      )}
+      <input
+        multiple
+        name="file"
+        type="file"
+        accept="image/jpeg, image/png, image/webp"
+        onChange={(e) => handleImgChange(e)}
+      />
+      <label htmlFor="p_name">Product Name</label>
+      <input defaultValue={product.p_name} type="text" name="p_name" required />
+      <label htmlFor="p_details">Details</label>
+      <textarea
+        defaultValue={product.p_details}
+        name="p_details"
+        required
+        rows="3"
+      ></textarea>
+
+      <label htmlFor="p_cost">Cost</label>
+      <input
+        defaultValue={product.p_cost}
+        type="number"
+        name="p_cost"
+        required
+      />
+
+      <label htmlFor="p_cat">Categories</label>
+      <select defaultValue={product.p_cat} name="p_cat" id="p_cat" required>
+        {categories.length > 0 ? (
+          categories.map((cat, index) => (
+            <option key={index} value={cat}>
+              {cat}
+            </option>
+          ))
+        ) : (
+          <option disabled>No categories found</option>
         )}
-        <input
-          multiple
-          name="file"
-          type="file"
-          accept="image/jpeg, image/png, image/webp"
-          required
-          onChange={(e) => handleImgChange(e)}
-        />
-        <label htmlFor="p_name">Product Name</label>
-        <input
-          defaultValue={product.p_name}
-          type="text"
-          name="p_name"
-          required
-        />
-        <label htmlFor="p_details">Details</label>
-        <textarea
-          defaultValue={product.p_details}
-          name="p_details"
-          required
-          rows="3"
-        ></textarea>
+      </select>
 
-        <label htmlFor="p_cost">Cost</label>
-        <input
-          defaultValue={product.p_cost}
-          type="number"
-          name="p_cost"
-          required
-        />
-
-        <label htmlFor="p_cat">Categories</label>
-        <select defaultValue={product.p_cat} name="p_cat" id="p_cat" required>
-          {categories.length > 0 ? (
-            categories.map((cat, index) => (
-              <option key={index} value={cat}>
-                {cat}
-              </option>
-            ))
-          ) : (
-            <option disabled>No categories found</option>
-          )}
-        </select>
-
-        <div
-          style={{
-            display: "flex",
-            width: "100%",
-            justifyContent: "space-between",
-            gap: "2px",
-            alignItems: "center",
-          }}
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          justifyContent: "space-between",
+          gap: "2px",
+          alignItems: "center",
+        }}
+      >
+        <Link
+          className="bg-gray-500 text-white p-1.5 rounded shadow flex items-center gap-1"
+          href="/Dashboard/productsSet"
         >
-          <Link
-            className="bg-gray-500 text-white p-1.5 rounded shadow flex items-center gap-1"
-            href="/Dashboard/productsSet"
-          >
-            <CircleX size={17} /> Cancel
-          </Link>
-          <button
-            className="bg-green-600 flex justify-center text-white gap-2 items-center p-1.5 rounded shadow-2xl "
-            type="submit"
-            value="Add Product"
-            style={{ flexGrow: 1 }}
-          >
-            <Upload size={17} /> Add Product
-          </button>
-        </div>
-      </form>
-    </>
+          <CircleX size={17} /> Cancel
+        </Link>
+        <button
+          className="bg-green-600 flex justify-center text-white gap-2 items-center p-1.5 rounded shadow-2xl disabled:opacity-70"
+          type="submit"
+          value="Add Product"
+          style={{ flexGrow: 1 }}
+          disabled={pending}
+        >
+          {pending ? (
+            <>
+              {" "}
+              <Loader size={17} className="animate-spin" /> loading...
+            </>
+          ) : (
+            <>
+              <Edit2 size={17} /> Update Product
+            </>
+          )}
+        </button>
+      </div>
+    </form>
   );
 }
