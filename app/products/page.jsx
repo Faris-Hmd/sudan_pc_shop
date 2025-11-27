@@ -1,5 +1,6 @@
 import Link from "next/link";
 import SearchForm from "../comp/SearchForm";
+import EmptyMuted from "../comp/empty";
 import { getProducts } from "../data/products";
 import Image from "next/image";
 export const metadata = {
@@ -10,13 +11,16 @@ export const metadata = {
 export default async function Home({ searchParams }) {
   const { search_word } = await searchParams;
   let products = [];
-  if (search_word) {
+  console.log(search_word);
+
+  if (search_word !== undefined) {
     products = await getProducts(search_word, 6);
   }
 
   return (
     <>
       <SearchForm />
+
       <div className="p-1 flex justify-around flex-wrap gap-1">
         {products && products?.length > 0 ? (
           products.map((row) => (
@@ -48,7 +52,7 @@ export default async function Home({ searchParams }) {
             </div>
           ))
         ) : (
-          <div className="no_product">No products available</div>
+          <EmptyMuted />
         )}
       </div>
     </>

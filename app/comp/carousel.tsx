@@ -33,13 +33,18 @@ export default function ProductImgCarousel({ imgs, handleRemove }: any) {
 
   return (
     <>
-      <Carousel setApi={setApi} className="bg-amber-600">
+      <Carousel setApi={setApi} className="">
         <CarouselContent className="m-auto">
           {imgs.length > 0 &&
             imgs?.map(
               (img: { url: string }, index: React.Key | null | undefined) => (
-                <CarouselItem className="h-60 w-full relative" key={index}>
-                  <Image fill src={img.url} alt={`Product Image ${img.url}`} />
+                <CarouselItem className="h-60 w-full  relative" key={index}>
+                  <Image
+                    className="object-cover"
+                    fill
+                    src={img.url}
+                    alt={`Product Image ${img.url}`}
+                  />
                   {handleRemove && (
                     <button
                       type="button"

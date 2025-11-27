@@ -6,7 +6,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --text: #101619;
-    --my-primary: #5598b7;
+    --my-primary: #0074b8;
     --secondary: #94c4db;
     --accent: #6bb5d8;
     --borders-and-shadows: #ccc;
@@ -39,13 +39,14 @@
 } */
 
 html {
-  font-size: 19px;
+  /* font-size: 19px; */
 }
 body {
   color: var(--text);
   background-color: var(--my-background);
   margin: 0;
   padding: 0;
+  /* padding-top: 65px; */
 }
 
 /* ========== Base Styles ========== */
@@ -164,7 +165,8 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: -webkit-linear-gradient(45deg, #1a79a4, #0975a8);
+  background-color: #0074b8;
+  /* background: -webkit-linear-gradient(45deg, #1a79a4, #0975a8); */
   /* background-color: var(--my-background); */
 }
 nav a {
@@ -277,6 +279,9 @@ nav a {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+  --my-background: #eee;
+  --my-foreground: #fff;
+  /* --my-primary: #5598b7; */
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
@@ -311,6 +316,10 @@ nav a {
 .dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
+  --my-background: #eee;
+  --my-foreground: #fff;
+  /* --my-primary: #5598b7; */
+
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);

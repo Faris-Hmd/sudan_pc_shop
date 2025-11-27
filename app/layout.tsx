@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.className}  antialiased`}>
+      <body className={`${roboto.className} antialiased`}>
         <Toaster position="top-center" expand />
         <Navbar />
         {children}
@@ -34,7 +34,7 @@ export default function RootLayout({
 }
 function Navbar() {
   return (
-    <nav>
+    <nav className=" backdrop-blur-3xl sticky top-0 right-0  z-20  opacity-95">
       <div className="flex justify-between items-center">
         <Link href={"/"} className="logo">
           Elneelen shop
@@ -45,7 +45,7 @@ function Navbar() {
       </div>
 
       <div className="flex m-2 p-0.5 rounded-full border border-gray-400 justify-around items-center">
-        <Link className="flex items-center" href="/Dashboard">
+        <Link className="flex items-center" href="/Dashboard/productsSet">
           <Settings size={18} />
         </Link>
         <Avatar>

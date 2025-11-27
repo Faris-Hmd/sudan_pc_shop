@@ -7,7 +7,13 @@ import { useState } from "react";
 import ProductImgCarousel from "../../../comp/carousel";
 import { upload } from "@vercel/blob/client";
 import { toast } from "sonner";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 export default function ProductImgUplpad() {
   const [imgs, setImgs] = useState([]);
   const [pending, setPending] = useState(false);
@@ -132,17 +138,25 @@ export default function ProductImgUplpad() {
         <input type="number" name="p_cost" required />
 
         <label htmlFor="p_cat">Categories</label>
-        <select name="p_cat" id="p_cat" required>
-          {categories.length > 0 ? (
-            categories.map((cat, index) => (
-              <option key={index} value={cat}>
-                {cat}
+
+        <Select name="p_cat">
+          <SelectTrigger className="w-full ">
+            <SelectValue placeholder="Categories" />
+          </SelectTrigger>
+          <SelectContent>
+            {categories.length > 0 ? (
+              categories.map((cat) => (
+                <SelectItem key={cat} value={cat}>
+                  {cat}
+                </SelectItem>
+              ))
+            ) : (
+              <option key={"no"} disabled>
+                No categories found
               </option>
-            ))
-          ) : (
-            <option disabled>No categories found</option>
-          )}
-        </select>
+            )}
+          </SelectContent>
+        </Select>
         <div
           style={{
             display: "flex",

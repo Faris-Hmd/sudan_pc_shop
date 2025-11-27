@@ -7,6 +7,13 @@ import ProductImgCarousel from "../../../comp/carousel";
 import { upload } from "@vercel/blob/client";
 import { product_update } from "../../../actions/product_update";
 import { toast } from "sonner";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function UpdateForm({ product }) {
   const [imgs, setImgs] = useState(product.p_imgs);
@@ -140,18 +147,25 @@ export default function UpdateForm({ product }) {
       />
 
       <label htmlFor="p_cat">Categories</label>
-      <select defaultValue={product.p_cat} name="p_cat" id="p_cat" required>
-        {categories.length > 0 ? (
-          categories.map((cat, index) => (
-            <option key={index} value={cat}>
-              {cat}
-            </option>
-          ))
-        ) : (
-          <option disabled>No categories found</option>
-        )}
-      </select>
 
+      <Select defaultValue={product.p_cat} name="p_cat">
+        <SelectTrigger className="w-full ">
+          <SelectValue placeholder="Categpries" />
+        </SelectTrigger>
+        <SelectContent>
+          {categories.length > 0 ? (
+            categories.map((cat) => (
+              <SelectItem key={cat} value={cat}>
+                {cat}
+              </SelectItem>
+            ))
+          ) : (
+            <option key={"no"} disabled>
+              No categories found
+            </option>
+          )}
+        </SelectContent>
+      </Select>
       <div
         style={{
           display: "flex",
