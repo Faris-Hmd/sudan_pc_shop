@@ -12,11 +12,14 @@ import { categories } from "../data/categories";
 import { Suspense } from "react";
 export default async function Component() {
   let productsNum = 0;
+  const sliseNum = process.env.NODE_ENV === "development" ? 15 : 0;
+  console.log(sliseNum);
+
   async function countProductsByCategory(): Promise<
     { category: string; quantity: number; fill: string }[]
   > {
     const results: { category: string; quantity: number; fill: string }[] = [];
-    for (const category of categories.slice(0, 16)) {
+    for (const category of categories.slice(sliseNum, 16)) {
       const q = query(
         collection(db, "products"),
         where("p_cat", "==", category)

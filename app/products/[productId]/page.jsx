@@ -25,10 +25,9 @@ export default async function ProductsDetails({ params }) {
       <ProductImgCarousel imgs={product.p_imgs} />
       <div className="p-2">
         <div className="product_d_name">{product.p_name}</div>
-
         <div className="wrapper">
-          <span className="cost">{product.p_cost}</span>
-          <span className="category"> | {product.p_cat}</span>
+          <span className="text-green-700 text-xs">{product.p_cost} SDG</span>
+          <span className="category text-xs"> | {product.p_cat}</span>
         </div>
         <div className="product_d_details">
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sequi,

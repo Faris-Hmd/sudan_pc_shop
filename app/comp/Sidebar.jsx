@@ -14,7 +14,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
 import {
   ChartLine,
+  ChartSpline,
   Contact,
+  Heart,
   Home,
   Info,
   LogOut,
@@ -68,9 +70,17 @@ export default function AppSidebar() {
               <SidebarMenuItem>
                 <Link
                   className="p-3 flex items-center justify-start gap-2 bg-white"
+                  href="/products"
+                >
+                  <Heart size={18} /> Whishlist
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link
+                  className="p-3 flex items-center justify-start gap-2 bg-white"
                   href="/Dashboard"
                 >
-                  <ChartLine size={18} /> Aanaltics
+                  <ChartSpline size={18} /> Overview
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
