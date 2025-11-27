@@ -6,10 +6,12 @@ import { useState } from "react";
 import ProductImgCarousel from "../../../comp/carousel";
 import { upload } from "@vercel/blob/client";
 import { product_update } from "../../../actions/product_update";
+import { toast } from "sonner";
 
 export default function UpdateForm({ product }) {
   const [imgs, setImgs] = useState(product.p_imgs);
   const [pending, setPending] = useState(false);
+  console.log();
 
   function handleImgChange(e) {
     const { files } = e.target;
@@ -39,33 +41,39 @@ export default function UpdateForm({ product }) {
     function wait(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
-    await wait(3000);
-    if (imgs.length === 0) {
-      setPending(false);
-      console.log("empty imgas");
-      return;
-    }
-    const fd = new FormData(e.target);
-    let productImgsUrl = [];
-    for (const img of imgs) {
-      if (img.url) {
-        productImgsUrl.push({ url: img.url });
-      } else {
-        const newBlob = await upload(
-          img.productImgFile.name,
-          img.productImgFile,
-          {
-            access: "public",
-            handleUploadUrl: "/api/uploadImgs",
-          }
-        );
-        productImgsUrl.push({ url: newBlob.url });
+    try {
+      if (imgs.length === 0) {
+        setPending(false);
+        throw new Error("Add Images");
       }
+      const fd = new FormData(e.target);
+      let productImgsUrl = [];
+      for (const img of imgs) {
+        if (!img.url.startsWith("blob")) {
+          productImgsUrl.push({ url: img.url });
+        } else {
+          const newBlob = await upload(
+            img.productImgFile.name,
+            img.productImgFile,
+            {
+              access: "public",
+              handleUploadUrl: "/api/uploadImgs",
+            }
+          );
+          productImgsUrl.push({ url: newBlob.url });
+        }
+      }
+      fd.set("p_imgs", JSON.stringify(productImgsUrl));
+      fd.set("id", product.id);
+      await product_update(fd);
+    } catch (error) {
+      if (error.message === "NEXT_REDIRECT") {
+        return;
+      }
+      console.log(error);
+      toast.error(error.message);
+      setPending(false);
     }
-
-    fd.set("p_imgs", JSON.stringify(productImgsUrl));
-    fd.set("id", product.id);
-    await product_update(fd);
   }
 
   return (
@@ -78,6 +86,11 @@ export default function UpdateForm({ product }) {
         <ProductImgCarousel handleRemove={handleRemove} imgs={imgs} />
       ) : (
         <img className="h-60" src={"/placeholder.png"} />
+      )}
+      {pending && (
+        <div className="z-50 cursor-progress overlay w-full h-full  opacity-50 backdrop-blur-3xl absolute top-0 right-0 bg-white flex items-center justify-center">
+          <Loader className={"animate-spin "} />
+        </div>
       )}
       {pending ? (
         <div className="flex justify-end">

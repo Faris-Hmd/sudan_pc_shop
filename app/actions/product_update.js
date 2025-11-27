@@ -3,6 +3,7 @@
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../db/firebase";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export async function product_update(formData) {
   // Add a new document with a generated id.
@@ -15,7 +16,7 @@ export async function product_update(formData) {
     p_imgs: JSON.parse(formData.get("p_imgs")),
   });
   // console.log("Document written with ID: ", docRef.id);
-
+  revalidatePath("/products/" + docRef.id);
   redirect("/Dashboard/productsSet");
   // Process data (e.g., save to database)
 }

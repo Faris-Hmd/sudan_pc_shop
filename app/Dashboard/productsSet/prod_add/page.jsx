@@ -28,31 +28,37 @@ export default function ProductImgUplpad() {
   async function handleProductImgsSubmit(e) {
     e.preventDefault();
     setPending(true);
-    function wait(ms) {
-      return new Promise((resolve) => setTimeout(resolve, ms));
-    }
-    // await wait(3000);
-    if (imgs.length === 0) {
+    try {
+      function wait(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+      if (imgs.length === 0) {
+        throw new Error("Add images!");
+      }
+      await wait(10000);
+      const fd = new FormData(e.target);
+      let productImgsUrl = [];
+      for (const img of imgs) {
+        const newBlob = await upload(
+          img.productImgFile.name,
+          img.productImgFile,
+          {
+            access: "public",
+            handleUploadUrl: "/api/uploadImgs",
+          }
+        );
+        productImgsUrl.push({ url: newBlob.url });
+      }
+      fd.set("p_imgs", JSON.stringify(productImgsUrl));
+      await product_add(fd);
+    } catch (error) {
+      if (error.message === "NEXT_REDIRECT") {
+        return;
+      }
       setPending(false);
-      console.log("empty imgas");
-      toast.error("Empty Imgs");
-      return;
+      console.log(error);
+      toast.error(error.message);
     }
-    const fd = new FormData(e.target);
-    let productImgsUrl = [];
-    for (const img of imgs) {
-      const newBlob = await upload(
-        img.productImgFile.name,
-        img.productImgFile,
-        {
-          access: "public",
-          handleUploadUrl: "/api/uploadImgs",
-        }
-      );
-      productImgsUrl.push({ url: newBlob.url });
-    }
-    fd.set("p_imgs", JSON.stringify(productImgsUrl));
-    await product_add(fd);
   }
 
   function handleRemove(imgUrl) {
@@ -72,8 +78,13 @@ export default function ProductImgUplpad() {
       <form
         onSubmit={(e) => handleProductImgsSubmit(e)}
         name="shopform"
-        className="add_form"
+        className="add_form relative"
       >
+        {pending && (
+          <div className="z-50 cursor-progress overlay w-full h-full  opacity-50 backdrop-blur-3xl absolute top-0 right-0 bg-white flex items-center justify-center">
+            <Loader className={"animate-spin "} />
+          </div>
+        )}
         <>
           {imgs.length > 0 ? (
             <ProductImgCarousel handleRemove={handleRemove} imgs={imgs} />
@@ -108,7 +119,6 @@ export default function ProductImgUplpad() {
             name="file"
             type="file"
             accept="image/jpeg, image/png, image/webp"
-            required
             onChange={(e) => handleImgChange(e)}
             defaultValue={imgs}
           />
