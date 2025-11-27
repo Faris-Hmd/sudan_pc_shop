@@ -6,7 +6,8 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Search, Settings } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
-
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import AppSidebar from "./comp/Sidebar";
 const roboto = Nunito({
   weight: "500",
   subsets: ["latin"],
@@ -25,9 +26,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto.className} antialiased`}>
-        <Toaster position="top-center" expand />
-        <Navbar />
-        {children}
+        <SidebarProvider>
+          <main className="w-full">
+            <AppSidebar />
+            <Toaster position="top-center" expand />
+            <Navbar />
+            {children}
+          </main>
+        </SidebarProvider>
       </body>
     </html>
   );
@@ -36,19 +42,16 @@ function Navbar() {
   return (
     <nav className=" backdrop-blur-3xl sticky top-0 right-0  z-20  opacity-95">
       <div className="flex justify-between items-center">
+        <SidebarTrigger size={"icon-sm"} className="ms-1" />
         <Link href={"/"} className="logo">
           Elneelen shop
-        </Link>{" "}
-        <Link className="p-1 flex gap-1 items-center" href="/products">
-          <Search size={18} />
         </Link>
       </div>
-
-      <div className="flex m-2 p-0.5 rounded-full border border-gray-400 justify-around items-center">
-        <Link className="flex items-center" href="/Dashboard/productsSet">
-          <Settings size={18} />
-        </Link>
-        <Avatar>
+      <div className="flex items-center justify-center gap-1">
+        <Link className="p-1 flex gap-1 items-center" href="/products">
+          <Search size={18} />
+        </Link>{" "}
+        <Avatar className="me-2">
           <AvatarImage
             width={30}
             className="rounded-full"

@@ -22,7 +22,7 @@ export default async function Home() {
         {products && products?.length > 0 ? (
           products.map((row) => (
             <div
-              className="w-40 bg-white shadow border rounded overflow-hidden"
+              className="w-48 bg-white shadow border rounded overflow-hidden"
               key={row.id}
             >
               <Link href={`products/${row.id}`} className="relative">
