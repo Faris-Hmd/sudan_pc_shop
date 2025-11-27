@@ -6,8 +6,10 @@ export async function getProducts(search_word, limitCount = 100) {
   const limitQ = query(productsRef, limit(limitCount));
   const q = query(
     productsRef,
-    where("p_name", ">=", search_word || ""),
-    where("p_name", "<=", (search_word || "") + "\uf8ff"),
+
+    where("p_cat", "==", search_word || ""),
+    // where("p_name", ">=", search_word || ""),
+    // where("p_name", "<=", (search_word || "") + "\uf8ff"),
     limit(limitCount)
   );
   const querySnapshot = await getDocs(search_word != "" ? q : limitQ);
