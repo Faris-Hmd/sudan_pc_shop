@@ -40,7 +40,7 @@ export default function RootLayout({
 }
 function Navbar() {
   return (
-    <nav className=" backdrop-blur-3xl sticky top-0 right-0  z-20  opacity-95">
+    <nav className=" backdrop-blur-3xl sticky top-0 right-0  z-10  opacity-95">
       <div className="flex justify-between items-center">
         <SidebarTrigger size={"icon-sm"} className="ms-1" />
         <Link href={"/"} className="logo">

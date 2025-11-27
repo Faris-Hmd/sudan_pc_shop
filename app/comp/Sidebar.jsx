@@ -8,6 +8,7 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
+  SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Switch } from "@/components/ui/switch";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
@@ -29,8 +30,14 @@ import Link from "next/link";
 
 export default function AppSidebar() {
   return (
-    <Sidebar className="">
+    <Sidebar className="z-50">
       <SidebarHeader>
+        <div className="flex justify-between items-center">
+          <Link href={"/"} className="logo">
+            Elneelen shop
+          </Link>
+          <SidebarTrigger size={"icon-sm"} className="ms-1" />
+        </div>
         <div className="p-2 flex items-center justify-between bg-blue-500 text-white rounded-2xl shadow-2xl">
           <Avatar className="me-2 ">
             <AvatarImage

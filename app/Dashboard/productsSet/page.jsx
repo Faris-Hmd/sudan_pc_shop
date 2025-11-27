@@ -16,7 +16,7 @@ export default async function ProductTable({ searchParams }) {
     <div>
       <div className="bg-white flex justify-between items-center mb-2 p-2 border-b shadow flex-wrap">
         <div className="w-full flex justify-between items-center mb-2">
-          <span> Producst list </span>
+          <span> Products list </span>
           <Link
             href="/Dashboard/productsSet/prod_add"
             className="add_product_link flex justify-center items-center gap-1"

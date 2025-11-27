@@ -45,19 +45,17 @@ export default async function Component() {
 
   return (
     <>
+      {" "}
+      <div className="bg-white flex justify-between items-center mb-2 p-2 border-b shadow flex-wrap">
+        <h3>Overview</h3>
+      </div>
       <div className="m-2  grid gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {" "}
         <div className="grid gap-2">
-          {/* <ChartRadialStacked /> */}
           <SectionCards productsNum={productsNum} />
           <Chart data={chartData} />
         </div>
-        <div className="">
-          <Suspense fallback={<div>Loading...</div>}>
-            <ChartPieInteractive categories={chartData} />
-          </Suspense>
-        </div>
-        <div className=""></div>
+        <ChartPieInteractive categories={chartData} />
       </div>
     </>
   );
