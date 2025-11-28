@@ -3,7 +3,7 @@
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../db/firebase";
 import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
+// import { revalidatePath } from "next/cache";
 
 export async function product_add(formData) {
   // console.log("foooorm data === ", formData);
@@ -16,6 +16,6 @@ export async function product_add(formData) {
     p_imgs: JSON.parse(formData.get("p_imgs")),
   });
   console.log("Document written with ID: ", docRef.id);
-  revalidatePath("/");
+  // revalidatePath("/");
   redirect("/products/" + docRef.id);
 }
