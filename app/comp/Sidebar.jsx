@@ -86,7 +86,7 @@ export default function AppSidebar() {
               <SidebarMenuItem>
                 <Link
                   className="p-3 flex items-center justify-start gap-2 bg-white"
-                  href="/products"
+                  href="/wishlist"
                 >
                   <Heart size={18} /> Whishlist
                 </Link>

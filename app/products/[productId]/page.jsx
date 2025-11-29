@@ -13,7 +13,6 @@ import { getDoc, doc } from "firebase/firestore";
 import { db } from "../../db/firebase";
 import ProductImgCarousel from "@/app/comp/carousel";
 import { getProductsIds } from "../../actions/product_ids";
-import { Heart } from "lucide-react";
 import CarouselDial from "../../comp/CarouselDial";
 import WishlistBtn from "../../comp/WishlistBtn";
 
@@ -45,7 +44,7 @@ export default async function ProductsDetails({ params }) {
           quam!
         </div>
         <div className="flex gap-2">
-          <WishlistBtn />
+          <WishlistBtn productId={productId} />
           <button className="w-full text-white rounded p-2 bg-green-500">
             Pay Now
           </button>
