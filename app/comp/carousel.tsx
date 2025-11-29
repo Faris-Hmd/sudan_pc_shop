@@ -13,7 +13,12 @@ import {
 import Image from "next/image";
 import { Trash2 } from "lucide-react";
 
-export default function ProductImgCarousel({ imgs, handleRemove }: any) {
+export default function ProductImgCarousel({
+  imgs,
+  handleRemove,
+  imgFill,
+  imgH,
+}: any) {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
   const [count, setCount] = React.useState(0);
@@ -38,9 +43,12 @@ export default function ProductImgCarousel({ imgs, handleRemove }: any) {
           {imgs.length > 0 &&
             imgs?.map(
               (img: { url: string }, index: React.Key | null | undefined) => (
-                <CarouselItem className="h-60 w-full  relative" key={index}>
+                <CarouselItem
+                  className={`${imgH} w-full  relative`}
+                  key={index}
+                >
                   <Image
-                    className="object-cover"
+                    className={imgFill}
                     fill
                     src={img.url}
                     alt={`Product Image ${img.url}`}
