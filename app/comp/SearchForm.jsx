@@ -55,7 +55,7 @@ function SearchForm() {
         }}
       >
         {searchParams.get("search_word") && (
-          <Reset size={16} className="text-red-300 cursor-pointer ms-2" />
+          <DeleteIcon size={16} className="text-red-300 cursor-pointer ms-2" />
         )}
       </button>
       <input
