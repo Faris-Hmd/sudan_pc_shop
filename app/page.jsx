@@ -1,6 +1,5 @@
-import Link from "next/link";
 import { getProducts } from "./data/products";
-import Image from "next/image";
+import ProductsList from "./comp/productsList";
 export const revalidate = 15; // revalidate at most every hour
 export const metadata = {
   title: "SPS | products Home",
@@ -12,49 +11,9 @@ export default async function Home() {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
   // await wait(3000);
-  const products = await getProducts("", 500);
+  const products = await getProducts("all", 500);
 
   console.log("revalidate homepage ----"); // image url for MON
 
-  return (
-    <>
-      <div className="p-1 flex justify-around flex-wrap gap-2">
-        {products && products?.length > 0 ? (
-          products.map((row) => (
-            <div
-              className="w-48 bg-white shadow border rounded overflow-hidden"
-              key={row.id}
-            >
-              <Link href={`products/${row.id}`} className="relative">
-                <div className="h-30 w-full ms-auto relative bg-amber-300">
-                  <Image
-                    className="object-cover"
-                    sizes="100"
-                    fill
-                    src={row.p_imgs[0].url}
-                    alt="Product Image"
-                    // className="ms-auto"
-                  />
-                </div>
-              </Link>
-              <div className="p-1 ">
-                <div className="name text-sm font-bold text-[14px]">
-                  {row.p_name}
-                </div>
-                <span className="cost text-[12px]  text-green-600">
-                  {row.p_cost} SDG
-                </span>
-                <span className="category text-[12px] text-gray-500">
-                  {" "}
-                  | {row.p_cat}
-                </span>
-              </div>
-            </div>
-          ))
-        ) : (
-          <div className="no_product">No products available</div>
-        )}
-      </div>
-    </>
-  );
+  return <ProductsList products={products} />;
 }

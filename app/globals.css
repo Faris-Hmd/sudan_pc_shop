@@ -85,7 +85,7 @@ select {
 
 .searchform {
   font-size: 12px;
-  margin: auto;
+  margin: 5px auto;
   width: 99%;
   padding: 0px;
   display: flex;
@@ -93,7 +93,7 @@ select {
   justify-content: center;
   gap: 5px;
   border-radius: 8px;
-  background-color: var(--foreround);
+  background-color: var(--my-foreground);
   border: 1px solid var(--borders-and-shadows);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }

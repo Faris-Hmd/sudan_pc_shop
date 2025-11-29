@@ -1,5 +1,5 @@
 "use client";
-import { DeleteIcon, Search, X } from "lucide-react";
+import { DeleteIcon, Search } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   Select,
@@ -9,15 +9,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { categories } from "../data/categories";
-function SearchForm() {
+function TableSearchForm() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
   const params = new URLSearchParams(searchParams);
-  // console.log("pathname", pathname.split("/")[3]);
 
   function handleCatOnchange(cat) {
-    replace(`/products/categories/${cat.toString()}`);
+    replace(`${pathname}?key=p_cat&value=${cat.toString()}`);
   }
   function handleOnchange(event) {
     event.preventDefault();
@@ -26,49 +25,56 @@ function SearchForm() {
     } else {
       params.delete("search_word");
     }
-    replace(`${pathname}?${params.toString()}`);
+    replace(`${pathname}?p_name=${params.toString()}`);
   }
 
   function handleSubmit(event) {
     event.preventDefault();
-
     const formData = new FormData(event.target);
     const values = Object.fromEntries(formData.entries());
-    if (values.search_word.trim() !== "") {
+    if (values.p_name.trim() !== "") {
       console.log("if true");
-      params.set("search_word", event.target[0].value);
+      params.set("p_name", event.target[1].value);
     } else {
-      params.delete("search_word");
+      params.delete("p_name");
     }
-    replace(`/products?${params.toString()}`);
+    replace(`${pathname}?key=p_name&value=${params.get("p_name")}`);
   }
   return (
     <form
       onSubmit={(e) => handleSubmit(e)}
       name="searchform"
-      className="searchform"
+      className="searchform bg-white"
     >
+      <button
+        type="button"
+        onClick={() => {
+          replace(`${pathname}`);
+        }}
+      >
+        {searchParams.get("key") && (
+          <DeleteIcon size={16} className="text-red-300 cursor-pointer ms-2" />
+        )}
+      </button>
       <input
         // onChange={(e) => handleOnchange(e)}
         required
         type="text"
-        name="search_word"
+        name="p_name"
         placeholder="Enter product name"
-        defaultValue={searchParams.get("search_word") || ""}
+        defaultValue={
+          searchParams.get("key") === "p_neme"
+            ? searchParams.get("value")
+            : "" || ""
+        }
       />
-      <button
-        type="button"
-        onClick={() => {
-          params.delete("search_word");
-          replace(`${pathname}?${params.toString()}`);
-        }}
-      >
-        {searchParams.get("search_word") && (
-          <DeleteIcon size={16} className="text-red-300 cursor-pointer" />
-        )}
-      </button>
+
       <Select
-        defaultValue={pathname.split("/")[3] || ""}
+        defaultValue={
+          searchParams.get("key") === "p_cat"
+            ? searchParams.get("value")
+            : "" || ""
+        }
         name="search_word"
         onValueChange={(e) => handleCatOnchange(e)}
       >
@@ -89,13 +95,14 @@ function SearchForm() {
           )}
         </SelectContent>
       </Select>
-      <div className="flex items-center submitBtn">
-        <Search size={18} />{" "}
-        <button type="submit" value="Search" id="" className="">
-          Search
-        </button>
-      </div>
+      <button
+        type="submit"
+        value="Search"
+        className="flex items-center submitBtn"
+      >
+        <Search size={18} /> Search
+      </button>
     </form>
   );
 }
-export default SearchForm;
+export default TableSearchForm;

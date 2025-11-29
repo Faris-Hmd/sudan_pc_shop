@@ -17,6 +17,7 @@ import {
   ChartLine,
   ChartSpline,
   Contact,
+  Grid2X2,
   Heart,
   Home,
   Info,
@@ -72,6 +73,14 @@ export default function AppSidebar() {
                   href="/products"
                 >
                   <Search size={18} /> Search
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link
+                  className="p-3 flex items-center justify-start gap-2 bg-white"
+                  href="/products/categories"
+                >
+                  <Grid2X2 size={18} /> Categories
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>

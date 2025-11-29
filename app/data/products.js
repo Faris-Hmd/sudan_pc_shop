@@ -1,18 +1,46 @@
-import { collection, getDocs, limit, query, where } from "firebase/firestore";
+import {
+  collection,
+  endAt,
+  getDocs,
+  limit,
+  orderBy,
+  query,
+  startAt,
+  where,
+} from "firebase/firestore";
 import { db } from "../db/firebase";
 
-export async function getProducts(search_word, limitCount = 100) {
+export async function getProducts(key = "", value = "", limitCount = 100) {
   const productsRef = collection(db, "productsTest");
   const limitQ = query(productsRef, limit(limitCount));
-  const q = query(
-    productsRef,
+  console.log(key, value);
+  let q;
+  switch (key) {
+    case "p_name":
+      q = query(
+        productsRef,
+        orderBy(key),
+        startAt(value),
+        endAt(value + "\uf8ff")
+      );
+      console.log(key);
+      break;
+    case "p_cat":
+      q = query(productsRef, where("p_cat", "==", value));
+      console.log(key);
 
-    where("p_cat", "==", search_word || ""),
-    // where("p_name", ">=", search_word || ""),
-    // where("p_name", "<=", (search_word || "") + "\uf8ff"),
-    limit(limitCount)
-  );
-  const querySnapshot = await getDocs(search_word != "" ? q : limitQ);
+      break;
+    case "all":
+      q = query(productsRef);
+      console.log(key);
+
+      break;
+    default:
+      q = query(productsRef, limit(limitCount));
+      break;
+  }
+
+  const querySnapshot = await getDocs(q);
   const products = querySnapshot.docs.map((doc) => ({
     ...doc.data(),
     id: doc.id,
