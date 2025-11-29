@@ -13,7 +13,7 @@ import { db } from "../db/firebase";
 export async function getProducts(key = "", value = "", limitCount = 100) {
   const productsRef = collection(db, "productsTest");
   const limitQ = query(productsRef, limit(limitCount));
-  console.log(key, value);
+  // console.log(key, value);
   let q;
   switch (key) {
     case "p_name":
@@ -23,11 +23,11 @@ export async function getProducts(key = "", value = "", limitCount = 100) {
         startAt(value),
         endAt(value + "\uf8ff")
       );
-      console.log(key);
+      // console.log(key);
       break;
     case "p_cat":
       q = query(productsRef, where("p_cat", "==", value));
-      console.log(key);
+      // console.log(key);
 
       break;
     case "all":

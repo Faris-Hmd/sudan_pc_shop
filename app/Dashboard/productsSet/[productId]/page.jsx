@@ -9,7 +9,7 @@ export async function UpdateFormPage({ params }) {
   const product = docsnapshot.exists()
     ? { ...docsnapshot.data(), id: docsnapshot.id }
     : {};
-  console.log(product);
+  // console.log(product);
 
   return (
     <>

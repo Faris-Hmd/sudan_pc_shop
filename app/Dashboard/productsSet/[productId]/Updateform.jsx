@@ -18,7 +18,7 @@ import {
 export default function UpdateForm({ product }) {
   const [imgs, setImgs] = useState(product.p_imgs);
   const [pending, setPending] = useState(false);
-  console.log();
+  // console.log();
 
   function handleImgChange(e) {
     const { files } = e.target;
@@ -87,12 +87,12 @@ export default function UpdateForm({ product }) {
     <form
       onSubmit={(e) => handleProductImgsSubmit(e)}
       name="shopform"
-      className="add_form"
+      className="add_form relative"
     >
       {imgs.length > 0 ? (
         <ProductImgCarousel handleRemove={handleRemove} imgs={imgs} />
       ) : (
-        <img className="h-60" src={"/placeholder.png"} />
+        <img className="h-60 object-contain" src={"/placeholder.png"} />
       )}
       {pending && (
         <div className="z-50 cursor-progress overlay w-full h-full  opacity-50 backdrop-blur-3xl absolute top-0 right-0 bg-white flex items-center justify-center">

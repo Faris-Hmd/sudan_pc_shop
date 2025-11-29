@@ -36,7 +36,7 @@ function SearchForm() {
     const values = Object.fromEntries(formData.entries());
     if (values.search_word.trim() !== "") {
       console.log("if true");
-      params.set("search_word", event.target[0].value);
+      params.set("search_word", event.target[1].value);
     } else {
       params.delete("search_word");
     }
@@ -48,6 +48,16 @@ function SearchForm() {
       name="searchform"
       className="searchform"
     >
+      <button
+        type="reset"
+        onClick={() => {
+          replace(`${pathname}`);
+        }}
+      >
+        {searchParams.get("search_word") && (
+          <Reset size={16} className="text-red-300 cursor-pointer ms-2" />
+        )}
+      </button>
       <input
         // onChange={(e) => handleOnchange(e)}
         required
@@ -56,17 +66,7 @@ function SearchForm() {
         placeholder="Enter product name"
         defaultValue={searchParams.get("search_word") || ""}
       />
-      <button
-        type="button"
-        onClick={() => {
-          params.delete("search_word");
-          replace(`${pathname}?${params.toString()}`);
-        }}
-      >
-        {searchParams.get("search_word") && (
-          <DeleteIcon size={16} className="text-red-300 cursor-pointer" />
-        )}
-      </button>
+
       <Select
         defaultValue={pathname.split("/")[3] || ""}
         name="search_word"
@@ -89,12 +89,12 @@ function SearchForm() {
           )}
         </SelectContent>
       </Select>
-      <div className="flex items-center submitBtn">
+      <button type="submit" className="flex items-center submitBtn">
         <Search size={18} />{" "}
-        <button type="submit" value="Search" id="" className="">
+        <div type="submit" value="Search" id="" className="">
           Search
-        </button>
-      </div>
+        </div>
+      </button>
     </form>
   );
 }

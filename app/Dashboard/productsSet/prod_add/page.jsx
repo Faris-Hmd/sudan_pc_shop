@@ -95,7 +95,7 @@ export default function ProductImgUplpad() {
           {imgs.length > 0 ? (
             <ProductImgCarousel handleRemove={handleRemove} imgs={imgs} />
           ) : (
-            <img className="h-60" src={"/placeholder.png"} />
+            <img className="h-60 object-cover" src={"/placeholder.png"} />
           )}
           {pending ? (
             <div className="flex justify-end">

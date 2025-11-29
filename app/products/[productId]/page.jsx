@@ -1,5 +1,5 @@
 export async function generateStaticParams() {
-  console.log(await getProductsIds());
+  // console.log(await getProductsIds());
 
   return await getProductsIds();
 }

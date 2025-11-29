@@ -33,7 +33,7 @@ function TableSearchForm() {
     const formData = new FormData(event.target);
     const values = Object.fromEntries(formData.entries());
     if (values.p_name.trim() !== "") {
-      console.log("if true");
+      //   console.log("if true");
       params.set("p_name", event.target[1].value);
     } else {
       params.delete("p_name");
