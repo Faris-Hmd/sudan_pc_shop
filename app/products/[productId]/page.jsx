@@ -1,8 +1,8 @@
 export async function generateStaticParams() {
   // console.log(await getProductsIds());
-
   return await getProductsIds();
 }
+export const revalidate = 15; // revalidate at most every hour
 import { getDoc, doc } from "firebase/firestore";
 import { db } from "../../db/firebase";
 import ProductImgCarousel from "@/app/comp/carousel";
