@@ -9,7 +9,7 @@ export const metadata = {
 export default async function Home({ searchParams }) {
   const { search_word } = await searchParams;
   let products = [];
-  console.log(search_word);
+  // console.log(search_word);
 
   if (search_word !== undefined) {
     products = await getProducts("p_name", search_word);

@@ -8,6 +8,8 @@ import { Search, Settings } from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import AppSidebar from "./comp/Sidebar";
+import { auth } from "@/auth";
+import { log } from "console";
 const roboto = Nunito({
   weight: "500",
   subsets: ["latin"],
@@ -38,7 +40,8 @@ export default function RootLayout({
     </html>
   );
 }
-function Navbar() {
+async function Navbar() {
+  const sess = await auth();
   return (
     <nav className=" backdrop-blur-3xl sticky top-0 right-0  z-10  opacity-95">
       <div className="flex justify-between items-center">
@@ -55,7 +58,11 @@ function Navbar() {
           <AvatarImage
             width={30}
             className="rounded-full"
-            src="https://github.com/evilrabbit.png"
+            src={
+              sess?.user?.image
+                ? sess?.user?.image
+                : "https://github.com/evilrabbit.png"
+            }
           />
           <AvatarFallback className="m-1">CN</AvatarFallback>
         </Avatar>

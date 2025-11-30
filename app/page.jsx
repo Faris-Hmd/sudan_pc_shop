@@ -1,5 +1,9 @@
 import { getProducts } from "./data/products";
 import ProductsList from "./comp/productsList";
+import Signin from "./comp/Signin";
+import Signout from "./comp/Signout";
+import { auth } from "@/auth";
+import { log } from "console";
 export const revalidate = 15; // revalidate at most every hour
 export const metadata = {
   title: "SPS | products Home",
@@ -12,8 +16,15 @@ export default async function Home() {
   }
   // await wait(3000);
   const products = await getProducts("all", 500);
+  const sess = await auth();
+  // log(sess?.);
+  // console.log("revalidate homepage ----"); // image url for MON
 
-  console.log("revalidate homepage ----"); // image url for MON
-
-  return <ProductsList products={products} />;
+  return (
+    <>
+      <Signin />
+      <Signout />
+      <ProductsList products={products} />;
+    </>
+  );
 }

@@ -1,27 +1,30 @@
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
-import React from "react";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../db/firebase";
 import ProductsList from "../comp/productsList";
 import { log } from "console";
+import { auth } from "@/auth";
 
 async function Wishlist() {
-  const wishlistRef = collection(db, "users", "faris", "whish");
+  const sess = await auth();
+  const wishlistRef = collection(db, "users", sess.user.email, "whish");
   const querySnapshot = await getDocs(wishlistRef);
-  const wishlistIds = querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-  }));
-  let products = [];
-  log(wishlistIds);
-  for (const wishProductsId of wishlistIds) {
-    log(wishProductsId.id.toString());
-    const productRef = doc(db, "productsTest", wishProductsId.id.toString());
-    const _querySnapshot = await getDoc(productRef);
-    if (_querySnapshot.exists()) {
-      products.push({ ..._querySnapshot.data(), id: _querySnapshot.id });
-    }
-  }
+  const wishlistIds = querySnapshot.docs.map((doc) => doc.id);
 
-  //   console.log(products);
+  const productsSnapShop = await getDocs(
+    query(collection(db, "productsTest"), where("__name__", "in", wishlistIds))
+  );
+  const products = productsSnapShop.docs.map((product) => ({
+    ...product.data(),
+    id: product.id,
+  }));
+
   return (
     <div>
       <ProductsList products={products} />
