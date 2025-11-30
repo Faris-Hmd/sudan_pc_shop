@@ -28,7 +28,7 @@ export default function RootLayout({
           <main className="w-full">
             <AppSidebar />
             <Toaster position="top-center" expand />
-            <NavBar />
+            
             {children}
           </main>
         </SidebarProvider>
