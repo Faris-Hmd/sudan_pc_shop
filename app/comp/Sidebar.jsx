@@ -1,4 +1,3 @@
-import { SelectLabel } from "@/components/ui/select";
 import {
   Sidebar,
   SidebarContent,
@@ -11,23 +10,21 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Switch } from "@/components/ui/switch";
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-
 import {
   ChartLine,
   ChartSpline,
-  Contact,
   Grid2X2,
   Heart,
   Home,
   Info,
-  LogOut,
   Search,
   Settings,
   Thermometer,
   UserCog2,
 } from "lucide-react";
 import Link from "next/link";
+import SignToggle from "./SignToggle";
+import UserInfo from "./UserInfo";
 
 export default function AppSidebar() {
   return (
@@ -39,21 +36,7 @@ export default function AppSidebar() {
           </Link>
           <SidebarTrigger size={"icon-sm"} className="ms-1" />
         </div>
-        <div className="p-2 flex items-center justify-between bg-blue-500 text-white rounded-2xl shadow-2xl">
-          <Avatar className="me-2 ">
-            <AvatarImage
-              width={40}
-              className="rounded-full"
-              src="https://github.com/evilrabbit.png"
-            />
-            <AvatarFallback className="m-1">CN</AvatarFallback>
-          </Avatar>{" "}
-          <div className="grow ">
-            <div>Faris Hamad</div>
-            <div className="text-xs text-muted">farishmd@gmail.com</div>
-          </div>
-          <Settings size={17} />
-        </div>
+        <UserInfo />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
@@ -144,12 +127,7 @@ export default function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu className="rounded-2xl ">
               <SidebarMenuItem>
-                <Link
-                  className="p-3 flex items-center justify-start gap-2 bg-white"
-                  href="/Dashboard"
-                >
-                  <Contact size={18} /> Contact Us
-                </Link>
+                <SignToggle />
               </SidebarMenuItem>
               <SidebarMenuItem>
                 {" "}
@@ -171,14 +149,6 @@ export default function AppSidebar() {
                 <div className="flex items-center space-x-2 me-4">
                   <Switch id="airplane-mode" />
                 </div>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <Link
-                  className="p-3 flex items-center gap-2 bg-white"
-                  href="/Dashboard/productsSet"
-                >
-                  <LogOut size={18} /> Logout
-                </Link>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

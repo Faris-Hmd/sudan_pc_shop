@@ -445,7 +445,7 @@ function SidebarGroupContent({
 
   return (
     <div
-      onClick={toggleSidebar}
+      // onClick={toggleSidebar}
       data-slot="sidebar-group-content"
       data-sidebar="group-content"
       className={cn("w-full text-sm", className)}
