@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 import AppSidebar from "./comp/Sidebar";
 import NavBar from "./comp/NavBar";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { SessionProvider } from "next-auth/react";
 const roboto = Nunito({
   weight: "500",
   subsets: ["latin"],
@@ -24,14 +25,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${roboto.className} antialiased`}>
-        <SidebarProvider>
-          <main className="w-full">
-            <AppSidebar />
-            <Toaster position="top-center" expand />
-            <NavBar />
-            {children}
-          </main>
-        </SidebarProvider>
+        <SessionProvider>
+          <SidebarProvider>
+            <main className="w-full">
+              <AppSidebar />
+              <Toaster position="top-center" expand />
+              <NavBar />
+              {children}
+            </main>
+          </SidebarProvider>
+        </SessionProvider>
       </body>
     </html>
   );

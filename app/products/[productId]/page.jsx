@@ -42,7 +42,7 @@ export default async function ProductsDetails({ params }) {
           quam!
         </div>
         <div className="flex gap-2">
-          <WishlistBtn productId={productId} />
+          {/* <WishlistBtn productId={productId} /> */}
           <button className="w-full text-white rounded p-2 bg-green-600">
             Pay Now
           </button>

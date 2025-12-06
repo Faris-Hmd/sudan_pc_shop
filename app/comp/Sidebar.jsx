@@ -26,10 +26,10 @@ import Link from "next/link";
 import SignToggle from "./SignToggle";
 import UserInfo from "./UserInfo";
 
-export default function AppSidebar() {
+export default async function AppSidebar() {
   return (
     <Sidebar className="z-50">
-      <SidebarHeader>
+      <SidebarHeader className="bg-blue-500 text-white bg-gradient-to-br from-sky-700 to-sky-400">
         <div className="flex justify-between items-center">
           <Link href={"/"} className="logo">
             Elneelen shop
@@ -41,7 +41,7 @@ export default function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
-            <SidebarMenu className="rounded-2xl ">
+            <SidebarMenu className="rounded-2xl">
               <SidebarMenuItem>
                 <Link
                   className="p-3 flex items-center justify-start gap-2 bg-white"
@@ -83,7 +83,6 @@ export default function AppSidebar() {
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                {" "}
                 <Link
                   className="p-3 flex items-center gap-2 bg-white"
                   href="/Dashboard/productsSet"
@@ -93,7 +92,6 @@ export default function AppSidebar() {
               </SidebarMenuItem>
 
               <SidebarMenuItem>
-                {" "}
                 <Link
                   className="p-3 items-center flex gap-2 bg-white"
                   href="/Dashboard"
@@ -110,7 +108,6 @@ export default function AppSidebar() {
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                {" "}
                 <Link
                   className="p-3 flex items-center gap-2 bg-white"
                   href="/Dashboard/productsSet"
@@ -130,7 +127,6 @@ export default function AppSidebar() {
                 <SignToggle />
               </SidebarMenuItem>
               <SidebarMenuItem>
-                {" "}
                 <Link
                   className="p-3 flex items-center gap-2 bg-white"
                   href="/Dashboard/productsSet"

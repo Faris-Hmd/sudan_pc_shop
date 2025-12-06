@@ -1,22 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import getUser from "../data/getUser";
 import signOutAction from "../actions/signOutAction";
 import signInAction from "../actions/signInAction";
 import { LogIn, LogOut } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 function SignToggle() {
-  const [user, setSess] = useState();
-  useEffect(() => {
-    async function getAuth() {
-      const authRes = await getUser();
-      setSess(authRes);
-      console.log(authRes);
-    }
-    getAuth();
-  }, []);
-  if (user) {
+  const { data: session, status } = useSession();
+
+  if (session) {
     return (
       <form className="w-full" action={signOutAction}>
         <button

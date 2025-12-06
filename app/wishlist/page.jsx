@@ -1,14 +1,6 @@
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../db/firebase";
 import ProductsList from "../comp/productsList";
-import { log } from "console";
 import { auth } from "@/auth";
 
 async function Wishlist() {

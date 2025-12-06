@@ -159,13 +159,16 @@ td {
 
 /* ========== Navigation ========== */
 nav {
-  color: white;
+  /* color: white; */
   width: 100%;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #0074b8;
+  background-color: #ffffff99;
+  /* background-color: var(--my-foreground); */
+  /* backdrop-filter: blur(20px); */
+  /* -webkit-backdrop-filter: blur(20px); */
   /* background: -webkit-linear-gradient(45deg, #1a79a4, #0975a8); */
   /* background-color: var(--my-background); */
 }

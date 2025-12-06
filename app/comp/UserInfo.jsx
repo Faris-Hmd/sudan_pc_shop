@@ -1,29 +1,25 @@
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Settings } from "lucide-react";
-import { useEffect, useState } from "react";
-import getUser from "../data/getUser";
+import { useSession } from "next-auth/react";
 
 function UserInfo() {
-  const [user, setSess] = useState();
-  useEffect(() => {
-    async function getAuth() {
-      const authRes = await getUser();
-      setSess(authRes);
-    }
-    getAuth();
-    console.log("user info", user);
-  }, []);
-  if (user)
+  const { data: session, status } = useSession();
+
+  if (session)
     return (
-      <div className="p-2 flex items-center justify-between bg-blue-500 text-white rounded-2xl shadow-2xl">
+      <div className="p-2 flex items-center justify-between">
         <Avatar className="me-2 ">
-          <AvatarImage width={40} className="rounded-full" src={user.image} />
+          <AvatarImage
+            width={40}
+            className="rounded-full"
+            src={session.user.image}
+          />
           <AvatarFallback className="m-1">CN</AvatarFallback>
-        </Avatar>{" "}
+        </Avatar>
         <div className="grow ">
-          <div>{user.name}</div>
-          <div className="text-xs text-muted">{user.email}</div>
+          <div>{session.user.name}</div>
+          <div className="text-xs text-muted">{session.user.email}</div>
         </div>
         <Settings size={17} />
       </div>
