@@ -90,7 +90,12 @@ export default function UpdateForm({ product }) {
       className="add_form relative"
     >
       {imgs.length > 0 ? (
-        <ProductImgCarousel handleRemove={handleRemove} imgs={imgs} />
+        <ProductImgCarousel
+          handleRemove={handleRemove}
+          imgs={imgs}
+          imgH={"h-60"}
+          imgFill={"object-cover"}
+        />
       ) : (
         <img className="h-60 object-contain" src={"/placeholder.png"} />
       )}

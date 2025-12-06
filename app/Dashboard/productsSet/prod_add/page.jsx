@@ -93,7 +93,12 @@ export default function ProductImgUplpad() {
         )}
         <>
           {imgs.length > 0 ? (
-            <ProductImgCarousel handleRemove={handleRemove} imgs={imgs} />
+            <ProductImgCarousel
+              imgH={"h-60"}
+              imgFill={"object-cover"}
+              handleRemove={handleRemove}
+              imgs={imgs}
+            />
           ) : (
             <img className="h-60 object-cover" src={"/placeholder.png"} />
           )}

@@ -11,7 +11,8 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import Image from "next/image";
-import { Trash2 } from "lucide-react";
+import { Search, Trash2, ZoomIn } from "lucide-react";
+import CarouselDial from "./CarouselDial";
 
 export default function ProductImgCarousel({
   imgs,
@@ -53,6 +54,8 @@ export default function ProductImgCarousel({
                     src={img.url}
                     alt={`Product Image ${img.url}`}
                   />
+
+                  {imgH !== "h-150" && <CarouselDial imgs={imgs} />}
                   {handleRemove && (
                     <button
                       type="button"
@@ -68,8 +71,8 @@ export default function ProductImgCarousel({
               )
             )}
         </CarouselContent>
-        <CarouselPrevious className="ms-12" />
-        <CarouselNext className="me-12" />
+        <CarouselPrevious className="ms-12" type="button" />
+        <CarouselNext className="me-12" type="button" />
       </Carousel>
 
       <div className="text-muted-foreground py-2 text-center text-sm">
