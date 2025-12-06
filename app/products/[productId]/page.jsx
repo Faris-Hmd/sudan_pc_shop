@@ -30,7 +30,7 @@ export default async function ProductsDetails({ params }) {
       />
       <CarouselDial imgs={product.p_imgs} />
       <div className="p-2">
-        <div className="product_d_name">{product.p_name}</div>
+        <div className="product_d_name ">{product.p_name}</div>
         <div className="wrapper">
           <span className="text-green-700 text-xs">{product.p_cost} SDG</span>
           <span className="category text-xs"> | {product.p_cat}</span>

@@ -12,7 +12,7 @@ function ProductsList({ products }) {
             key={row.id}
           >
             <div
-              className="w-[90%] flex flex-col items-start gap-2 bg-white m-auto my-1 shadow border rounded overflow-hidden "
+              className="w-[95%] flex flex-col items-start gap-2 bg-white m-auto my-1 shadow border rounded overflow-hidden "
               key={row.id}
             >
               <Link href={`/products/${row.id}`} className="relative w-full">
@@ -28,11 +28,11 @@ function ProductsList({ products }) {
                 </div>
               </Link>
               <div className="p-1">
-                <div className="name text-sm font-bold">{row.p_name}</div>
-                <span className="cost text-xs  text-green-600">
+                <div className="name text-xs font-bold">{row.p_name}</div>
+                <span className="text-[11px]  text-green-600">
                   {row.p_cost} SDG
                 </span>
-                <span className="category text-xs text-gray-500">
+                <span className="text-[11px] text-gray-500">
                   {" "}
                   | {row.p_cat}
                 </span>
