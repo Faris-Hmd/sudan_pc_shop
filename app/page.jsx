@@ -2,6 +2,7 @@ import { getProducts } from "./data/products";
 import ProductsList from "./comp/productsList";
 import { Carousel } from "@/components/ui/carousel";
 import ProductsCarousel from "./comp/ProductsCarousel";
+import Hero from "./comp/Hero";
 export const revalidate = 15; // revalidate at most every hour
 export const metadata = {
   title: "SPS | products Home",
@@ -13,6 +14,7 @@ export default async function Home() {
   // console.log("revalidate homepage ----"); // image url for MON
   return (
     <>
+      <Hero />
       <ProductsCarousel products={products} />
       <ProductsList products={products} />;
     </>

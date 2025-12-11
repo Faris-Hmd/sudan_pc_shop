@@ -165,7 +165,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffffff99;
+  /* background-color: #ffffff99; */
   /* background-color: var(--my-foreground); */
   /* backdrop-filter: blur(20px); */
   /* -webkit-backdrop-filter: blur(20px); */
