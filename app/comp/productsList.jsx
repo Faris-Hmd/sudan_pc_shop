@@ -16,7 +16,7 @@ function ProductsList({ products }) {
               key={row.id}
             >
               <Link href={`/products/${row.id}`} className="relative w-full">
-                <div className="h-30 w-full ms-auto  relative">
+                <div className="h-40 w-full ms-auto  relative">
                   <Image
                     className="object-cover"
                     sizes="100"
