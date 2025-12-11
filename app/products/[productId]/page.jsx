@@ -70,7 +70,8 @@ export default async function ProductsDetails({ params }) {
           </div>
         </div>
       </div>
-      <h2 className="p-3">Products with same Category</h2>
+      <div className="text-2xl ps-2 py-3">Products with same Category</div>
+
       <ProductsList products={prodSameCate} />
     </>
   );
