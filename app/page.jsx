@@ -1,8 +1,8 @@
 import { getProducts } from "./data/products";
 import ProductsList from "./comp/productsList";
-import { Carousel } from "@/components/ui/carousel";
 import ProductsCarousel from "./comp/ProductsCarousel";
 import Hero from "./comp/Hero";
+import Categories from "./comp/Categories";
 export const revalidate = 15; // revalidate at most every hour
 export const metadata = {
   title: "SPS | products Home",
@@ -11,12 +11,13 @@ export const metadata = {
 
 export default async function Home() {
   const products = await getProducts("all", 500);
-  // console.log("revalidate homepage ----"); // image url for MON
   return (
     <>
       <Hero />
       <ProductsCarousel products={products} />
-      <ProductsList products={products} />;
+      <Categories />
+      <div className="text-2xl ps-2 py-4">Most Viewed Products</div>
+      <ProductsList products={products.slice(0, 10)} />;
     </>
   );
 }

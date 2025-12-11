@@ -14,14 +14,15 @@ export default function ProductsCarousel({ products }: any) {
       opts={{
         align: "start",
       }}
-      className="w-full m-auto p-3"
+      className="w-full m-auto px-2"
     >
+      <div className="text-2xl pb-4">Offers And Discounts</div>
       <CarouselContent>
         {products?.map((prod: any, index: any) => (
           <CarouselItem key={index} className="relative md:basis-1/3">
             <div className=" w-full flex flex-col items-start gap-2 bg-white m-auto my-1 shadow  rounded overflow-hidden ">
               <Link href={`/products/${prod.id}`} className="relative w-full">
-                <div className="h-60 w-full ms-auto  relative">
+                <div className="h-65 w-full ms-auto  relative">
                   <Image
                     className="object-cover"
                     sizes="100"
@@ -37,7 +38,10 @@ export default function ProductsCarousel({ products }: any) {
                   <span className="text-[11px]  text-green-600">
                     {prod.p_cost} SDG
                   </span>
-                  <span className="text-[11px] text-white">| {prod.p_cat}</span>
+                  <span className="text-[11px] text-white">
+                    {" "}
+                    | {prod.p_cat}
+                  </span>
                 </div>
               </Link>
             </div>
