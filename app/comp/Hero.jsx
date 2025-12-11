@@ -3,12 +3,12 @@ import Link from "next/link";
 
 function Hero() {
   return (
-    <div className="bg-white relative shadow translate-y-[-30px]">
+    <div className="bg-white relative  translate-y-[-20px] overflow-hidden">
       <svg
         wstrokewidth="100%"
         height="100%"
         id="svg"
-        viewBox="0 0 1440 490"
+        viewBox="0 0 1440 480"
         xmlns="http://www.w3.org/2000/svg"
         className="transition duration-300 ease-in-out delay-150 absolute top-0"
       >
@@ -43,11 +43,19 @@ function Hero() {
           transform="rotate(-180 720 250)"
         ></path>
       </svg>
-      <div className="p-2 py-5 pt-18 text-2xl drop-shadow-2xl  flex flex-wrap justify-center items-center ">
+      <Image
+        alt="hero"
+        className="z-[-9] blur-xs"
+        fill
+        src={
+          "https://lzmijym9f9dkp5qm.public.blob.vercel-storage.com/_raideneshogun%20_wallpaper%20_wallpaperhd%20_staywithme%20_staywithmechannyeol%20_raideneshogunedit%20_wallpaper4k%20_wallpaperhd4k%20_wallpaperiPhone%28JPEG-26%29-iV85DUxQzwVaXJXbbtNYVqQccjgnKM.jpeg"
+        }
+      />
+      <div className="text-white p-2 py-5 pt-28 text-2xl drop-shadow-2xl  flex flex-wrap justify-center items-center ">
         <div className=" w-full">
           Lorem ipsum dolor sit amet consectetur adipisicing elit.
         </div>
-        <div className="text-sm w-full text-gray-800">
+        <div className="text-sm w-full text-gray-300">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit
           deleniti.
         </div>
