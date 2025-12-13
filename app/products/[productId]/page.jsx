@@ -24,6 +24,7 @@ import { getProductsIds } from "../../actions/product_ids";
 import CarouselDial from "../../comp/CarouselDial";
 import WishlistBtn from "../../comp/WishlistBtn";
 import ProductsList from "./../../comp/productsList";
+import CartBtn from "../../comp/CartBtn";
 
 export default async function ProductsDetails({ params }) {
   const { productId } = await params;
@@ -64,9 +65,7 @@ export default async function ProductsDetails({ params }) {
           </div>
           <div className="flex gap-2">
             {/* <WishlistBtn productId={productId} /> */}
-            <button className="w-full text-white rounded p-2 bg-green-600">
-              Pay Now
-            </button>
+            <CartBtn product={{ ...product, productId }} />
           </div>
         </div>
       </div>

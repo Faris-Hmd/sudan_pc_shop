@@ -6,15 +6,12 @@ function ProductsList({ products }) {
   return (
     <div className="p-1 flex justify-around flex-wrap ">
       {products && products?.length > 0 ? (
-        products.map((row) => (
+        products.map((row, index) => (
           <div
             className="w-1/2 md:w-1/4 flex flex-col items-start justify-center"
-            key={row.id}
+            key={index}
           >
-            <div
-              className="w-[95%] flex flex-col items-start gap-2 bg-white m-auto my-1 shadow border rounded overflow-hidden "
-              key={row.id}
-            >
+            <div className="w-[95%] flex flex-col items-start gap-2 bg-white m-auto my-1 shadow border rounded overflow-hidden ">
               <Link href={`/products/${row.id}`} className="relative w-full">
                 <div className="h-40 w-full ms-auto  relative">
                   <Image

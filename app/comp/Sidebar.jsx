@@ -19,6 +19,7 @@ import {
   Info,
   Search,
   Settings,
+  ShoppingCart,
   Thermometer,
   UserCog2,
 } from "lucide-react";
@@ -69,9 +70,9 @@ export default async function AppSidebar() {
               <SidebarMenuItem>
                 <Link
                   className="p-3 flex items-center justify-start gap-2 bg-white"
-                  href="/wishlist"
+                  href="/Cart"
                 >
-                  <Heart size={18} /> Whishlist
+                  <ShoppingCart size={18} /> My Cart
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
