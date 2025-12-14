@@ -3,7 +3,7 @@ import Link from "next/link";
 
 function Hero() {
   return (
-    <div className="bg-black relative  translate-y-[-20px] overflow-hidden">
+    <div className="bg-black relative lg:h-100 translate-y-[-20px] overflow-hidden">
       <svg
         wstrokewidth="100%"
         height="100%"

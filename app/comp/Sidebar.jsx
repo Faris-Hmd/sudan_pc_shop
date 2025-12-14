@@ -13,6 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import {
   ChartLine,
   ChartSpline,
+  Check,
   Grid2X2,
   Heart,
   Home,
@@ -49,6 +50,14 @@ export default async function AppSidebar() {
                   href="/"
                 >
                   <Home size={18} /> Homepage
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link
+                  className="p-3 flex items-center justify-start gap-2 bg-white"
+                  href="/Checkout"
+                >
+                  <Check size={18} /> Checkout
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>

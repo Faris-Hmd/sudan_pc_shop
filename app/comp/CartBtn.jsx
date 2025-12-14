@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/select";
 function CartBtn({ product }) {
   if (typeof window === "undefined" || !window.localStorage) {
-    console.error("localStorage is not available.");
+    // console.error("localStorage is not available.");
     return;
   }
   const [isInCart, setIsInCart] = useState(false);
