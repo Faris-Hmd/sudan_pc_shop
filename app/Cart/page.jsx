@@ -77,22 +77,20 @@ function page() {
   if (cart.length === 0) return;
   return (
     <>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <section>
-          <button
-            className="p-2 bg-black text-white flex gap-3 m-2 rounded shadow"
-            type="submit"
-            role="link"
-          >
-            Checkout <pre>{total}$</pre>
-          </button>
-        </section>
-      </form>
       <div className="bg-white flex justify-between items-center  p-2 border-b shadow flex-wrap">
         <h3>My Cart</h3>
-        <span className="flex me-3 bg-green-700 p-1 text-white rounded shadow">
-          <pre>{total}$</pre>
-        </span>
+
+        <form onSubmit={(e) => handleSubmit(e)}>
+          <section>
+            <button
+              className="p-2 bg-green-700 text-white flex gap-3 me-2 rounded shadow"
+              type="submit"
+              role="link"
+            >
+              Checkout <pre>{total}$</pre>
+            </button>
+          </section>
+        </form>
       </div>
       <div className="p-1 flex justify-around flex-wrap">
         {cart.map((product) => {

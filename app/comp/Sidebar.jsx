@@ -22,6 +22,7 @@ import {
   Settings,
   ShoppingCart,
   Thermometer,
+  Truck,
   UserCog2,
 } from "lucide-react";
 import Link from "next/link";
@@ -55,9 +56,9 @@ export default async function AppSidebar() {
               <SidebarMenuItem>
                 <Link
                   className="p-3 flex items-center justify-start gap-2 bg-white"
-                  href="/Checkout"
+                  href="/"
                 >
-                  <Check size={18} /> Checkout
+                  <Truck size={18} /> Orders
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
