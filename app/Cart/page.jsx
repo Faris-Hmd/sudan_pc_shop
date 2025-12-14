@@ -16,22 +16,78 @@ function page() {
       setCart(_cart);
     }
   }, []);
+
   let calculetedTotal = 0;
   useEffect(() => {
     cart.forEach((p) => {
-      console.log(p.p_cost);
-
       calculetedTotal = calculetedTotal + p.p_cost * p.q;
     });
     setTotal(calculetedTotal);
   }, [cart]);
-  useEffect(() => {
-    console.log(total);
-  }, [total]);
-  console.log(cart);
+
+  function convertProductsToLineItems(products) {
+    return products.map((product) => {
+      // Convert the string cost to a number and multiply by 100 for cents (e.g., $1.29 becomes 12900)
+      const unitAmountCents = Math.round(parseFloat(product.p_cost) * 100);
+
+      return {
+        price_data: {
+          product_data: {
+            name: product.p_name,
+          },
+          currency: "USD", // Currency is hardcoded as per your example
+          unit_amount: unitAmountCents,
+        },
+        quantity: product.q,
+      };
+    });
+  }
+  const payloadCart = convertProductsToLineItems(cart);
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    console.log("use server");
+    try {
+      const response = await fetch("/api/checkout_sessions", {
+        method: "POST",
+        // Specify the method
+        headers: {
+          "Content-Type": "application/json", // Declare the content type
+        },
+        body: JSON.stringify(payloadCart), // Convert the body data to a JSON string
+      });
+
+      if (!response.ok) {
+        // Handle non-successful HTTP statuses (e.g., 404, 500)
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const { url } = await response.json();
+
+      // Redirect the user to the Stripe Checkout page
+      console.log(url);
+      if (url) {
+        window.location.assign(url);
+      }
+    } catch (error) {
+      console.error("Error during fetch operation:", error); // Handle network errors or the error thrown above
+    }
+  }
+
   if (cart.length === 0) return;
   return (
     <>
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <section>
+          <button
+            className="p-2 bg-black text-white flex gap-3 m-2 rounded shadow"
+            type="submit"
+            role="link"
+          >
+            Checkout <pre>{total}$</pre>
+          </button>
+        </section>
+      </form>
       <div className="bg-white flex justify-between items-center  p-2 border-b shadow flex-wrap">
         <h3>My Cart</h3>
         <span className="flex me-3 bg-green-700 p-1 text-white rounded shadow">
