@@ -7,6 +7,7 @@ import AppSidebar from "./comp/Sidebar";
 import NavBar from "./comp/NavBar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { SessionProvider } from "next-auth/react";
+import AppFooter from "./comp/footer";
 const roboto = Nunito({
   weight: "500",
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({
               <Toaster position="top-center" expand />
               <NavBar />
               {children}
+              <AppFooter />
             </main>
           </SidebarProvider>
         </SessionProvider>

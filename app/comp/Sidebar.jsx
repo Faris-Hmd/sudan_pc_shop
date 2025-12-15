@@ -31,7 +31,7 @@ import UserInfo from "./UserInfo";
 
 export default async function AppSidebar() {
   return (
-    <Sidebar className="z-50">
+    <Sidebar className="z-999999999">
       <SidebarHeader className="bg-blue-500 text-white bg-gradient-to-br from-sky-700 to-sky-400">
         <div className="flex justify-between items-center">
           <Link href={"/"} className="logo">

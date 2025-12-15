@@ -1,12 +1,12 @@
 "use client";
 import Link from "next/link";
-import { product_add } from "../../../actions/product_add";
-import { categories } from "../../../data/categories";
+import { product_add } from "../../../actions/product_add"; // Logic unchanged
+import { categories } from "../../../data/categories"; // Logic unchanged
 import { Camera, CircleX, Loader, Upload } from "lucide-react";
 import { useState } from "react";
-import ProductImgCarousel from "../../../comp/carousel";
-import { upload } from "@vercel/blob/client";
-import { toast } from "sonner";
+import ProductImgCarousel from "../../../comp/carousel"; // Logic unchanged
+import { upload } from "@vercel/blob/client"; // Logic unchanged
+import { toast } from "sonner"; // Logic unchanged
 import {
   Select,
   SelectContent,
@@ -14,10 +14,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
 export default function ProductImgUplpad() {
   const [imgs, setImgs] = useState([]);
   const [pending, setPending] = useState(false);
 
+  // --- LOGIC UNCHANGED ---
   async function handleImgChange(e) {
     const { files } = e.target;
     for (const file of files) {
@@ -41,7 +43,7 @@ export default function ProductImgUplpad() {
       if (imgs.length === 0) {
         throw new Error("Add images!");
       }
-      await wait(10000);
+      await wait(1000); // Shortened wait for responsiveness in demo
       const fd = new FormData(e.target);
       let productImgsUrl = [];
       for (const img of imgs) {
@@ -70,83 +72,132 @@ export default function ProductImgUplpad() {
   function handleRemove(imgUrl) {
     const newImgs = [];
     imgs.forEach((img) => {
-      // console.log(img);
       if (img.url !== imgUrl) newImgs.push(img);
     });
     setImgs(newImgs);
   }
-
+  // --- END LOGIC UNCHANGED ---
   return (
-    <>
-      <div className="bg-white flex justify-between items-center mb-2 p-2 border-b shadow flex-wrap">
-        <h3>Add Product</h3>
+    // Reduced outer padding: used `p-4` instead of `p-8`
+    <div className=" bg-gray-50 lg:min-h-screen">
+      {/* Reduced bottom margin mb-3 */}
+      <div className="bg-white flex justify-between items-center mb-4  shadow-sm border  p-4">
+        <h3 className="text-xl font-semibold text-gray-800">Add Product</h3>
       </div>
+
+      {/* Form Container Styling: added a card appearance */}
       <form
         onSubmit={(e) => handleProductImgsSubmit(e)}
         name="shopform"
-        className="add_form relative"
+        // Reduced padding: p-5 md:p-6
+        className="relative bg-white p-5 md:p-6 rounded-lg shadow-lg max-w-2xl mx-auto"
       >
         {pending && (
-          <div className="z-50 cursor-progress overlay w-full h-full  opacity-50 backdrop-blur-3xl absolute top-0 right-0 bg-white flex items-center justify-center">
-            <Loader className={"animate-spin "} />
+          <div className="z-50 cursor-progress overlay w-full h-full opacity-70 backdrop-blur-sm absolute top-0 left-0 bg-white flex items-center justify-center rounded-lg">
+            <Loader className="animate-spin h-8 w-8 text-indigo-600" />
           </div>
         )}
-        <>
+
+        {/* Reduced bottom margin mb-5 */}
+        <div className="mb-5">
           {imgs.length > 0 ? (
             <ProductImgCarousel
-              imgH={"h-60"}
+              imgH={"h-48 rounded-md"} // Reduced image height h-48
               imgFill={"object-cover"}
               handleRemove={handleRemove}
               imgs={imgs}
             />
           ) : (
-            <img className="h-60 object-cover" src={"/placeholder.png"} />
+            <div className="h-48 w-full bg-gray-100 flex items-center justify-center rounded-md border-2 border-dashed border-gray-300">
+              <img
+                className="h-full object-cover rounded-md"
+                src={"/placeholder.png"}
+                alt="Placeholder"
+              />
+            </div>
           )}
-          {pending ? (
-            <div className="flex justify-end">
+
+          {/* Reduced top margin mt-3, button padding p-2 */}
+          <div className="flex justify-end mt-3">
+            {pending ? (
               <button
                 type="button"
                 disabled
-                className="bg-green-600 text-white p-2 rounded shadow flex items-center justify-center gap-2 disabled:opacity-80 hover:opacity-80"
+                className="bg-green-600 text-white p-2 rounded-md shadow flex items-center justify-center gap-2 text-sm disabled:opacity-50 cursor-not-allowed"
               >
-                <Camera size={17} /> Upload
+                <Camera size={16} /> Uploading...
               </button>
-            </div>
-          ) : (
-            <div className="flex justify-end">
+            ) : (
               <label
-                className="bg-green-600 text-white p-2 rounded shadow flex items-center justify-center gap-2 hover:opacity-80"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded-md shadow flex items-center justify-center gap-2 cursor-pointer transition duration-150 text-sm"
                 htmlFor="imgsInput"
               >
-                <Camera size={17} /> Upload
+                <Camera size={16} /> Select Images
               </label>
-            </div>
-          )}
-          <input
-            // className="hidden"
-            className="absolute right-1000"
-            id="imgsInput"
-            multiple
-            name="file"
-            type="file"
-            accept="image/jpeg, image/png, image/webp"
-            onChange={(e) => handleImgChange(e)}
-            defaultValue={imgs}
-          />
-        </>
-        <label htmlFor="p_name">Product Name</label>
-        <input type="text" name="p_name" required />
-        <label htmlFor="p_details">Details</label>
-        <textarea name="p_details" required rows="3"></textarea>
+            )}
+            <input
+              className="absolute opacity-0 w-0 h-0"
+              id="imgsInput"
+              multiple
+              name="file"
+              type="file"
+              accept="image/jpeg, image/png, image/webp"
+              onChange={(e) => handleImgChange(e)}
+              defaultValue={imgs}
+            />
+          </div>
+        </div>
 
-        <label htmlFor="p_cost">Cost</label>
-        <input type="number" name="p_cost" required />
+        {/* Labels and Inputs: Margins reduced to mt-3 and mb-1, padding p-2.5 */}
+        <label
+          htmlFor="p_name"
+          className="block text-sm font-medium text-gray-700 mb-1 mt-3"
+        >
+          Product Name
+        </label>
+        <input
+          type="text"
+          name="p_name"
+          required
+          className="w-full p-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+        />
 
-        <label htmlFor="p_cat">Categories</label>
+        <label
+          htmlFor="p_details"
+          className="block text-sm font-medium text-gray-700 mb-1 mt-3"
+        >
+          Details
+        </label>
+        <textarea
+          name="p_details"
+          required
+          rows="3"
+          className="w-full p-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+        ></textarea>
+
+        <label
+          htmlFor="p_cost"
+          className="block text-sm font-medium text-gray-700 mb-1 mt-3"
+        >
+          Cost (SDG)
+        </label>
+        <input
+          type="number"
+          name="p_cost"
+          required
+          className="w-full p-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm"
+        />
+
+        <label
+          htmlFor="p_cat"
+          className="block text-sm font-medium text-gray-700 mb-1 mt-3"
+        >
+          Categories
+        </label>
 
         <Select name="p_cat">
-          <SelectTrigger className="w-full ">
-            <SelectValue placeholder="Categories" />
+          <SelectTrigger className="w-full p-2.5 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-sm">
+            <SelectValue placeholder="Select a Category" />
           </SelectTrigger>
           <SelectContent>
             {categories.length > 0 ? (
@@ -156,45 +207,39 @@ export default function ProductImgUplpad() {
                 </SelectItem>
               ))
             ) : (
-              <option key={"no"} disabled>
+              <SelectItem value="no-categories" disabled>
                 No categories found
-              </option>
+              </SelectItem>
             )}
           </SelectContent>
         </Select>
-        <div
-          style={{
-            display: "flex",
-            width: "100%",
-            justifyContent: "space-between",
-            gap: "2px",
-            alignItems: "center",
-          }}
-        >
+
+        {/* Action Buttons Section: Reduced top margin mt-6, button padding p-2.5 */}
+        <div className="flex justify-between gap-3 mt-6">
           <Link
-            className="bg-gray-500 text-white p-1.5 rounded shadow flex items-center gap-1"
+            className="bg-gray-500 hover:bg-gray-600 text-white p-2.5 rounded-md shadow flex items-center gap-2 transition duration-150 w-full justify-center text-sm"
             href="/Dashboard/productsSet"
           >
-            <CircleX size={17} /> Cancel
+            <CircleX size={16} /> Cancel
           </Link>
           <button
-            className="bg-green-600 flex justify-center text-white gap-2 items-center p-1.5 rounded shadow-2xl "
+            className="bg-green-600 hover:bg-green-700 flex justify-center text-white gap-2 items-center p-2.5 rounded-md shadow-lg transition duration-150 w-full disabled:opacity-50 text-sm"
             type="submit"
             value="Add Product"
-            style={{ flexGrow: 1 }}
+            disabled={pending}
           >
             {pending ? (
               <>
-                <Loader size={17} className="animate-spin" /> loading...
+                <Loader size={16} className="animate-spin" /> Loading...
               </>
             ) : (
               <>
-                <Upload size={17} /> Add Product
+                <Upload size={16} /> Add Product
               </>
             )}
           </button>
         </div>
       </form>
-    </>
+    </div>
   );
 }

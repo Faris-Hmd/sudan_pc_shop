@@ -43,7 +43,7 @@ export async function getProducts(key = "", value = "", limitCount = 100) {
   const querySnapshot = await getDocs(q);
   const products = querySnapshot.docs.map((doc) => ({
     ...doc.data(),
-    id: doc.id,
+    productId: doc.id,
   }));
   return products;
 }

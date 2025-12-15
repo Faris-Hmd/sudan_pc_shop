@@ -22,9 +22,8 @@ import { db } from "../../db/firebase";
 import ProductImgCarousel from "@/app/comp/carousel";
 import { getProductsIds } from "../../actions/product_ids";
 import CarouselDial from "../../comp/CarouselDial";
-import WishlistBtn from "../../comp/WishlistBtn";
-import ProductsList from "./../../comp/productsList";
 import CartBtn from "../../comp/CartBtn";
+import ProductGridCustomData from "./../../comp/ProductGridOneFile";
 
 export default async function ProductsDetails({ params }) {
   const { productId } = await params;
@@ -41,6 +40,68 @@ export default async function ProductsDetails({ params }) {
       return { ...pro.data(), id: pro.id };
     })
     .filter((pro) => pro.id !== productId);
+
+  return (
+    // Added a main container for consistent padding across the site
+    <div className="container mx-auto px-4 py-8 md:py-12">
+      {/* Main Product Section: Two-column layout on medium screens */}
+      <div className="flex flex-col md:flex-row gap-2 bg-white shadow-lg rounded-xl overflow-hidden">
+        {/* Left Column: Image Gallery */}
+        <div className="md:w-1/2 p-4 md:p-6">
+          <ProductImgCarousel
+            imgH={"h-80 md:h-96"} // Adjusted height for better visual
+            imgs={product.p_imgs}
+            imgFill={"object-cover"}
+          />
+          {/* Thumbnail Dial below the main image */}
+          <div className="mt-4">
+            <CarouselDial imgs={product.p_imgs} />
+          </div>
+        </div>
+
+        {/* Right Column: Product Details and Actions */}
+        <div className="md:w-1/2 p-4 md:p-6">
+          {/* Product Name */}
+          <h1 className="text-3xl font-bold text-gray-900 mb-3">
+            {product.p_name}
+          </h1>
+
+          {/* Price and Category */}
+          <div className="flex items-center gap-4 mb-4 pb-4 border-b border-gray-100">
+            <span className="text-2xl font-bold text-green-700">
+              {product.p_cost} SDG
+            </span>
+            <span className="text-sm font-medium text-gray-500 uppercase tracking-wider">
+              | {product.p_cat}
+            </span>
+          </div>
+
+          {/* Product Details (Using the provided lorem ipsum) */}
+          <div className="text-gray-600 mb-6">
+            <h2 className="text-lg font-semibold mb-2 text-gray-800">
+              Details
+            </h2>
+            <p>
+              {product.p_details} Lorem ipsum dolor sit amet consectetur
+              adipisicing elit. Fugiat soluta optio suscipit aperiam saepe
+              assumenda velit iusto explicabo architecto natus vel dolorum
+              ducimus adipisci facere dolores, nostrum aut ad repudiandae.
+            </p>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-4">
+            {/* <WishlistBtn productId={productId} /> {/* Uncomment if you have this component */}
+            <CartBtn product={{ ...product, productId }} />
+          </div>
+        </div>
+      </div>{" "}
+      <h2 className="text-3xl font-extrabold text-gray-800 my-6 border-b pb-2 text-center">
+        Products with same Category
+      </h2>
+      <ProductGridCustomData products={prodSameCate} />
+    </div>
+  );
 
   return (
     <>
@@ -69,9 +130,6 @@ export default async function ProductsDetails({ params }) {
           </div>
         </div>
       </div>
-      <div className="text-2xl ps-2 py-3">Products with same Category</div>
-
-      <ProductsList products={prodSameCate} />
     </>
   );
 }

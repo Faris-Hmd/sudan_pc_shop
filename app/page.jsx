@@ -1,8 +1,9 @@
 import { getProducts } from "./data/products";
-import ProductsList from "./comp/productsList";
 import ProductsCarousel from "./comp/ProductsCarousel";
 import Hero from "./comp/Hero";
 import Categories from "./comp/Categories";
+import AppFooter from "./comp/footer";
+import ProductGridCustomData from "./comp/ProductGridOneFile";
 export const revalidate = 15; // revalidate at most every hour
 export const metadata = {
   title: "SPS | products Home",
@@ -14,10 +15,15 @@ export default async function Home() {
   return (
     <>
       <Hero />
+      <h2 className="text-3xl font-extrabold text-gray-800 my-8 text-center">
+        Featured PC Components
+      </h2>
+
+      <ProductGridCustomData products={products.slice(0, 4)} />
       <ProductsCarousel products={products} />
       <Categories />
-      <div className="text-2xl ps-2 py-4">Most Viewed Products</div>
-      <ProductsList products={products.slice(0, 10)} />;
+      {/* <div className="text-2xl ps-2 text-center py-4">Most Viewed Products</div> */}
+      {/* <ProductsList products={products.slice(0, 10)} />; */}
     </>
   );
 }
