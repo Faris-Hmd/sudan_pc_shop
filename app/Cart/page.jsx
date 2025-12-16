@@ -40,6 +40,10 @@ function page() {
           unit_amount: unitAmountCents,
         },
         quantity: product.q,
+        metadata: {
+          productId: product.productId,
+          p_cat: product.p_cat,
+        },
       };
     });
   }

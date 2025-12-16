@@ -56,7 +56,7 @@ export default async function AppSidebar() {
               <SidebarMenuItem>
                 <Link
                   className="p-3 flex items-center justify-start gap-2 bg-white"
-                  href="/"
+                  href="/orders"
                 >
                   <Truck size={18} /> Orders
                 </Link>
