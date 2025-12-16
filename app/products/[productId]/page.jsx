@@ -37,7 +37,7 @@ export default async function ProductsDetails({ params }) {
   const prodSameCateRes = await getDocs(q);
   const prodSameCate = prodSameCateRes.docs
     .map((pro) => {
-      return { ...pro.data(), id: pro.id };
+      return { ...pro.data(), productId: pro.id };
     })
     .filter((pro) => pro.id !== productId);
 

@@ -12,7 +12,10 @@ function ProductsList({ products }) {
             key={index}
           >
             <div className="w-[95%] flex flex-col items-start gap-2 bg-white m-auto my-1 shadow border rounded overflow-hidden ">
-              <Link href={`/products/${row.id}`} className="relative w-full">
+              <Link
+                href={`/products/${row.productId}`}
+                className="relative w-full"
+              >
                 <div className="h-40 w-full ms-auto  relative">
                   <Image
                     className="object-cover"
