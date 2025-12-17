@@ -7,7 +7,7 @@ export default async function proxy(request: NextRequest) {
   const sess = await auth();
   log("----------------- proxy");
   if (sess === null)
-    return NextResponse.redirect(new URL("/products", request.url));
+    return NextResponse.redirect(new URL("/login", request.url));
   else return NextResponse.next();
 }
 export const config = {

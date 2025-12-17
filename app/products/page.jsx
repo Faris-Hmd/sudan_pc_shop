@@ -1,3 +1,4 @@
+import ProductGridCustomData from "../comp/ProductGridOneFile";
 import SearchForm from "../comp/SearchForm";
 import ProductsList from "../comp/productsList";
 import { getProducts } from "../data/products";
@@ -18,7 +19,7 @@ export default async function Home({ searchParams }) {
   return (
     <>
       <SearchForm />
-      <ProductsList products={products} />
+      <ProductGridCustomData products={products} />
     </>
   );
 }

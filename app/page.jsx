@@ -2,7 +2,6 @@ import { getProducts } from "./data/products";
 import ProductsCarousel from "./comp/ProductsCarousel";
 import Hero from "./comp/Hero";
 import Categories from "./comp/Categories";
-import AppFooter from "./comp/footer";
 import ProductGridCustomData from "./comp/ProductGridOneFile";
 export const revalidate = 15; // revalidate at most every hour
 export const metadata = {

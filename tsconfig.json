@@ -36,7 +36,8 @@
     "app/api/route.js",
     "app/comp/Pie.jsx",
     "app/comp/Dropdown.jsx",
-    "app/_Checkout/Complete/page.jsx"
+    "app/_Checkout/Complete/page.jsx",
+    "app/comp/CartBtn.jsx"
   ],
   "exclude": ["node_modules"]
 }

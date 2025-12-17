@@ -3,7 +3,7 @@ import Link from "next/link";
 
 function Hero() {
   return (
-    <section className="z-5 relative h-screen flex items-center justify-center">
+    <section className="z-5 relative py-10 flex items-center justify-center">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         {/* Use Next.js Image component for performance optimization */}

@@ -18,6 +18,7 @@ import {
   Heart,
   Home,
   Info,
+  Package,
   Search,
   Settings,
   ShoppingCart,
@@ -56,6 +57,14 @@ export default async function AppSidebar() {
               <SidebarMenuItem>
                 <Link
                   className="p-3 flex items-center justify-start gap-2 bg-white"
+                  href="/Cart"
+                >
+                  <ShoppingCart size={18} /> My Cart
+                </Link>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <Link
+                  className="p-3 flex items-center justify-start gap-2 bg-white"
                   href="/orders"
                 >
                   <Truck size={18} /> Orders
@@ -77,14 +86,16 @@ export default async function AppSidebar() {
                   <Grid2X2 size={18} /> Categories
                 </Link>
               </SidebarMenuItem>
+
               <SidebarMenuItem>
                 <Link
                   className="p-3 flex items-center justify-start gap-2 bg-white"
-                  href="/Cart"
+                  href="/Dashboard/manegeOrder"
                 >
-                  <ShoppingCart size={18} /> My Cart
+                  <Package size={18} /> Manege Order
                 </Link>
               </SidebarMenuItem>
+
               <SidebarMenuItem>
                 <Link
                   className="p-3 flex items-center justify-start gap-2 bg-white"
@@ -102,30 +113,30 @@ export default async function AppSidebar() {
                 </Link>
               </SidebarMenuItem>
 
-              <SidebarMenuItem>
+              {/* <SidebarMenuItem>
                 <Link
                   className="p-3 items-center flex gap-2 bg-white"
                   href="/Dashboard"
                 >
                   <UserCog2 size={18} /> Users
                 </Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
+              </SidebarMenuItem> */}
+              {/* <SidebarMenuItem>
                 <Link
                   className="p-3 flex items-center gap-2 bg-white"
                   href="/Dashboard"
                 >
                   <ChartLine size={18} /> Aanaltics
                 </Link>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
+              </SidebarMenuItem> */}
+              {/* <SidebarMenuItem>
                 <Link
                   className="p-3 flex items-center gap-2 bg-white"
                   href="/Dashboard/productsSet"
                 >
                   <Settings size={18} /> Products
                 </Link>
-              </SidebarMenuItem>
+              </SidebarMenuItem> */}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

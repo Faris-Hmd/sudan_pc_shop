@@ -27,26 +27,7 @@ import {
 
 export const description = "An interactive pie chart";
 
-// const categories = [
-//   { category: "MONITORS", quantity: 42, fill: "var(--color-MONITORS)" },
-//   { category: "SSD", quantity: 40, fill: "var(--color-SSD)" },
-//   { category: "LAPTOP", quantity: 36, fill: "var(--color-LAPTOP)" },
-//   { category: "WEBCAMS", quantity: 34, fill: "var(--color-WEBCAMS)" },
-//   { category: "HEADSETS", quantity: 34, fill: "var(--color-HEADSETS)" },
-//   { category: "KEYBOARDS", quantity: 33, fill: "var(--color-KEYBOARDS)" },
-//   { category: "SPEAKERS", quantity: 32, fill: "var(--color-SPEAKERS)" },
-//   { category: "MICROPHONES", quantity: 32, fill: "var(--color-MICROPHONES)" },
-//   { category: "TABLETS", quantity: 30, fill: "var(--color-TABLETS)" },
-//   { category: "PROJECTORS", quantity: 28, fill: "var(--color-PROJECTORS)" },
-//   { category: "SCANNERS", quantity: 28, fill: "var(--color-SCANNERS)" },
-//   { category: "HARD_DRIVES", quantity: 28, fill: "var(--color-HARD_DRIVES)" },
-//   { category: "PRINTERS", quantity: 27, fill: "var(--color-PRINTERS)" },
-//   { category: "MOUSES", quantity: 27, fill: "var(--color-MOUSES)" },
-//   { category: "PC", quantity: 26, fill: "var(--color-PC)" },
-//   { category: "DESKTOP", quantity: 23, fill: "var(--color-DESKTOP)" },
-// ];
-
-const chartConfig = {
+const _chartConfig = {
   MONITORS: { label: "MONITORS", color: "#e6f4ff" },
   SSD: { label: "SSD", color: "#cceaff" },
   LAPTOP: { label: "LAPTOP", color: "#99d4ff" },
@@ -64,6 +45,24 @@ const chartConfig = {
   PC: { label: "PC", color: "#004b85" },
   DESKTOP: { label: "DESKTOP", color: "#005ba3" },
 };
+const chartConfig = {
+  PC: { label: "PC", color: "hsl(0, 0%, 90%)" },
+  LAPTOP: { label: "LAPTOP", color: "hsl(0, 0%, 82%)" },
+  WEBCAMS: { label: "WEBCAMS", color: "hsl(0, 0%, 74%)" },
+  HARD_DRIVES: { label: "HARD_DRIVES", color: "hsl(0, 0%, 66%)" },
+  HEADSETS: { label: "HEADSETS", color: "hsl(0, 0%, 58%)" },
+  KEYBOARDS: { label: "KEYBOARDS", color: "hsl(0, 0%, 50%)" },
+  SPEAKERS: { label: "SPEAKERS", color: "hsl(0, 0%, 42%)" },
+  PRINTERS: { label: "PRINTERS", color: "hsl(0, 0%, 38%)" },
+  MICROPHONES: { label: "MICROPHONES", color: "hsl(0, 0%, 34%)" },
+  MONITORS: { label: "MONITORS", color: "hsl(0, 0%, 30%)" },
+  TABLETS: { label: "TABLETS", color: "hsl(0, 0%, 27%)" },
+  PROJECTORS: { label: "PROJECTORS", color: "hsl(0, 0%, 24%)" },
+  SCANNERS: { label: "SCANNERS", color: "hsl(0, 0%, 21%)" },
+  SSD: { label: "SSD", color: "hsl(0, 0%, 18%)" },
+  MOUSES: { label: "MOUSES", color: "hsl(0, 0%, 15%)" },
+  DESKTOP: { label: "DESKTOP", color: "hsl(0, 0%, 12%)" },
+};
 
 export default function ChartPieInteractive({ categories }) {
   const id = "pie-interactive";
@@ -79,41 +78,50 @@ export default function ChartPieInteractive({ categories }) {
   );
 
   return (
-    <Card data-chart={id} className="flex flex-col p-1 rounded h-full">
+    <Card
+      data-chart={id}
+      className="flex flex-col rounded-xl border bg-card shadow-sm"
+    >
       <ChartStyle id={id} config={chartConfig} />
-      <CardHeader className="flex-row items-start space-y-0 p-0">
-        <div className="grid gap p-2  m-0   pt-2 ">
-          <CardTitle>Products By Category</CardTitle>
-          <CardDescription>
-            show all products in diffrent category
-          </CardDescription>
-        </div>
+
+      {/* Header */}
+      <CardHeader className="pb-2">
+        <CardTitle className="text-base font-semibold">
+          Products by Category
+        </CardTitle>
+        <CardDescription className="text-xs">
+          Distribution of products across categories
+        </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-1 justify-center items-start pb-0">
+
+      {/* Chart */}
+      <CardContent className="flex flex-1 items-center justify-center pb-4">
         <ChartContainer
           id={id}
           config={chartConfig}
-          className="mx-auto aspect-square w-full max-w-[220px]"
+          className="aspect-square w-[220px]"
         >
           <PieChart>
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
+
             <Pie
               data={categories}
               dataKey="quantity"
               nameKey="category"
-              innerRadius={60}
-              strokeWidth={5}
+              innerRadius={65}
+              strokeWidth={4}
               activeIndex={activeIndex}
               activeShape={({ outerRadius = 0, ...props }) => (
                 <g>
-                  <Sector {...props} outerRadius={outerRadius + 10} />
+                  <Sector {...props} outerRadius={outerRadius + 8} />
                   <Sector
                     {...props}
-                    outerRadius={outerRadius + 25}
-                    innerRadius={outerRadius + 12}
+                    outerRadius={outerRadius + 18}
+                    innerRadius={outerRadius + 10}
+                    opacity={0.25}
                   />
                 </g>
               )}
@@ -129,18 +137,18 @@ export default function ChartPieInteractive({ categories }) {
                         dominantBaseline="middle"
                       >
                         <tspan
+                          className="fill-foreground text-2xl font-semibold"
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
                         >
                           {categories[activeIndex].quantity.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 24}
-                          className="fill-muted-foreground"
+                          y={(viewBox.cy || 0) + 18}
+                          className="fill-muted-foreground text-xs"
                         >
-                          products
+                          Products
                         </tspan>
                       </text>
                     );
@@ -150,42 +158,37 @@ export default function ChartPieInteractive({ categories }) {
             </Pie>
           </PieChart>
         </ChartContainer>
-      </CardContent>{" "}
-      <Select value={activeMonth} onValueChange={setActiveMonth}>
-        <SelectTrigger
-          className="ml-auto h-7 w-[180px] rounded-lg pl-2.5  text-sm"
-          aria-label="Select a value"
-        >
-          <SelectValue placeholder="Select category" className="text-sm" />
-        </SelectTrigger>
-        <SelectContent align="end" className="rounded-xl">
-          {months.map((key) => {
-            const config = chartConfig[key];
+      </CardContent>
 
-            if (!config) {
-              return null;
-            }
+      {/* Footer / Select */}
+      <div className="border-t px-4 py-3">
+        <Select value={activeMonth} onValueChange={setActiveMonth}>
+          <SelectTrigger className="h-8 w-full text-xs">
+            <SelectValue placeholder="Select category" />
+          </SelectTrigger>
 
-            return (
-              <SelectItem
-                key={key}
-                value={key}
-                className="rounded-lg [&_span]:flex w-full"
-              >
-                <div className="flex items-center gap-2">
-                  <span
-                    className="flex h-3 w-3 shrink-0 rounded-xs "
-                    style={{
-                      backgroundColor: `var(--color-${key})`,
-                    }}
-                  />
-                  {config?.label}
-                </div>
-              </SelectItem>
-            );
-          })}
-        </SelectContent>
-      </Select>
+          <SelectContent className="rounded-lg">
+            {months.map((key) => {
+              const config = chartConfig[key];
+              if (!config) return null;
+
+              return (
+                <SelectItem key={key} value={key} className="text-xs">
+                  <div className="flex items-center gap-2">
+                    <span
+                      className="h-2.5 w-2.5 rounded-sm"
+                      style={{
+                        backgroundColor: `var(--color-${key})`,
+                      }}
+                    />
+                    {config.label}
+                  </div>
+                </SelectItem>
+              );
+            })}
+          </SelectContent>
+        </Select>
+      </div>
     </Card>
   );
 }

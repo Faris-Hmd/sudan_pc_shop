@@ -1,80 +1,111 @@
 "use client";
 
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { useState } from "react";
+import { BarChart, Bar, CartesianGrid, XAxis } from "recharts";
 
 import {
-  ChartConfig,
   ChartContainer,
-  ChartLegend,
-  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Card, CardTitle } from "@/components/ui/card";
 
-// ...existing code...
-const chartData = [
-  { category: "MONITORS", value: 42, fill: "green" },
-  { category: "SSD", value: 40 },
-  { category: "LAPTOP", value: 36 },
-  { category: "WEBCAMS", value: 34 },
-  { category: "HEADSETS", value: 34 },
-  { category: "KEYBOARDS", value: 33 },
-  { category: "SPEAKERS", value: 32 },
-  { category: "MICROPHONES", value: 32 },
-  { category: "TABLETS", value: 30 },
-  { category: "PROJECTORS", value: 28 },
-  { category: "SCANNERS", value: 28 },
-  { category: "HARD_DRIVES", value: 28 },
-  { category: "PRINTERS", value: 27 },
-  { category: "MOUSES", value: 27 },
-  { category: "PC", value: 26 },
-  { category: "DESKTOP", value: 23 },
-];
-// ...existing code...
-const chartConfig = {
-  MONITORS: { label: "MONITORS", color: "#e6f4ff" },
-  SSD: { label: "SSD", color: "#cceaff" },
-  LAPTOP: { label: "LAPTOP", color: "#99d4ff" },
-  WEBCAMS: { label: "WEBCAMS", color: "#66bfff" },
-  HEADSETS: { label: "HEADSETS", color: "#33a9ff" },
-  KEYBOARDS: { label: "KEYBOARDS", color: "#0093ff" },
-  SPEAKERS: { label: "SPEAKERS", color: "#0077cc" },
-  MICROPHONES: { label: "MICROPHONES", color: "#005ea3" },
-  TABLETS: { label: "TABLETS", color: "#00457a" },
-  PROJECTORS: { label: "PROJECTORS", color: "#00314f" },
-  SCANNERS: { label: "SCANNERS", color: "#002534" },
-  HARD_DRIVES: { label: "HARD_DRIVES", color: "#001a1f" },
-  PRINTERS: { label: "PRINTERS", color: "#002b48" },
-  MOUSES: { label: "MOUSES", color: "#003b66" },
-  PC: { label: "PC", color: "#004b85" },
-  DESKTOP: { label: "DESKTOP", color: "#005ba3" },
+import { Card, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+/* ---------------- MOCK DATA ---------------- */
+type DaySales = {
+  month: string;
+  day: number;
+  sales: number;
 };
 
-export default function Component({ data }: any) {
-  // console.log(data);
+const generateMonthData = (month: string, days: number): DaySales[] =>
+  Array.from({ length: days }, (_, i) => ({
+    month,
+    day: i + 1,
+    sales: Math.floor(80 + Math.random() * 120),
+  }));
+
+const mockData: DaySales[] = [
+  ...generateMonthData("2024-06", 30),
+  ...generateMonthData("2024-07", 31),
+  ...generateMonthData("2024-08", 31),
+];
+
+/* ---------------- CONFIG ---------------- */
+const chartConfig = {
+  sales: {
+    label: "Daily Sales",
+    color: "hsl(var(--primary))",
+  },
+};
+
+/* ---------------- COMPONENT ---------------- */
+export default function Component() {
+  const months = [...new Set(mockData.map((d) => d.month))].sort();
+  const [selectedMonth, setSelectedMonth] = useState(
+    months[months.length - 1] // default = last month
+  );
+
+  const monthData = mockData
+    .filter((d) => d.month === selectedMonth)
+    .sort((a, b) => a.day - b.day);
+
+  const totalSales = monthData.reduce((sum, d) => sum + d.sales, 0);
+
   return (
-    <Card className=" gap-0 p-0 rounded">
-      <CardTitle className="ms-3 mt-3 text-lg font-semibold">
-        Sales by Months
-      </CardTitle>
-      <ChartContainer
-        config={chartConfig}
-        className="max-h-[200px] w-full  p-2 rounded"
-      >
-        <BarChart accessibilityLayer data={data}>
+    <Card className="rounded-xl p-4 space-y-4">
+      {/* Header */}
+      <div className="flex items-center justify-between gap-4">
+        <div>
+          <CardTitle className="text-lg font-semibold">Daily Sales</CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Month: {selectedMonth}
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <Badge variant="secondary" className="text-base px-3 py-1">
+            Total: {totalSales}
+          </Badge>
+
+          {/* Month Selector */}
+          <Select value={selectedMonth} onValueChange={setSelectedMonth}>
+            <SelectTrigger className="w-[130px]">
+              <SelectValue placeholder="Month" />
+            </SelectTrigger>
+            <SelectContent>
+              {months.map((month) => (
+                <SelectItem key={month} value={month}>
+                  {month}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      {/* Chart */}
+      <ChartContainer config={chartConfig} className="h-[240px] w-full">
+        <BarChart data={monthData}>
           <CartesianGrid vertical={false} />
           <XAxis
-            dataKey="category"
+            dataKey="day"
             tickLine={false}
-            tickMargin={10}
             axisLine={false}
-            tickFormatter={(value) => value.slice(0, 3)}
+            tickMargin={6}
           />
+
           <ChartTooltip content={<ChartTooltipContent />} />
-          {/* <ChartLegend content={<ChartLegendContent />} /> */}
-          <Bar dataKey="quantity" fill="var(--color-value)" radius={4} />
-          {/* <Bar dataKey="mobile" fill="var(--color-mobile)" radius={4} /> */}
+
+          <Bar dataKey="sales" radius={6} fill="var(--color-sales)" />
         </BarChart>
       </ChartContainer>
     </Card>

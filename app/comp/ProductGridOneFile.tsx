@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import QuickAddBtn from "./quickAddBtn";
 
 // --- Types ---
 interface ProductImage {
@@ -29,43 +30,45 @@ interface ProductGridProps {
 
 // --- Product Card Component (Internal) ---
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  // Use the first image URL if available, otherwise a placeholder
   const imageUrl = product.p_imgs?.[0]?.url || "/images/placeholder.jpg";
-  // Safely parse the cost string into a number for display formatting
   const costNumber = parseFloat(product.p_cost) || 0;
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden transform transition duration-300 hover:shadow-xl ">
+    <div className="bg-white rounded-md border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300">
       <Link href={`/products/${product.productId}`}>
-        <div className="block relative h-48">
-          {/* Use Next.js Image component for performance */}
+        <div className="block relative h-32 md:h-36">
+          {" "}
+          {/* Reduced height from h-48 */}
           <Image
             src={imageUrl}
             alt={product.p_name}
             fill
-            // quality={75}
-            className="transition duration-300 hover:opacity-90 object-cover"
+            sizes="(max-width: 768px) 33vw, 20vw"
+            className="transition duration-300 hover:scale-105 object-cover"
           />
         </div>
       </Link>
 
-      <div className="p-5">
-        <p className="text-sm font-semibold text-blue-600 mb-1">
+      <div className="p-2.5">
+        {" "}
+        {/* Reduced padding from p-5 */}
+        <p className="text-[11px] font-bold text-blue-600 uppercase tracking-tighter mb-0.5">
           {product.p_cat}
         </p>
         <h3
-          className="text-lg font-bold text-gray-800 mb-2 truncate"
+          className="text-[14px] font-bold text-gray-800 leading-tight line-clamp-2 min-h-[2.4em]"
           title={product.p_name}
         >
           {product.p_name}
         </h3>
-        <p className="text-2xl font-bold text-gray-900">
-          ${costNumber.toFixed(2)}
-        </p>
+        <div className="mt-2 flex items-center justify-between">
+          <p className="text-sm font-black text-gray-900">
+            ${costNumber.toFixed(2)}
+          </p>
 
-        <button className="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
-          Add to Cart
-        </button>
+          {/* Small icon-only or text-only button for compactness */}
+          <QuickAddBtn product={product} />
+        </div>
       </div>
     </div>
   );
@@ -74,19 +77,25 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 // --- Main Product Grid Container Component (Dynamic) ---
 const ProductGridCustomData: React.FC<ProductGridProps> = ({ products }) => {
   return (
-    <div
-      id="shop"
-      className="container mx-auto p-4 md:p-8 bg-gray-100 min-h-screen"
-    >
-      {/* Responsive grid layout using CSS Grid and Tailwind utilities */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 xl:gap-8">
+    <div id="shop" className="container mx-auto p-2 md:p-4  ">
+      {/* 
+          Increased density: 
+          - 3 columns on mobile
+          - 4 on tablet
+          - 5-6 on desktop 
+          - Reduced gaps to 3 (12px)
+      */}
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-3">
         {products.length > 0 ? (
           products.map((product) => (
-            // Key uses the unique productId
-            <ProductCard key={Math.random()} product={product} />
+            // Use a real ID instead of Math.random() for better performance
+            <ProductCard
+              key={product.productId || product.productId}
+              product={product}
+            />
           ))
         ) : (
-          <p className="col-span-full text-center text-gray-500">
+          <p className="col-span-full text-center text-[10px] uppercase font-bold tracking-widest text-gray-400 py-20">
             No products found.
           </p>
         )}

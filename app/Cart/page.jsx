@@ -83,7 +83,7 @@ function page() {
   return (
     <div className="container mx-auto  md:p-8 bg-gray-50 min-h-screen">
       {/* Header Section (Sticky/Fixed might be better in a real app, but static here to preserve structure) */}
-      <div className="bg-white flex justify-between items-center p-4 mb-6 shadow-md ">
+      <div className="bg-white flex justify-between items-center p-2 mb-1 shadow-md ">
         <h3 className="text-2xl font-bold text-gray-800">My Cart</h3>
 
         {/* Checkout Form & Button */}
@@ -105,7 +105,7 @@ function page() {
       </div>
 
       {/* Cart Items List Container */}
-      <div className="flex flex-col gap-4 p-2">
+      <div className="flex flex-col gap-2 p-2">
         {cart.map((product) => {
           return (
             // Individual Cart Item Card

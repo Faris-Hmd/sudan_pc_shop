@@ -5,8 +5,8 @@ export async function generateStaticParams() {
 }
 import { getProducts } from "@/app/data/products";
 import SearchForm from "../../../comp/SearchForm";
-import ProductsList from "../../../comp/productsList";
 import { categories } from "../../../data/categories";
+import ProductGridCustomData from "../../../comp/ProductGridOneFile";
 
 async function page({ params }) {
   const { category } = await params;
@@ -15,7 +15,7 @@ async function page({ params }) {
   return (
     <>
       <SearchForm />
-      <ProductsList products={products} />
+      <ProductGridCustomData products={products} />
     </>
   );
 }

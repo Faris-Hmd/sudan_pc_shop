@@ -45,17 +45,26 @@ export default async function Component() {
 
   return (
     <>
-      {" "}
-      <div className="bg-white flex justify-between items-center mb-2 p-2 border-b shadow flex-wrap">
-        <h3>Overview</h3>
+      <div className="bg-white flex justify-between items-center mb-4 p-4 border-b shadow-md  flex-wrap">
+        <h3 className="text-lg font-semibold text-gray-700">Overview</h3>
       </div>
-      <div className="m-2  grid gap-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {" "}
-        <div className="grid gap-2">
-          <SectionCards productsNum={productsNum} />
-          <Chart data={chartData} />
+
+      <div className="  grid gap-2 md:grid-cols-3 lg:grid-cols-4 ">
+        {/* Left small column */}
+        <div className="flex flex-col gap-4 md:col-span-1">
+          <div className="bg-white p-2 mx-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-200">
+            <SectionCards productsNum={productsNum} />
+          </div>
+
+          <div className="bg-white p-4 mx-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-200">
+            <Chart />
+          </div>
         </div>
-        <ChartPieInteractive categories={chartData} />
+
+        {/* Right big column for Pie Chart */}
+        <div className="bg-white p-4 mx-2 rounded-lg shadow hover:shadow-lg transition-shadow duration-200 md:col-span-2 lg:col-span-3">
+          <ChartPieInteractive categories={chartData} />
+        </div>
       </div>
     </>
   );
