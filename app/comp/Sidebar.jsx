@@ -151,7 +151,7 @@ export default async function AppSidebar() {
               <SidebarMenuItem>
                 <Link
                   className="p-3 flex items-center gap-2 bg-white"
-                  href="/Dashboard/productsSet"
+                  href="/about"
                 >
                   <Info size={18} /> About
                 </Link>
