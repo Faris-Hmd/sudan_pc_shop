@@ -4,7 +4,7 @@ import { Facebook, Instagram, Twitter, Github } from "lucide-react"; // Example 
 export default function AppFooter() {
   return (
     // Use a contrasting background to separate the footer visually
-    <footer className="bg-gray-800 text-white mt-12">
+    <footer className="bg-gray-800 text-white mt-12 pb-9">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {/* Section 1: About Us & Contact */}
