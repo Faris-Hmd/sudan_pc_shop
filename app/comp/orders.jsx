@@ -21,7 +21,7 @@ const OrderList = ({ orders, steps }) => {
           (currentStepIndex / (steps.length - 1)) * 100
         }%`;
         const totalOrderCost = order.productList.reduce(
-          (sum, item) => sum + item.p_cost / 100,
+          (sum, item) => sum + item.p_cost,
           0
         );
 
@@ -129,7 +129,9 @@ const OrderList = ({ orders, steps }) => {
                 <div className="mt-6 pt-6 border-t border-dashed border-gray-200 flex justify-between items-center">
                   <div className="text-xs text-gray-400">
                     Order Ref:{" "}
-                    <span className="font-mono">{order.orderId}</span>
+                    <span className="font-mono">
+                      {order.orderId.slice(0, 16).toUpperCase()}
+                    </span>
                   </div>
                   <div className="text-xs text-gray-500 italic">
                     Sent to: {order.customerEmail}

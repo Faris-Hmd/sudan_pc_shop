@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../db/firebase";
 import { stripe } from "../../../lib/stripe";
+import { time } from "console";
 
 export async function GET(request: NextRequest) {
   console.log("Success ============ Success");
@@ -15,7 +16,7 @@ export async function GET(request: NextRequest) {
   const convertItems = (items: any) => {
     return items.map((item: any) => ({
       p_name: item.description,
-      p_cost: item.amount_total,
+      p_cost: item.amount_total.valueOf() / 100 / item.quantity,
       productId: item.metadata.productId,
       p_cat: item.metadata.p_cat,
       p_qu: item.quantity,
@@ -30,6 +31,11 @@ export async function GET(request: NextRequest) {
   const docRef = await setDoc(doc(db, "orders", sessId || ""), {
     items: formattedItems,
     customer_email: session.customer_email,
+    status: "Processing",
+    createdAt: serverTimestamp(),
+    deliveredAt: null,
+    totalAmount: session.amount_total ? session.amount_total / 100 : 0,
+    stripeSessionId: sessId,
   });
 
   return NextResponse.redirect(`${request.nextUrl.origin}/orders`);

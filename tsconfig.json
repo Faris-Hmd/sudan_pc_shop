@@ -33,7 +33,7 @@
     "app/products/page.jsx",
     "app/comp/servercomo.jsx",
     "app/page.jsx",
-    "app/api/route.js",
+    "app/api/route.ts",
     "app/comp/Pie.jsx",
     "app/comp/Dropdown.jsx",
     "app/_Checkout/Complete/page.jsx",

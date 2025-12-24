@@ -10,7 +10,7 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const products = await getProducts("all", 500);
+  const products = await getProducts("all", "", 10);
   return (
     <>
       <Hero />

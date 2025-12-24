@@ -1,94 +1,51 @@
-import {
-  Card,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-// Import relevant icons for context
-import { Package, TrendingUp, Users, DollarSign, Activity } from "lucide-react";
+"use client";
 
-// Data array for dynamic mapping and varied content
-const cardData = [
-  {
-    title: "Total Products",
-    icon: Package,
-    footerText: "Trending up this month",
-    trend: 5,
-    isPositive: true,
-  },
-  {
-    title: "Total Sales",
-    icon: DollarSign,
-    footerText: "Since last week",
-    trend: 12,
-    isPositive: true,
-  },
-  {
-    title: "Visitors",
-    icon: Users,
-    footerText: "Last 6 months",
-    trend: 2,
-    isPositive: true,
-  },
-  {
-    title: "Activity Rate",
-    icon: Activity,
-    footerText: "Weekly average",
-    trend: 8,
-    isPositive: false, // Example of a negative trend
-  },
-];
+import { Package, ShoppingCart } from "lucide-react";
 
-export default function SectionCards({
-  productsNum,
-}: {
-  productsNum?: number;
-}) {
+interface SectionProps {
+  productsNum: number;
+  ordersNum: number;
+}
+
+export default function SectionCards({ productsNum, ordersNum }: SectionProps) {
   return (
-    // Use a responsive grid layout with gaps for clean separation
-    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-2">
-      {cardData.map((card, index) => {
-        // Use a consistent value for the main metric
-        const mainMetric = productsNum ?? 0;
-        // Example dynamic metric based on index
-        const cardMetric =
-          index === 0 || index === 2 ? mainMetric : mainMetric * (index + 1);
+    <div className="grid grid-cols-1 gap-4">
+      {/* Products Card */}
+      <div className="flex items-center justify-between p-2">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-blue-50 rounded-lg">
+            <Package className="w-5 h-5 text-blue-600" />
+          </div>
+          <div>
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              Total Products
+            </p>
+            <h4 className="text-xl font-black text-slate-800">
+              {productsNum.toLocaleString()}
+            </h4>
+          </div>
+        </div>
+      </div>
 
-        const IconComponent = card.icon;
+      {/* Divider */}
+      <div className="h-[1px] w-full bg-slate-100" />
 
-        // Determine text color based on trend positivity
-        const trendColor = card.isPositive ? "text-green-500" : "text-red-500";
-
-        return (
-          <Card
-            // Added subtle shadow and border for better visual separation and hover effect
-            className="shadow-sm rounded-lg border hover:shadow-md transition-shadow duration-300"
-            key={index}
-          >
-            <CardHeader className="px-3 py-0  flex flex-row items-center justify-between space-y-0 ">
-              <div className="flex flex-col">
-                <CardDescription className="text-sm font-medium text-gray-500">
-                  {card.title}
-                </CardDescription>
-                <CardTitle className="text-2xl md:text-3xl font-bold tabular-nums">
-                  {cardMetric.toLocaleString()}
-                </CardTitle>
-              </div>
-              {/* Use icons for immediate visual context */}
-              <IconComponent className="h-6 w-6 text-blue-500" />
-            </CardHeader>
-            <CardFooter className="flex items-center justify-between p-2 pt-0">
-              <div
-                className={`flex items-center text-sm font-medium ${trendColor}`}
-              >
-                <TrendingUp className="h-4 w-4 mr-1" />
-                {`+${card.trend}%`} {card.footerText}
-              </div>
-            </CardFooter>
-          </Card>
-        );
-      })}
+      {/* Orders Card */}
+      <div className="flex items-center justify-between p-2">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-emerald-50 rounded-lg">
+            <ShoppingCart className="w-5 h-5 text-emerald-600" />
+          </div>
+          <div>
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              Total Orders
+            </p>
+            <h4 className="text-xl font-black text-slate-800">
+              {ordersNum.toLocaleString()}
+            </h4>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

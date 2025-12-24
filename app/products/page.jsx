@@ -1,6 +1,5 @@
 import ProductGridCustomData from "../comp/ProductGridOneFile";
 import SearchForm from "../comp/SearchForm";
-import ProductsList from "../comp/productsList";
 import { getProducts } from "../data/products";
 export const metadata = {
   title: "SPS | products Sesrch",

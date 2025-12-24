@@ -38,7 +38,7 @@ const NAV_ITEMS = [
 
 const ADMIN_ITEMS = [
   { title: "Manage Order", href: "/Dashboard/manegeOrder", icon: Package },
-  { title: "Overview", href: "/Dashboard", icon: ChartSpline },
+  { title: "Analatic", href: "/Dashboard/Analatic/2025-11", icon: ChartSpline },
   { title: "Products", href: "/Dashboard/productsSet", icon: Settings },
 ];
 
