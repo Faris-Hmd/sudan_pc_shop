@@ -29,16 +29,16 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts",
-    "app/ddashboard/[productId]/page.jsx",
+    "app/dashboard/[productId]/page.jsx",
     "app/products/page.jsx",
     "app/comp/servercomo.jsx",
     "app/page.jsx",
     "app/api/route.ts",
-    "app/ddashboard/aAnalatic/[date]/components/pie.jsx",
+    "app/dashboard/analatic/[date]/components/pie.jsx",
     "app/comp/Dropdown.jsx",
     "app/_Checkout/Complete/page.jsx",
     "app/products/[productId]/components/cartBtn.jsx",
-    "app/ddashboard/productsSet/[productId]/components/updateform.jsx"
+    "app/dashboard/productsSet/[productId]/components/updateform.jsx"
   ],
   "exclude": ["node_modules"]
 }
