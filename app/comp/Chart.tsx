@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import {
   AreaChart,
   Area,
@@ -17,13 +17,7 @@ import {
 } from "@/components/ui/chart";
 import { Card, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+
 import { TrendingUp } from "lucide-react";
 import DateSelector from "./DateForChart";
 
@@ -45,19 +39,10 @@ export default function Component({
 }: {
   salesData: DaySales[];
 }) {
-  const router = useRouter();
   const params = useParams();
   const currentMonth = (params.date as string) || "2025-12";
 
   // Navigation Setup for 2025
-  const months = useMemo(
-    () =>
-      Array.from(
-        { length: 12 },
-        (_, i) => `2025-${String(i + 1).padStart(2, "0")}`
-      ),
-    []
-  );
 
   const { totalSales, totalOrders } = useMemo(() => {
     return salesData.reduce(
@@ -70,10 +55,10 @@ export default function Component({
   }, [salesData]);
 
   return (
-    <Card className="rounded-3xl p-4 space-y-6 w-full bg-white border border-blue-50 shadow-xl">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="space-y-1">
-          <CardTitle className="text-xl font-black text-slate-900 tracking-tight">
+    <Card className="space-y-3 w-full border-none shadow-none">
+      <div className=" flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="space-y-1 px-4">
+          <CardTitle className="text-xl font-black text-slate-900 ">
             Revenue Analytics
           </CardTitle>
           <div className="flex items-center gap-2 text-emerald-600 font-bold text-xs uppercase tracking-widest">
@@ -91,7 +76,7 @@ export default function Component({
         </div>
       </div>
 
-      <div className="w-full h-[200px]">
+      <div className="w-full sm:h-[180px] lg:h-50">
         <ChartContainer config={chartConfig}>
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={salesData} margin={{ left: -20, right: 10 }}>

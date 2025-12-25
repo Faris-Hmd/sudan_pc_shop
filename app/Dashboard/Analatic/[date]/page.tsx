@@ -133,8 +133,8 @@ export default async function OverviewPage({ params }: PageProps) {
             <SectionCards productsNum={productsNum} ordersNum={ordersNum} />
           </div>
 
-          <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-            <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">
+          <div className="bg-white p-4 px-2 rounded-2xl shadow-sm border border-slate-100">
+            <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-1">
               Monthly Performance
             </h3>
             {/* salesData now contains { day, sales, orders } */}
@@ -142,8 +142,8 @@ export default async function OverviewPage({ params }: PageProps) {
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 md:col-span-2 lg:col-span-3">
-          <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider mb-4">
+        <div className="bg-white p-2 rounded-2xl shadow-sm border border-slate-100 md:col-span-2 lg:col-span-3">
+          <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider p-2">
             Inventory Distribution
           </h3>
           <ChartPieInteractive categories={chartData} />

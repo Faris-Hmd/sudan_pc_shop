@@ -8,7 +8,7 @@ import {
 } from "firebase/firestore";
 import { Package, Calendar, CheckCircle2, ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import MonthSelector from "@/app/comp/MonthSelector"; // Adjust path
+import DateSelector from "@/app/comp/DateForChart";
 
 export const revalidate = 20;
 
@@ -81,7 +81,7 @@ export default async function ShippedOrdersPage({
   return (
     <div className="w-full mx-auto p-2 lg:p-10 pb-32">
       {/* Header */}
-      <div className="bg-white rounded-3xl shadow-xl border border-blue-50 p-6 mb-6 flex flex-row justify-between items-center gap-6">
+      <div className="bg-white rounded-3xl shadow border border-blue-50 p-6 mb-6 flex flex-row flex-wrap justify-between items-center gap-6">
         <div className="flex items-center gap-2">
           <Link
             href="/Dashboard/manegeOrder"
@@ -90,15 +90,15 @@ export default async function ShippedOrdersPage({
             <ChevronLeft size={24} />
           </Link>
           <div>
-            <h1 className="text-1xl lg:text-2xl font-black text-slate-900 tracking-tight">
+            <h1 className="text-2xl lg:text-2xl font-black text-slate-900 tracking-tight">
               Shipped Orders
             </h1>
-            <p className="text-xs font-black text-blue-500 uppercase tracking-widest">
+            {/* <p className="text-xs font-black text-blue-500 uppercase tracking-widest">
               {monthName} {year}
-            </p>
+            </p> */}
           </div>
         </div>
-        <MonthSelector currentDate={date} />
+        <DateSelector currentMonth={date} />
       </div>
 
       {/* --- ADDED SUMMARY STATS --- */}

@@ -27,24 +27,6 @@ import {
 
 export const description = "An interactive pie chart";
 
-const _chartConfig = {
-  MONITORS: { label: "MONITORS", color: "#e6f4ff" },
-  SSD: { label: "SSD", color: "#cceaff" },
-  LAPTOP: { label: "LAPTOP", color: "#99d4ff" },
-  WEBCAMS: { label: "WEBCAMS", color: "#66bfff" },
-  HEADSETS: { label: "HEADSETS", color: "#33a9ff" },
-  KEYBOARDS: { label: "KEYBOARDS", color: "#0093ff" },
-  SPEAKERS: { label: "SPEAKERS", color: "#0077cc" },
-  MICROPHONES: { label: "MICROPHONES", color: "#005ea3" },
-  TABLETS: { label: "TABLETS", color: "#00457a" },
-  PROJECTORS: { label: "PROJECTORS", color: "#00314f" },
-  SCANNERS: { label: "SCANNERS", color: "#002534" },
-  HARD_DRIVES: { label: "HARD_DRIVES", color: "#001a1f" },
-  PRINTERS: { label: "PRINTERS", color: "#002b48" },
-  MOUSES: { label: "MOUSES", color: "#003b66" },
-  PC: { label: "PC", color: "#004b85" },
-  DESKTOP: { label: "DESKTOP", color: "#005ba3" },
-};
 const chartConfig = {
   PC: { label: "PC", color: "hsl(0, 0%, 90%)" },
   LAPTOP: { label: "LAPTOP", color: "hsl(0, 0%, 82%)" },
@@ -80,12 +62,12 @@ export default function ChartPieInteractive({ categories }) {
   return (
     <Card
       data-chart={id}
-      className="flex flex-col rounded-xl border bg-card shadow-sm"
+      className="flex flex-col rounded-xl border-none shadow-none w-full"
     >
       <ChartStyle id={id} config={chartConfig} />
 
       {/* Header */}
-      <CardHeader className="pb-2">
+      <CardHeader className="">
         <CardTitle className="text-base font-semibold">
           Products by Category
         </CardTitle>

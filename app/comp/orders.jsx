@@ -120,7 +120,7 @@ const OrderList = ({ orders, steps }) => {
                         </p>
                       </div>
                       <p className="text-sm font-mono font-semibold text-gray-600">
-                        ${(item.p_cost / 100).toLocaleString()}
+                        ${item.p_cost.toFixed(2).toLocaleString()}
                       </p>
                     </div>
                   ))}

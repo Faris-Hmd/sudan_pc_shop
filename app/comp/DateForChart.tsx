@@ -36,7 +36,7 @@ export default function DateSelector({
   ];
 
   const handleUpdate = (year: string, month: string) => {
-    router.push(`/Dashboard/Analatic/${year}-${month}`);
+    router.push(`${year}-${month}`);
   };
 
   return (
