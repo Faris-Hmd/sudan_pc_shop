@@ -3,9 +3,7 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import AppSidebar from "../components/Sidebar";
 import NavBar from "@/components/NavBar";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import { SessionProvider } from "next-auth/react";
 import AppFooter from "../components/footer";
 import BtmNav from "../components/BtmNav";
@@ -30,16 +28,13 @@ export default function RootLayout({
         className={`${roboto.className} antialiased bg-[#eee] text-slate-900 `}
       >
         <SessionProvider>
-          <SidebarProvider>
-            <main className="w-full">
-              <AppSidebar />
-              <Toaster position="top-center" expand />
-              <NavBar />
-              {children}
-              <BtmNav />
-              <AppFooter />
-            </main>
-          </SidebarProvider>
+          <main className="w-full">
+            <Toaster position="top-center" expand />
+            <NavBar />
+            {children}
+            <BtmNav />
+            <AppFooter />
+          </main>
         </SessionProvider>
       </body>
     </html>

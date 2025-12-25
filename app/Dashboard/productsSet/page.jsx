@@ -9,7 +9,7 @@ export default async function ProductTable({ searchParams }) {
   const products = await getProducts(key, value, 20);
 
   return (
-    <div className="h-screen bg-gray-50 flex flex-col overflow-hidden">
+    <div className="h-screen  flex flex-col overflow-hidden">
       <div className="p-2 md:p-8 flex flex-col h-full gap-4 md:gap-6">
         {/* Header Section - More compact on mobile */}
         <header className="flex flex-col gap-4 bg-white p-4 md:p-6 rounded-2xl border border-gray-200 shadow-sm shrink-0">

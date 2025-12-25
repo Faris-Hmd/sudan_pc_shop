@@ -18,7 +18,7 @@ const isDevelopment =
   process.env.NODE_ENV === "development" ||
   process.env.NEXT_PUBLIC_FIREBASE_EMULATOR === "true";
 
-if (isDevelopment) {
+if (isDevelopment && false) {
   // Only connect if we are in a browser environment
   try {
     // 8080 is the default Firestore port unless changed in firebase.json

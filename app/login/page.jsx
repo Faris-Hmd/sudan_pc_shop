@@ -18,7 +18,7 @@ export default function UserInfo() {
   }
 
   if (status === "authenticated") {
-    router.push("/Profile");
+    router.push("/profile");
   }
 
   return (
