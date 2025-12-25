@@ -9,7 +9,7 @@ export async function POST() {
 
     // --- CONFIGURATION: CHANGE DATES HERE ---
     const year = 2025;
-    const monthsToGenerate = [11, 12]; // [11] for Nov, [12] for Dec
+    const monthsToGenerate = [2, 11, 12]; // [11] for Nov, [12] for Dec
     // ----------------------------------------
 
     let totalOrdersCreated = 0;

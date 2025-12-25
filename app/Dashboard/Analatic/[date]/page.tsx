@@ -33,7 +33,7 @@ export default async function OverviewPage({ params }: PageProps) {
   // 1. Fetch Global Counts for SectionCards
   const [ordersSnapshot, productsSnapshot] = await Promise.all([
     getCountFromServer(collection(db, "orders")),
-    getCountFromServer(collection(db, "products")),
+    getCountFromServer(collection(db, "productsTest")),
   ]);
 
   const ordersNum = ordersSnapshot.data().count;
@@ -44,7 +44,7 @@ export default async function OverviewPage({ params }: PageProps) {
     const results = await Promise.all(
       categories.slice(0, 16).map(async (category) => {
         const q = query(
-          collection(db, "products"),
+          collection(db, "productsTest"),
           where("p_cat", "==", category)
         );
         const snap = await getCountFromServer(q);

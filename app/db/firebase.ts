@@ -1,12 +1,6 @@
-// Import the functions you need from the SDKs you need
+// firebase.js
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyACa5a0MmohKo2h4-fN2ffnl7BlgLDr4iQ",
   authDomain: "sudan-pc-shop.firebaseapp.com",
@@ -17,7 +11,20 @@ const firebaseConfig = {
   measurementId: "G-4H5XTW59TM",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-// const analytics = getAnalytics(app);
 export const db = getFirestore(app);
+// Use a cleaner environment check for 2025 workflows
+const isDevelopment =
+  process.env.NODE_ENV === "development" ||
+  process.env.NEXT_PUBLIC_FIREBASE_EMULATOR === "true";
+
+if (isDevelopment) {
+  // Only connect if we are in a browser environment
+  try {
+    // 8080 is the default Firestore port unless changed in firebase.json
+    connectFirestoreEmulator(db, "127.0.0.1", 8080);
+    console.info("✔ Connected to Firestore Emulator");
+  } catch (err) {
+    console.warn("✘ Firestore Emulator connection failed:", err);
+  }
+}

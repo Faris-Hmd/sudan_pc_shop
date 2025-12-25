@@ -11,5 +11,11 @@ export default async function proxy(request: NextRequest) {
   else return NextResponse.next();
 }
 export const config = {
-  matcher: ["/wishlist", "/Dashboard/:path*", "/Cart"],
+  matcher: [
+    "/wishlist",
+    "/Dashboard/:path*",
+    "/orders",
+    "/checkout/:path*",
+    "/Profile/:path*",
+  ],
 };

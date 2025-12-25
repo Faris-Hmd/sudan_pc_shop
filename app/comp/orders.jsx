@@ -13,7 +13,7 @@ const OrderList = ({ orders, steps }) => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p- space-y-4  ">
+    <div className="max-w-4xl mx-auto p- space-y-4  h-full pb-24">
       {orders.map((order) => {
         const isExpanded = expandedOrders[order.orderId];
         const currentStepIndex = steps.indexOf(order.status || "Processing");
