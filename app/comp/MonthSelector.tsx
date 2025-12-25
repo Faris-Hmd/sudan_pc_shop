@@ -9,49 +9,75 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export default function MonthSelector({
-  currentDate,
+export default function MonthYearSelector({
+  currentDate, // Expected format: "YYYY-MM"
 }: {
   currentDate: string;
 }) {
   const router = useRouter();
 
-  const handleMonthChange = (val: string) => {
-    // val will be "2025-01", "2025-02", etc.
-    router.push(`/Dashboard/manegeOrder/shipped/${val}`);
+  // Split the "2025-01" string into ["2025", "01"]
+  const [currentYear, currentMonth] = currentDate.split("-");
+
+  const updatePath = (year: string, month: string) => {
+    router.push(`/Dashboard/manegeOrder/shipped/${year}-${month}`);
   };
 
+  const years = ["2024", "2025", "2026"];
   const months = [
-    { name: "January", val: "2025-01" },
-    { name: "February", val: "2025-02" },
-    { name: "March", val: "2025-03" },
-    { name: "April", val: "2025-04" },
-    { name: "May", val: "2025-05" },
-    { name: "June", val: "2025-06" },
-    { name: "July", val: "2025-07" },
-    { name: "August", val: "2025-08" },
-    { name: "September", val: "2025-09" },
-    { name: "October", val: "2025-10" },
-    { name: "November", val: "2025-11" },
-    { name: "December", val: "2025-12" },
+    { name: "Jan", val: "01" },
+    { name: "Feb", val: "02" },
+    { name: "Mar", val: "03" },
+    { name: "Apr", val: "04" },
+    { name: "May", val: "05" },
+    { name: "Jun", val: "06" },
+    { name: "Jul", val: "07" },
+    { name: "Aug", val: "08" },
+    { name: "Sep", val: "09" },
+    { name: "Oct", val: "10" },
+    { name: "Nov", val: "11" },
+    { name: "Dec", val: "12" },
   ];
 
   return (
-    <Select value={currentDate} onValueChange={handleMonthChange}>
-      <SelectTrigger className="w-[160px] rounded-xl bg-slate-50 border-none font-bold text-slate-700 h-10 px-4">
-        <SelectValue placeholder="Select Period" />
-      </SelectTrigger>
-      <SelectContent className="rounded-xl border-none shadow-2xl">
-        {months.map((m) => (
-          <SelectItem
-            key={m.val}
-            value={m.val}
-            className="font-bold text-slate-600 focus:text-blue-600"
-          >
-            {m.name}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <div className="flex gap-2">
+      {/* Year Selector */}
+      <Select
+        value={currentYear}
+        onValueChange={(y) => updatePath(y, currentMonth)}
+      >
+        <SelectTrigger className="w-[100px] rounded-xl bg-slate-50 border-none font-bold text-slate-700 h-10 px-4">
+          <SelectValue placeholder="Year" />
+        </SelectTrigger>
+        <SelectContent className="rounded-xl border-none shadow-2xl">
+          {years.map((y) => (
+            <SelectItem key={y} value={y} className="font-bold">
+              {y}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
+      {/* Month Selector */}
+      <Select
+        value={currentMonth}
+        onValueChange={(m) => updatePath(currentYear, m)}
+      >
+        <SelectTrigger className="w-[120px] rounded-xl bg-slate-50 border-none font-bold text-slate-700 h-10 px-4">
+          <SelectValue placeholder="Month" />
+        </SelectTrigger>
+        <SelectContent className="rounded-xl border-none shadow-2xl">
+          {months.map((m) => (
+            <SelectItem
+              key={m.val}
+              value={m.val}
+              className="font-bold text-slate-600"
+            >
+              {m.name}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    </div>
   );
 }

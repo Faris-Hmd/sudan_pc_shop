@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TrendingUp } from "lucide-react";
+import DateSelector from "./DateForChart";
 
 type DaySales = {
   month: string;
@@ -86,24 +87,7 @@ export default function Component({
             ${totalSales.toLocaleString()}
           </Badge>
 
-          <Select
-            value={currentMonth}
-            onValueChange={(v) => router.push(`/Dashboard/Analatic/${v}`)}
-          >
-            <SelectTrigger className="w-[120px] h-10 rounded-xl bg-blue-50 border-blue-100 text-blue-700 font-bold">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="rounded-xl">
-              {months.map((m) => (
-                <SelectItem key={m} value={m} className="font-semibold">
-                  {new Date(m + "-01").toLocaleString("en-US", {
-                    month: "long",
-                    year: "numeric",
-                  })}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <DateSelector currentMonth={currentMonth} />
         </div>
       </div>
 
