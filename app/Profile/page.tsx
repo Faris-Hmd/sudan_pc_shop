@@ -15,7 +15,7 @@ import {
   Edit,
 } from "lucide-react";
 import Link from "next/link";
-import { db } from "../db/firebase";
+import { db } from "@/db/firebase";
 
 // 1. Define the Fetcher (The logic that gets the data)
 const fetchUserShipping = async (email: string) => {

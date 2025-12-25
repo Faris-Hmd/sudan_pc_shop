@@ -18,12 +18,11 @@ import {
   where,
   limit,
 } from "firebase/firestore";
-import { db } from "../../db/firebase";
-import ProductImgCarousel from "@/app/comp/carousel";
-import { getProductsIds } from "../../actions/product_ids";
-import CarouselDial from "../../comp/CarouselDial";
-import CartBtn from "../../comp/CartBtn";
-import ProductGridCustomData from "./../../comp/ProductGridOneFile";
+import { db } from "@/db/firebase";
+import ProductImgCarousel from "@/components/carousel";
+import ProductGridCustomData from "@/components/ProductGridOneFile";
+import { getProductsIds } from "./actions/product_ids";
+import CartBtn from "./components/cartBtn";
 
 export default async function ProductsDetails({ params }) {
   const { productId } = await params;
@@ -53,10 +52,6 @@ export default async function ProductsDetails({ params }) {
             imgs={product.p_imgs}
             imgFill={"object-cover"}
           />
-          {/* Thumbnail Dial below the main image */}
-          <div className="mt-4">
-            <CarouselDial imgs={product.p_imgs} />
-          </div>
         </div>
 
         {/* Right Column: Product Details and Actions */}

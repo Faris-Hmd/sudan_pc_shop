@@ -8,7 +8,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { db } from "../db/firebase";
+import { db } from "@/db/firebase";
 
 export async function GET() {
   try {

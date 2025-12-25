@@ -1,7 +1,7 @@
 // app/actions.ts
 "use server";
 import { collection, addDoc } from "firebase/firestore";
-import { db } from "../db/firebase";
+import { db } from "@/db/firebase";
 import { redirect } from "next/navigation";
 // import { revalidatePath } from "next/cache";
 

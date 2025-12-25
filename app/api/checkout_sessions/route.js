@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { headers } from "next/headers";
-import { stripe } from "../../../lib/stripe";
-import getUser from "../../../app/data/getUser";
+import { stripe } from "@/lib/stripe";
+import getUser from "@/data/getUser";
 export async function POST(request) {
   const body = await request.json();
   const user = await getUser();

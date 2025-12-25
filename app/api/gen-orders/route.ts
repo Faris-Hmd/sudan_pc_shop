@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { collection, writeBatch, doc, Timestamp } from "firebase/firestore";
-import { db } from "@/app/db/firebase";
+import { db } from "@/db/firebase";
 
 export async function POST() {
   try {

@@ -4,7 +4,7 @@ import {
   DialogTrigger,
   DialogTitle,
 } from "@/components/ui/dialog";
-import ProductImgCarousel from "@/app/comp/carousel";
+import ProductImgCarousel from "@/components/carousel";
 import { ZoomIn } from "lucide-react";
 
 export default function CarouselDial({ imgs }) {

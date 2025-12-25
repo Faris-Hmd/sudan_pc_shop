@@ -1,5 +1,5 @@
 import { collection, getDocs, limit, query } from "firebase/firestore";
-import { db } from "../db/firebase";
+import { db } from "@/db/firebase";
 
 export async function getProductsIds() {
   const productsRef = collection(db, "productsTest");

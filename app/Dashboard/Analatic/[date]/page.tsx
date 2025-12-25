@@ -1,5 +1,4 @@
-import Chart from "@/app/comp/Chart";
-import SectionCards from "@/app/comp/Section";
+import Chart from "./components/chart";
 import {
   collection,
   query,
@@ -9,9 +8,10 @@ import {
   Timestamp,
   orderBy,
 } from "firebase/firestore";
-import { db } from "@/app/db/firebase";
-import ChartPieInteractive from "@/app/comp/Pie";
-import { categories } from "@/app/data/categories";
+import { db } from "@/db/firebase";
+import ChartPieInteractive from "./components/pie";
+import { categories } from "@/data/categories";
+import SectionCards from "./components/section";
 
 export const revalidate = 60;
 

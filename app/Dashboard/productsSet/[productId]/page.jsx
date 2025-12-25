@@ -1,6 +1,6 @@
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../../db/firebase";
-import UpdateForm from "./Updateform";
+import { db } from "@/db/firebase";
+import UpdateForm from "./components/updateform";
 export async function UpdateFormPage({ params }) {
   const { productId } = await params;
 

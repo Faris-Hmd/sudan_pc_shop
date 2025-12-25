@@ -7,11 +7,10 @@ import {
   doc,
   updateDoc,
   query,
-  orderBy,
   where,
   serverTimestamp,
 } from "firebase/firestore";
-import { db } from "./../../db/firebase";
+import { db } from "@/db/firebase";
 import {
   Loader2,
   Package,
@@ -141,7 +140,7 @@ export default function ManageOrdersPage() {
         <div className="flex items-center gap-4">
           {/* Added Link to Shipped Orders */}
           <Link
-            href="/Dashboard/manegeOrder/shipped/2025-12"
+            href="/dashboard/manegeOrder/shipped/2025-12"
             className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-xl text-xs font-bold hover:bg-blue-100 transition-colors border border-blue-100"
           >
             <Package size={16} />

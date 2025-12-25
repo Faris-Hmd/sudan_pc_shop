@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
-import { product_add } from "../../../actions/product_add"; // Logic unchanged
-import { categories } from "../../../data/categories"; // Logic unchanged
+import { product_add } from "./actions/product_add"; // Logic unchanged
+import { categories } from "@/data/categories"; // Logic unchanged
 import { Camera, CircleX, ImagePlus, Loader, Upload } from "lucide-react";
 import { useState } from "react";
-import ProductImgCarousel from "../../../comp/carousel"; // Logic unchanged
+import ProductImgCarousel from "@/components/carousel"; // Logic unchanged
 import { upload } from "@vercel/blob/client"; // Logic unchanged
 import { toast } from "sonner"; // Logic unchanged
 import {

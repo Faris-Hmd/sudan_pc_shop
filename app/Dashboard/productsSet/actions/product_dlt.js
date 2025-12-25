@@ -1,8 +1,7 @@
 // app/actions.ts
 "use server";
-import { collection, deleteDoc, doc } from "firebase/firestore";
-import { db } from "../db/firebase";
-import { redirect } from "next/navigation";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "@/db/firebase";
 import { refresh } from "next/cache";
 
 export async function product_dlt(id) {

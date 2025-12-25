@@ -1,9 +1,9 @@
 "use client"; // Required for SWR
 
 import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "../db/firebase";
+import { db } from "@/db/firebase";
 import useSWR from "swr";
-import OrderList from "../comp/orders";
+import OrderList from "./components/orderList";
 import { useSession } from "next-auth/react";
 import { Loader2 } from "lucide-react";
 

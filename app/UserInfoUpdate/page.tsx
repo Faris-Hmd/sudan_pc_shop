@@ -7,7 +7,7 @@ import { Loader2, MapPin, ChevronLeft, Save } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { db } from "../db/firebase";
+import { db } from "@/db/firebase";
 
 export default function UserInfoUpdatePage() {
   const { data: session } = useSession();

@@ -19,7 +19,7 @@ import { Card, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 import { TrendingUp } from "lucide-react";
-import DateSelector from "./DateForChart";
+import DateSelector from "../../../../../components/DateForChart";
 
 type DaySales = {
   month: string;

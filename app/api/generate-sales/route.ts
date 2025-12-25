@@ -7,7 +7,7 @@ import {
   writeBatch,
   doc,
 } from "firebase/firestore";
-import { db } from "@/app/db/firebase";
+import { db } from "@/db/firebase";
 
 export async function GET() {
   try {

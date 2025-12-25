@@ -1,4 +1,4 @@
-import Categories from "./../../comp/Categories";
+import Categories from "@/components/Categories";
 function page() {
   return <Categories />;
 }

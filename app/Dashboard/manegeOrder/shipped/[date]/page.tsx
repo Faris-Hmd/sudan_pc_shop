@@ -1,4 +1,4 @@
-import { db } from "@/app/db/firebase";
+import { db } from "@/db/firebase";
 import {
   collection,
   getDocs,
@@ -8,7 +8,7 @@ import {
 } from "firebase/firestore";
 import { Package, Calendar, CheckCircle2, ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import DateSelector from "@/app/comp/DateForChart";
+import DateSelector from "@/components/DateForChart";
 
 export const revalidate = 20;
 

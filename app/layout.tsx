@@ -3,12 +3,12 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import AppSidebar from "./comp/Sidebar";
-import NavBar from "@/app/comp/NavBar";
+import AppSidebar from "../components/Sidebar";
+import NavBar from "@/components/NavBar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { SessionProvider } from "next-auth/react";
-import AppFooter from "./comp/footer";
-import BtmNav from "./comp/BtmNav";
+import AppFooter from "../components/footer";
+import BtmNav from "../components/BtmNav";
 const roboto = Nunito({
   weight: "500",
   subsets: ["latin"],

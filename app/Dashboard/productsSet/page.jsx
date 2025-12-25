@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { getProducts } from "../../data/products";
-import { Plus, ExternalLink, Package } from "lucide-react";
-import Dropdown from "../../comp/Dropdown";
-import TableSearchForm from "../../comp/TableSearchForm";
+import { getProducts } from "@/data/products";
+import { Plus, Package } from "lucide-react";
+import Dropdown from "./components/dropdown";
+import TableSearchForm from "./components/tableSearchForm";
 
 export default async function ProductTable({ searchParams }) {
   const { key, value } = await searchParams;
@@ -23,7 +23,7 @@ export default async function ProductTable({ searchParams }) {
               </p>
             </div>
             <Link
-              href="/Dashboard/productsSet/prod_add"
+              href="/dashboard/productsSet/prod_add"
               className="flex items-center gap-1 bg-blue-600 text-white font-bold py-2 px-3 md:px-5 rounded-xl shadow-lg text-xs md:text-sm transition-all active:scale-95"
             >
               <Plus size={16} strokeWidth={3} />

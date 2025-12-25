@@ -1,11 +1,11 @@
 "use client";
 import Link from "next/link";
-import { categories } from "../../../data/categories";
+import { categories } from "../../../../../data/categories";
 import { Camera, CircleX, Edit2, ImagePlus, Loader } from "lucide-react";
 import { useState } from "react";
-import ProductImgCarousel from "../../../comp/carousel";
+import ProductImgCarousel from "../../../../../components/carousel";
 import { upload } from "@vercel/blob/client";
-import { product_update } from "../../../actions/product_update";
+import { product_update } from "../actions/product_update";
 import { toast } from "sonner";
 import {
   Select,

@@ -25,21 +25,20 @@ import {
   Truck,
 } from "lucide-react";
 import Link from "next/link";
-import SignToggle from "./SignToggle";
 import UserInfo from "./UserInfo";
 
 const NAV_ITEMS = [
   { title: "Homepage", href: "/", icon: Home },
-  { title: "My Cart", href: "/Cart", icon: ShoppingCart },
+  { title: "My Cart", href: "/cart", icon: ShoppingCart },
   { title: "Orders", href: "/orders", icon: Truck },
   { title: "Search", href: "/products", icon: Search },
   { title: "Categories", href: "/products/categories", icon: Grid2X2 },
 ];
 
 const ADMIN_ITEMS = [
-  { title: "Manage Order", href: "/Dashboard/manegeOrder", icon: Package },
-  { title: "Analatic", href: "/Dashboard/Analatic/2025-11", icon: ChartSpline },
-  { title: "Products", href: "/Dashboard/productsSet", icon: Settings },
+  { title: "Manage Order", href: "/dashboard/manegeOrder", icon: Package },
+  { title: "Analatic", href: "/dashboard/analatic/2025-11", icon: ChartSpline },
+  { title: "Products", href: "/dashboard/productsSet", icon: Settings },
 ];
 
 export default async function AppSidebar() {
@@ -98,10 +97,6 @@ export default async function AppSidebar() {
 
       <SidebarFooter className="pb-8">
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SignToggle />
-          </SidebarMenuItem>
-
           <SidebarMenuItem>
             <SidebarMenuButton asChild>
               <Link href="/about">

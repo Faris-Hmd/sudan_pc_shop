@@ -5,7 +5,7 @@ import { product_wish, product_wish_remove } from "../actions/product_wish";
 import { useEffect, useState } from "react";
 import getUser from "../data/getUser";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../db/firebase";
+import { db } from "../app/db/firebase";
 
 function WishlistBtn({ productId }) {
   const [user, setUser] = useState();

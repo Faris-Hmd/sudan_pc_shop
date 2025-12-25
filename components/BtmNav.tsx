@@ -8,9 +8,9 @@ import { cn } from "@/lib/utils"; // Standard shadcn helper
 const NAV_ITEMS = [
   { title: "Home", href: "/", icon: Home },
   { title: "Categories", href: "/products/categories", icon: Grid2X2 },
-  { title: "Cart", href: "/Cart", icon: ShoppingCart },
+  { title: "Cart", href: "/cart", icon: ShoppingCart },
   { title: "Orders", href: "/orders", icon: Package },
-  { title: "Profile", href: "/Profile", icon: User },
+  { title: "Profile", href: "/profile", icon: User },
 ];
 
 export default function BtmNav() {

@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { setDoc, doc, serverTimestamp } from "firebase/firestore";
-import { db } from "../../db/firebase";
-import { stripe } from "../../../lib/stripe";
-import { time } from "console";
+import { db } from "@/db/firebase";
+import { stripe } from "@/lib/stripe";
 
 export async function GET(request: NextRequest) {
   console.log("Success ============ Success");
