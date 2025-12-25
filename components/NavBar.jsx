@@ -9,11 +9,11 @@ export default function Navbar() {
   const { data: session, status } = useSession();
 
   return (
-    <nav className="bg-[#fff3] backdrop-blur-2xl sticky top-0 right-0  z-10 ">
+    <nav className="bg-[#fff3] backdrop-blur-2xl sticky shadow top-0 right-0  z-10 flex justify-between items-center px-2 py-2 border-b border-gray-200">
       <div className="flex justify-between items-center">
         <SidebarTrigger size={"icon-sm"} className="ms-1" />
-        <Link href={"/"} className="logo">
-          <span className="text-blue-500">el</span>sudan pc shop
+        <Link href={"/"} className="uppercase font-bold text-lg ms-4">
+          <span className="text-blue-500">sudan</span> pc shop
         </Link>
       </div>
       <div className="flex items-center justify-center gap-1">

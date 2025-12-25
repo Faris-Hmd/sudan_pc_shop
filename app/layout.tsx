@@ -26,7 +26,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.className} antialiased`}>
+      <body
+        className={`${roboto.className} antialiased bg-[#eee] text-slate-900 `}
+      >
         <SessionProvider>
           <SidebarProvider>
             <main className="w-full">

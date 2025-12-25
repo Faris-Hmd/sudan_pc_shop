@@ -58,7 +58,7 @@ export default function ProfilePage() {
             </div>
           )}
           <Link
-            href="/UserInfoUpdate"
+            href="/profile/userInfoUpdate"
             className="absolute bottom-1 right-1 bg-white p-2 rounded-full shadow-lg text-blue-600 hover:scale-110 transition"
           >
             <Settings size={16} />

@@ -69,7 +69,7 @@ export default function UserInfoUpdatePage() {
       });
 
       // Optional: Redirect back to profile after short delay
-      setTimeout(() => router.push("/Profile"), 1500);
+      setTimeout(() => router.push("/profile"), 1500);
     } catch (error) {
       console.error("Error updating document: ", error);
       toast.error("Update failed", {
