@@ -226,7 +226,7 @@ export default function UpdateForm({ product }) {
                 defaultValue={product.p_cat}
                 disabled={pending}
               >
-                <SelectTrigger className="w-full h-[44px] bg-white border border-gray-400 text-sm text-gray-900 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600">
+                <SelectTrigger className="w-full h-[11] bg-white border border-gray-400 text-sm text-gray-900 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600">
                   <SelectValue placeholder="Select Category" />
                 </SelectTrigger>
                 <SelectContent>

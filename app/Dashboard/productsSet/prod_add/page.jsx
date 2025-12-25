@@ -228,7 +228,7 @@ export default function ProductImgUplpad() {
           <button
             type="submit"
             disabled={pending}
-            className="flex-[2] flex items-center justify-center gap-2 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-bold shadow-md hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-50"
+            className="flex-2 flex items-center justify-center gap-2 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-bold shadow-md hover:bg-blue-700 active:scale-[0.98] transition-all disabled:opacity-50"
           >
             {pending ? (
               <>

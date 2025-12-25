@@ -12,7 +12,7 @@ export default async function ProductTable({ searchParams }) {
     <div className="h-screen bg-gray-50 flex flex-col overflow-hidden">
       <div className="p-2 md:p-8 flex flex-col h-full gap-4 md:gap-6">
         {/* Header Section - More compact on mobile */}
-        <header className="flex flex-col gap-4 bg-white p-4 md:p-6 rounded-2xl border border-gray-200 shadow-sm flex-shrink-0">
+        <header className="flex flex-col gap-4 bg-white p-4 md:p-6 rounded-2xl border border-gray-200 shadow-sm shrink-0">
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-xl md:text-2xl font-bold text-gray-900 tracking-tight">

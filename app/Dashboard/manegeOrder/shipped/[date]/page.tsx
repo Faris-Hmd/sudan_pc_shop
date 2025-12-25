@@ -103,7 +103,7 @@ export default async function ShippedOrdersPage({
 
       {/* --- ADDED SUMMARY STATS --- */}
       <div className="grid grid-cols-2 gap-4 mb-8">
-        <div className="bg-gradient-to-br from-blue-600 to-blue-500 p-5 rounded-3xl shadow-lg shadow-blue-200 text-white">
+        <div className="bg-linear-to-br from-blue-600 to-blue-500 p-5 rounded-3xl shadow-lg shadow-blue-200 text-white">
           <p className="text-[10px] font-bold uppercase opacity-80 tracking-widest">
             Monthly Revenue
           </p>

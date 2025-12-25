@@ -67,7 +67,7 @@ export default function ProductImgCarousel({
                       e.stopPropagation(); // Prevents carousel from sliding when clicking delete
                       handleRemove(img.url);
                     }}
-                    className="absolute top-3 right-3 z-[50] pointer-events-auto flex items-center gap-2 px-3 py-1.5 
+                    className="absolute top-3 right-3 z-50 pointer-events-auto flex items-center gap-2 px-3 py-1.5 
                              bg-white/90 backdrop-blur-md text-red-600 border border-red-200
                              rounded-full text-xs font-bold shadow-md hover:bg-white 
                              hover:text-red-700 transition-all active:scale-90"

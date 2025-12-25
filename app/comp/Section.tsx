@@ -28,7 +28,7 @@ export default function SectionCards({ productsNum, ordersNum }: SectionProps) {
       </div>
 
       {/* Divider */}
-      <div className="h-[1px] w-full bg-slate-100" />
+      <div className="h-px w-full bg-slate-100" />
 
       {/* Orders Card */}
       <div className="flex items-center justify-between p-2">

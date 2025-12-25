@@ -4,7 +4,7 @@ import { Nunito } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import AppSidebar from "./comp/Sidebar";
-import NavBar from "./comp/NavBar";
+import NavBar from "@/app/comp/NavBar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { SessionProvider } from "next-auth/react";
 import AppFooter from "./comp/footer";

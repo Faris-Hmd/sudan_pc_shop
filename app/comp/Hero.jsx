@@ -8,13 +8,13 @@ function Hero() {
       <div className="absolute inset-0">
         {/* Use Next.js Image component for performance optimization */}
         <Image
+          loading="eager"
           src={
             "https://lzmijym9f9dkp5qm.public.blob.vercel-storage.com/_raideneshogun%20_wallpaper%20_wallpaperhd%20_staywithme%20_staywithmechannyeol%20_raideneshogunedit%20_wallpaper4k%20_wallpaperhd4k%20_wallpaperiPhone%28JPEG-26%29-iV85DUxQzwVaXJXbbtNYVqQccjgnKM.jpeg"
           }
           alt="High-performance PC components"
-          layout="fill"
-          objectFit="cover"
-          quality={80} // Optimize image quality
+          fill
+          quality={70} // Optimize image quality
           className="filter brightness-50" // Dark overlay effect
         />
       </div>

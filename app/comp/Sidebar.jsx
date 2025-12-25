@@ -45,7 +45,7 @@ const ADMIN_ITEMS = [
 export default async function AppSidebar() {
   return (
     <Sidebar className="z-50">
-      <SidebarHeader className="bg-gradient-to-br from-sky-700 to-sky-400 p-4 text-white">
+      <SidebarHeader className="bg-linear-to-br from-sky-700 to-sky-400 p-4 text-white">
         <div className="flex items-center justify-between mb-4">
           <Link href="/" className="font-bold text-lg tracking-tight">
             Elneelen Shop

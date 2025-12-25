@@ -152,7 +152,7 @@ function page() {
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="bg-indigo-100 text-indigo-800 p-2 flex items-center justify-center rounded-full font-semibold w-8 h-8 flex-shrink-0">
+                <div className="bg-indigo-100 text-indigo-800 p-2 flex items-center justify-center rounded-full font-semibold w-8 h-8 shrink-0">
                   {product.q}
                 </div>
                 <button

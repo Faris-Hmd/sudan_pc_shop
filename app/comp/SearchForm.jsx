@@ -72,7 +72,7 @@ function SearchForm() {
       onSubmit={handleSubmit}
       className="flex items-center space-x-2 p-2 border rounded-lg shadow-sm w-full max-w-lg mx-auto"
     >
-      <div className="relative flex items-center flex-grow">
+      <div className="relative flex items-center grow">
         <input
           type="text"
           name="search_word"
