@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { setDoc, doc, serverTimestamp } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 import { db } from "@/db/firebase";
 import { stripe } from "@/lib/stripe";
 import { OrderData } from "@/types/productsTypes";
