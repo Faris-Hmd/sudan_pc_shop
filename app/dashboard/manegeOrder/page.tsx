@@ -22,23 +22,7 @@ import {
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-
-// --- Types ---
-type ProductItem = {
-  p_name: string;
-  p_cost: number;
-  productId: string;
-  p_qu: number;
-  p_cat: string;
-};
-
-type OrderData = {
-  orderId: string;
-  customerEmail: string;
-  productList: ProductItem[];
-  status: string;
-  estimatedDate: string;
-};
+import { OrderData, ProductType } from "@/types/productsTypes";
 
 // --- Fetcher Logic ---
 const fetchOrders = async () => {
@@ -51,11 +35,14 @@ const fetchOrders = async () => {
   const snapshot = await getDocs(q);
 
   return snapshot.docs.map((doc) => {
-    const d = doc.data() as any;
+    const d = doc.data() as OrderData;
+    console.log(d);
+
     return {
       orderId: doc.id,
-      customerEmail: d.customer_email,
-      productList: (d.items || []).map((item: any) => ({
+      // include both keys to satisfy OrderData shape and preserve current usage
+      customer_email: d.customer_email,
+      productsList: (d.productsList || []).map((item: ProductType) => ({
         p_name: item.p_name,
         p_cost: item.p_cost,
         productId: item.productId,
@@ -97,9 +84,23 @@ export default function ManageOrdersPage() {
       if (newStatus === "Delivered") {
         await updateDoc(orderRef, {
           status: newStatus,
-          deliveredAt: serverTimestamp(),
+          deliveredAt: new Date(Date.now()).toISOString(), // Set delivered date to now
+          estimatedDate: null,
+          deleveratstamp: new Date(Date.now()),
         });
-      } else await updateDoc(orderRef, { status: newStatus });
+      } else if (newStatus === "Shipped") {
+        await updateDoc(orderRef, {
+          status: newStatus,
+          shippedAt: new Date(Date.now()).toISOString(),
+          estimatedDate: new Date(Date.now() + 5 * 60 * 1000).toISOString(), // You might want to set a real estimated date here
+        });
+      } else if (newStatus === "Canceled" || newStatus === "Processing") {
+        await updateDoc(orderRef, {
+          status: newStatus,
+          estimatedDate: null,
+          deliveredAt: null,
+        });
+      }
 
       // Tell SWR to refresh data
       mutate("admin/orders");
@@ -172,12 +173,12 @@ export default function ManageOrdersPage() {
       <div className="grid gap-4">
         {orders?.map((order) => {
           const isExpanded = expandedOrders[order.orderId];
-          const totalItems = order.productList.reduce(
-            (sum, p) => sum + p.p_qu,
+          const totalItems = order.productsList.reduce(
+            (sum, p) => sum + (Number(p.p_qu) || 0),
             0
           );
-          const totalPrice = order.productList.reduce(
-            (sum, p) => sum + p.p_cost * p.p_qu,
+          const totalPrice = order.productsList.reduce(
+            (sum, p) => sum + (Number(p.p_cost) || 0) * (Number(p.p_qu) || 0),
             0
           );
 
@@ -294,7 +295,7 @@ export default function ManageOrdersPage() {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-100">
-                        {order.productList.map((p) => (
+                        {order.productsList.map((p) => (
                           <tr
                             key={p.productId}
                             className="group hover:bg-white transition-colors"
@@ -311,10 +312,10 @@ export default function ManageOrdersPage() {
                               </span>
                             </td>
                             <td className="py-4 text-right text-gray-500 font-mono">
-                              ${p.p_cost.toFixed(2)}
+                              ${Number(p.p_cost).toFixed(2)}
                             </td>
                             <td className="py-4 text-right font-bold text-gray-900 font-mono">
-                              ${(p.p_cost * p.p_qu).toFixed(2)}
+                              ${(Number(p.p_cost) * Number(p.p_qu)).toFixed(2)}
                             </td>
                           </tr>
                         ))}

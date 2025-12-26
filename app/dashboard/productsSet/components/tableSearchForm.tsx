@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { categories } from "../../../../data/categories";
+import { categories } from "@/data/categories";
 import { useRef } from "react";
 
 function TableSearchForm() {

@@ -8,8 +8,13 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react"; // Example of an icon for a button
+import { ProductType } from "@/types/productsTypes";
 
-export default function ProductsCarousel({ products }: any) {
+export default function ProductsCarousel({
+  products,
+}: {
+  products: ProductType[];
+}) {
   return (
     <Carousel
       opts={{
@@ -33,7 +38,7 @@ export default function ProductsCarousel({ products }: any) {
       </div>
 
       <CarouselContent className="mx-auto">
-        {products?.map((prod: any, index: any) => (
+        {products?.map((prod, index: any) => (
           <CarouselItem
             key={index}
             className="md:basis-1/3 lg:basis-1/4 p-2 mx-auto"

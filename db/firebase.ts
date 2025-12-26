@@ -1,6 +1,10 @@
 // firebase.js
 import { initializeApp } from "firebase/app";
-import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
+import {
+  getFirestore,
+  connectFirestoreEmulator,
+  collection,
+} from "firebase/firestore";
 const firebaseConfig = {
   apiKey: "AIzaSyACa5a0MmohKo2h4-fN2ffnl7BlgLDr4iQ",
   authDomain: "sudan-pc-shop.firebaseapp.com",
@@ -18,7 +22,7 @@ const isDevelopment =
   process.env.NODE_ENV === "development" ||
   process.env.NEXT_PUBLIC_FIREBASE_EMULATOR === "true";
 
-if (isDevelopment && false) {
+if (isDevelopment) {
   // Only connect if we are in a browser environment
   try {
     // 8080 is the default Firestore port unless changed in firebase.json
@@ -28,3 +32,7 @@ if (isDevelopment && false) {
     console.warn("✘ Firestore Emulator connection failed:", err);
   }
 }
+export const productsRef = collection(db, "products");
+export const usersRef = collection(db, "users");
+
+export const ordersRef = collection(db, "orders");

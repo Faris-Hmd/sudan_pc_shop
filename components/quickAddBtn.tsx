@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { ShoppingCart, Check } from "lucide-react";
-import { ProductType } from "./ProductGridOneFile";
+import { ProductType } from "@/types/productsTypes";
 
 interface QuickAddBtnProps {
   product: ProductType;
@@ -28,7 +28,7 @@ const QuickAddBtn: React.FC<QuickAddBtnProps> = ({ product }) => {
       setIsInCart(false);
     } else {
       newCart = cart.filter((p) => p.productId !== product.productId);
-      newCart.push({ ...product, q: 1 });
+      newCart.push({ ...product, p_qu: 1 });
       setIsInCart(true);
     }
 

@@ -1,51 +1,26 @@
 "use client"; // Required for SWR
-
-import { collection, getDocs, query, where } from "firebase/firestore";
-import { db } from "@/db/firebase";
 import useSWR from "swr";
 import OrderList from "./components/orderList";
 import { useSession } from "next-auth/react";
-import { Loader2 } from "lucide-react";
+import { ArrowRight, Loader2, ShoppingBag } from "lucide-react";
+import { getUserOrders } from "./data/getUserOrders";
+import Link from "next/link";
+import { OrderData } from "@/types/productsTypes";
 
 export default function Orders() {
   const { data: session, status } = useSession();
 
   // 1. Define the Fetcher
-  const fetchOrders = async (email: string) => {
-    const ordersRef = collection(db, "orders");
-    const q = query(ordersRef, where("customer_email", "==", email));
-    const querySnapshot = await getDocs(q);
-
-    return querySnapshot.docs.map((doc) => {
-      const data = doc.data();
-      return {
-        orderId: doc.id,
-        customerEmail: data.customer_email,
-        productList: data.items.map((item: any) => ({
-          p_name: item.p_name,
-          p_cost: item.p_cost,
-          productId: item.productId,
-          p_qu: item.p_qu,
-          p_cat: item.p_cat,
-        })),
-        status: data.status || "Processing",
-        estimatedDate: data.estimatedDate || "Dec 20, 2025",
-      };
-    });
-  };
-
-  // 2. Use SWR
-  // The key is dynamic: if session.user.email is null, SWR won't fetch.
   const {
     data: orders,
     error,
     isLoading,
-  } = useSWR(
+  } = useSWR<OrderData[]>(
     session?.user?.email ? `orders/${session.user.email}` : null,
-    () => fetchOrders(session?.user?.email!),
+    () => getUserOrders(session?.user?.email!),
     {
-      revalidateOnFocus: false, // Prevents refetching every time you switch tabs
-      dedupingInterval: 10000, // Cache stays "fresh" for 10 seconds
+      revalidateOnFocus: false, // Prevents refetching when switching browser tabs
+      dedupingInterval: 10000, // Considers data fresh for 10 seconds
     }
   );
 
@@ -78,15 +53,39 @@ export default function Orders() {
   }
 
   return (
-    <div className="pb-24 max-w-5xl mx-0 ">
-      <h1 className="text-2xl font-bold text-gray-800  bg-white p-4  shadow">
-        My Orders
-      </h1>
+    <div className=" max-w-5xl mx-auto md:px-0">
+      <header className="mb-2 flex items-center justify-between p-4 bg-white shadow">
+        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+          My Orders
+        </h1>
+      </header>
+
       {orders && orders.length > 0 ? (
-        <OrderList orders={orders} steps={steps} />
+        <OrderList orders={orders} />
       ) : (
-        <div className="bg-white p-12 rounded-3xl border border-dashed border-gray-200 text-center">
-          <p className="text-gray-400">You haven't placed any orders yet.</p>
+        <div className="flex flex-col items-center justify-center  p-10 md:p-20 rounded-3xl  text-center ">
+          {/* Visual Element */}
+          <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6">
+            <ShoppingBag className="w-10 h-10 text-slate-300" />
+          </div>
+
+          {/* Engaging Copy */}
+          <h2 className="text-xl font-bold text-slate-800 mb-2">
+            No orders found
+          </h2>
+          <p className="text-slate-500 max-w-xs mx-auto mb-8 text-sm leading-relaxed">
+            Looks like you haven't placed any orders yet. Start exploring our
+            latest products to fill this up!
+          </p>
+
+          {/* Clear Call-to-Action */}
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95"
+          >
+            Start Shopping
+            <ArrowRight className="w-4 h-4" />
+          </Link>
         </div>
       )}
     </div>

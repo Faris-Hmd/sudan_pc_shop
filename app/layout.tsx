@@ -25,16 +25,16 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${roboto.className} antialiased bg-[#eee] text-slate-900 `}
+        className={`${roboto.className} antialiased bg-[#eee] text-slate-900 min-h-screen flex flex-col`}
       >
         <SessionProvider>
-          <main className="w-full">
+          <main className="w-full  grow min-h-screen">
             <Toaster position="top-center" expand />
             <NavBar />
             {children}
             <BtmNav />
-            <AppFooter />
           </main>
+          <AppFooter />
         </SessionProvider>
       </body>
     </html>

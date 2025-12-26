@@ -15,7 +15,6 @@ export async function POST(request) {
 
         return {
           allowedContentTypes: ["image/jpeg", "image/png", "image/webp"],
-          addRandomSuffix: true,
           allowOverwrite: true,
           // callbackUrl: 'https://example.com/api/avatar/upload',
           // optional, `callbackUrl` is automatically computed when hosted on Vercel

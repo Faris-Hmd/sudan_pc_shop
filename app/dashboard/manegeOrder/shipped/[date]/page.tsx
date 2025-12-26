@@ -8,7 +8,7 @@ import {
 } from "firebase/firestore";
 import { Package, Calendar, CheckCircle2, ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import DateSelector from "@/components/DateForChart";
+import DateSelector from "@/components/DataPicker";
 
 export const revalidate = 20;
 
@@ -34,28 +34,29 @@ async function getMonthlyDeliveredOrders(dateStr: string) {
   const q = query(
     ordersCol,
     where("status", "==", "Delivered"),
-    where("deliveredAt", ">=", Timestamp.fromDate(startDate)),
-    where("deliveredAt", "<=", Timestamp.fromDate(endDate))
+    where("deleveratstamp", ">=", Timestamp.fromDate(startDate)),
+    where("deleveratstamp", "<=", Timestamp.fromDate(endDate))
   );
 
   const snapshot = await getDocs(q);
 
   return snapshot.docs.map((doc) => {
-    const d = doc.data();
+    const d = doc.data() as OrderData;
     return {
       orderId: doc.id.slice(0, 12).toUpperCase(),
-      customerEmail: d.customer_email,
-      totalPrice: (d.items || []).reduce(
+      customer_email: d.customer_email,
+      totalPrice: (d.productsList || []).reduce(
         (sum: number, item: any) => sum + item.p_cost * item.p_qu,
         0
       ),
       deliveryDate:
-        d.deliveredAt?.toDate().toLocaleDateString("en-GB") || "N/A",
+        d.deleveratstamp?.toDate().toLocaleDateString("en-GB") || "N/A",
     };
   });
 }
 
 // ... existing imports
+import { OrderData } from "@/types/productsTypes";
 
 export default async function ShippedOrdersPage({
   params,
@@ -84,7 +85,7 @@ export default async function ShippedOrdersPage({
       <div className="bg-white rounded-3xl shadow border border-blue-50 p-6 mb-6 flex flex-row flex-wrap justify-between items-center gap-6">
         <div className="flex items-center gap-2">
           <Link
-            href="/Dashboard/manegeOrder"
+            href="/dashboard/manegeOrder"
             className="p-2 hover:bg-blue-50 rounded-full transition-colors text-blue-600"
           >
             <ChevronLeft size={24} />
@@ -139,7 +140,7 @@ export default async function ShippedOrdersPage({
                 </div>
                 <div>
                   <p className="font-bold text-slate-800 leading-none mb-1 text-sm lg:text-base">
-                    {order.customerEmail}
+                    {order.customer_email}
                   </p>
                   <p className="text-[10px] text-slate-400 font-mono font-bold tracking-tighter uppercase">
                     REF: {order.orderId}

@@ -2,7 +2,6 @@
 
 import { signOut, useSession } from "next-auth/react";
 import useSWR from "swr";
-import { doc, getDoc } from "firebase/firestore";
 import {
   Package,
   MapPin,
@@ -15,28 +14,29 @@ import {
   Edit,
 } from "lucide-react";
 import Link from "next/link";
-import { db } from "@/db/firebase";
+import { getShippingData, ShippingDataResponse } from "./data/getShippingData";
 
 // 1. Define the Fetcher (The logic that gets the data)
-const fetchUserShipping = async (email: string) => {
-  const docRef = doc(db, "users", email);
-  const docSnap = await getDoc(docRef);
-  return docSnap.exists() ? docSnap.data().shippingInfo : null;
-};
 
 export default function ProfilePage() {
   const { data: session } = useSession();
 
   // 2. Use SWR for Caching
   // The key is the user's email. If the email doesn't change, SWR returns cached data instantly.
-  const { data: shippingInfo, isLoading } = useSWR(
+  const { data, isLoading, mutate } = useSWR<ShippingDataResponse>(
     session?.user?.email ? `shipping/${session.user.email}` : null,
-    () => fetchUserShipping(session?.user?.email!),
+    // The key is passed as the first argument to the fetcher automatically if needed,
+    // but here we call the action directly with the email.
+    () => getShippingData(session?.user?.email!),
     {
-      revalidateOnFocus: false, // Don't refetch when user switches browser tabs
-      dedupingInterval: 60000, // Consider data "fresh" for 1 minute
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
     }
   );
+
+  // Helper to distinguish between success data and an error object
+  const shippingInfo = data && !("error" in data) ? data : null;
+  const fetchError = data && "error" in data ? data.error : null;
 
   if (!session?.user)
     return <div className="p-8 text-center">Please Sign In</div>;
@@ -58,7 +58,7 @@ export default function ProfilePage() {
             </div>
           )}
           <Link
-            href="/profile/userInfoUpdate"
+            href="/profile/edit"
             className="absolute bottom-1 right-1 bg-white p-2 rounded-full shadow-lg text-blue-600 hover:scale-110 transition"
           >
             <Settings size={16} />
@@ -101,7 +101,7 @@ export default function ProfilePage() {
             value: "3",
             icon: ShoppingBag,
             color: "text-blue-500",
-            href: "/Cart",
+            href: "/cart",
           },
           {
             label: "Points",
@@ -147,7 +147,7 @@ export default function ProfilePage() {
                         {shippingInfo.city}, {shippingInfo.zip}
                       </p>
                     </span>
-                    <Link href="/UserInfoUpdate">
+                    <Link href="/profile/edit">
                       <Edit size={20} className="inline ml-2 text-gray-400" />
                     </Link>
                   </div>

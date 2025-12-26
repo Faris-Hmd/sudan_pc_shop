@@ -33,7 +33,7 @@ export async function POST() {
           const mockOrder = {
             customer_email: `user_${monthNumber}_${day}_${i}@elneelen.com`,
             status: "Delivered",
-            deliveredAt: Timestamp.fromDate(deliveredDate),
+            deleveratstamp: Timestamp.fromDate(deliveredDate),
             items: [
               {
                 p_name: "Mock Product",

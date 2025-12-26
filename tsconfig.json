@@ -30,15 +30,16 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts",
     "app/dashboard/[productId]/page.jsx",
-    "app/products/page.jsx",
+    "app/products/page.tsx",
     "app/comp/servercomo.jsx",
-    "app/page.jsx",
+    "app/page.tsx",
     "app/api/route.ts",
     "app/dashboard/analatic/[date]/components/pie.jsx",
     "app/comp/Dropdown.jsx",
     "app/_Checkout/Complete/page.jsx",
-    "app/products/[productId]/components/cartBtn.jsx",
-    "app/dashboard/productsSet/[productId]/components/updateform.jsx"
+    "app/products/[productId]/components/cartBtn.tsx",
+    "app/dashboard/productsSet/[productId]/components/updateform.tsx",
+    "app/cart/components/checkoutBtnjtsx"
   ],
   "exclude": ["node_modules"]
 }
