@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
         productId: (item.metadata?.productId as string) || "",
         p_cat: (item.metadata?.p_cat as string) || "General",
         p_qu: item.quantity || 0,
-        p_details: (item.metadata?.p_details as string) || "",
+        
       };
     });
 
