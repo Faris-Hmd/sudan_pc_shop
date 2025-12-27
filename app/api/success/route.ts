@@ -28,8 +28,8 @@ export async function GET(request: NextRequest) {
         // Calculate unit cost safely
         p_cost: item.amount_total / (item.quantity || 1) / 100,
         // Type cast metadata keys as strings
-        productId: (item?.metadata?.productId as string) || "",
-        p_cat: (item?.metadata?.p_cat as string) || "General",
+        productId: "",
+        p_cat: "General",
         p_qu: item.quantity || 0,
         
       };
