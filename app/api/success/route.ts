@@ -28,10 +28,15 @@ export async function GET(request: NextRequest) {
         // Calculate unit cost safely
         p_cost: item.amount_total / (item.quantity || 1) / 100,
         // Type cast metadata keys as strings
+<<<<<<< HEAD
         productId: (item.metadata.productId as string) || "",
         p_cat: (item.metadata?.p_cat as string) || "General",
+=======
+        productId: "",
+        p_cat: "General",
+>>>>>>> 2a004f28237ec9af6d5d355226f5bd07c4cf1fe4
         p_qu: item.quantity || 0,
-        p_details: (item.metadata?.p_details as string) || "",
+        
       };
     });
 
