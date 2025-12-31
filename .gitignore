@@ -9,6 +9,9 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+/firebase-debug.log
+/firebase-errors.log
+
 
 # testing
 /coverage
