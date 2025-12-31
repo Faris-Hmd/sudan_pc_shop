@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -10,7 +11,7 @@ import {
   ShoppingCart,
   Package,
   User,
-  LayoutDashboard, // Added Icon
+  LayoutDashboard,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 
@@ -29,17 +30,18 @@ export default function Navbar() {
   return (
     <nav className="bg-white/80 backdrop-blur-md sticky top-0 z-50 flex justify-between items-center px-4 py-3 border-b border-gray-200 shadow-sm">
       {/* Brand Logo */}
-      <div className="flex items-center gap-8">
-        <Link
-          href={"/"}
-          className="uppercase font-extrabold text-xl tracking-tighter"
-        >
-          <span className="text-blue-600">sudan</span>{" "}
-          <span className="text-slate-800">pc shop</span>
+      <div className="flex items-center gap-4">
+        <Link href="/" className="flex items-center gap-2">
+          {/* Logo Icon */}
+          <img src="/favicon.ico" alt="Sudan PC Logo" className="w-8 h-8" />
+          {/* Logo Text */}
+          <span className="uppercase font-extrabold text-xl tracking-tighter text-blue-600">
+            Sudan PC
+          </span>
         </Link>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden lg:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-6 ml-6">
           {NAV_ITEMS.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -57,7 +59,7 @@ export default function Navbar() {
             );
           })}
 
-          {/* Logged In Only: Dashboard Link */}
+          {/* Dashboard Link if logged in */}
           {session?.user && (
             <Link
               href="/dashboard"
