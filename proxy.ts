@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server.js";
-export { auth as middleware } from "@/auth";
-import { auth } from "@/auth";
+export { auth as middleware } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 // const protRoute = ["/wishlist", "/Dashboard", "/Dashboard/productsSet"];
 export default async function proxy(request: NextRequest) {
   const sess = await auth();

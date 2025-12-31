@@ -26,20 +26,9 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts",
     "**/*.mts",
-    "app/dashboard/[productId]/page.jsx",
-    "app/products/page.tsx",
-    "app/comp/servercomo.jsx",
-    "app/page.tsx",
-    "app/api/route.ts",
-    "app/dashboard/analatic/[date]/components/pie.jsx",
-    "app/comp/Dropdown.jsx",
-    "app/_Checkout/Complete/page.jsx",
-    "app/products/[productId]/components/cartBtn.tsx",
-    "app/dashboard/productsSet/[productId]/components/updateform.tsx",
-    "app/cart/components/checkoutBtnjtsx"
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }

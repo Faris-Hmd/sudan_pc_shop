@@ -8,13 +8,13 @@ export type ProductFilterKey = "p_name" | "p_cat" | "all";
 
 // Updated interface to match the user's data structure
 export interface ProductType {
-  productId: string;
+  id: string;
   p_name: string;
-  p_cost: number;
+  p_cost: number | string;
   p_cat: string;
   p_details: string;
   p_imgs: ProductImage[];
-  createdAt?: any; // Optional, as it may not be present in all contexts
+  createdAt?: number | string | Date | null; // Optional, as it may not be present in all contexts
   p_qu?: number; // Quantity
 }
 
@@ -27,15 +27,14 @@ interface ProductGridProps {
 }
 
 export type OrderData = {
-  orderId: string;
-  customer_email: string;
+  id: string;
+  customer_email: string | null;
   productsList: ProductType[];
   status: "Processing" | "Shipped" | "Delivered" | "Cancelled";
-  estimatedDate: string;
-  shippedAt?: any;
-  deliveredAt?: any;
-  createdAt?: any;
+  deliveredAt: string;
+  createdAt: string;
   deleveratstamp?: any;
+  totalAmount: number;
 };
 
 export interface CategoryDistribution {

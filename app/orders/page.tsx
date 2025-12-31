@@ -3,9 +3,9 @@ import useSWR from "swr";
 import OrderList from "./components/orderList";
 import { useSession } from "next-auth/react";
 import { ArrowRight, Loader2, ShoppingBag } from "lucide-react";
-import { getUserOrders } from "./data/getUserOrders";
 import Link from "next/link";
 import { OrderData } from "@/types/productsTypes";
+import { getOrdersWh } from "@/services/ordersServices";
 
 export default function Orders() {
   const { data: session, status } = useSession();
@@ -17,14 +17,15 @@ export default function Orders() {
     isLoading,
   } = useSWR<OrderData[]>(
     session?.user?.email ? `orders/${session.user.email}` : null,
-    () => getUserOrders(session?.user?.email!),
+    () =>
+      getOrdersWh([
+        { field: "customer_email", op: "==", val: session?.user?.email },
+      ]),
     {
       revalidateOnFocus: false, // Prevents refetching when switching browser tabs
       dedupingInterval: 10000, // Considers data fresh for 10 seconds
     }
   );
-
-  const steps = ["Placed", "Processing", "Shipped", "Delivered"];
 
   // 3. Handle States
   if (status === "loading" || isLoading) {
@@ -61,7 +62,11 @@ export default function Orders() {
       </header>
 
       {orders && orders.length > 0 ? (
-        <OrderList orders={orders} />
+        orders.map((order) => (
+          <div key={order.id} className="mb-3 px-3">
+            <OrderList order={order} />
+          </div>
+        ))
       ) : (
         <div className="flex flex-col items-center justify-center  p-10 md:p-20 rounded-3xl  text-center ">
           {/* Visual Element */}
@@ -74,7 +79,7 @@ export default function Orders() {
             No orders found
           </h2>
           <p className="text-slate-500 max-w-xs mx-auto mb-8 text-sm leading-relaxed">
-            Looks like you haven't placed any orders yet. Start exploring our
+            Looks like you havent placed any orders yet. Start exploring our
             latest products to fill this up!
           </p>
 

@@ -73,7 +73,7 @@ export default function UpdateForm({ product }: { product: ProductType }) {
       // 3. Prepare Final Data
       const finalImgs = [...existingUrls, ...newUrls];
       formData.set("p_imgs", JSON.stringify(finalImgs));
-      formData.set("id", product.productId);
+      formData.set("id", product.id);
 
       // 4. Server Action
       await product_update(formData);

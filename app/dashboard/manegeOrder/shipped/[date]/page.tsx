@@ -1,14 +1,8 @@
-import { db } from "@/db/firebase";
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-  Timestamp,
-} from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 import { Package, Calendar, CheckCircle2, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import DateSelector from "@/components/DataPicker";
+import { getOrdersWhOrdered } from "@/services/ordersServices";
 
 export const revalidate = 20;
 
@@ -30,33 +24,12 @@ async function getMonthlyDeliveredOrders(dateStr: string) {
   const startDate = new Date(year, month - 1, 1);
   const endDate = new Date(year, month, 0, 23, 59, 59);
 
-  const ordersCol = collection(db, "orders");
-  const q = query(
-    ordersCol,
-    where("status", "==", "Delivered"),
-    where("deleveratstamp", ">=", Timestamp.fromDate(startDate)),
-    where("deleveratstamp", "<=", Timestamp.fromDate(endDate))
-  );
-
-  const snapshot = await getDocs(q);
-
-  return snapshot.docs.map((doc) => {
-    const d = doc.data() as OrderData;
-    return {
-      orderId: doc.id.slice(0, 12).toUpperCase(),
-      customer_email: d.customer_email,
-      totalPrice: (d.productsList || []).reduce(
-        (sum: number, item: any) => sum + item.p_cost * item.p_qu,
-        0
-      ),
-      deliveryDate:
-        d.deleveratstamp?.toDate().toLocaleDateString("en-GB") || "N/A",
-    };
-  });
+  return await getOrdersWhOrdered([
+    { field: "status", op: "==", val: "Delivered" },
+    { field: "deleveratstamp", op: ">=", val: Timestamp.fromDate(startDate) },
+    { field: "deleveratstamp", op: "<=", val: Timestamp.fromDate(endDate) },
+  ]);
 }
-
-// ... existing imports
-import { OrderData } from "@/types/productsTypes";
 
 export default async function ShippedOrdersPage({
   params,
@@ -75,7 +48,7 @@ export default async function ShippedOrdersPage({
   // --- ADDED CALCULATIONS ---
   const totalOrderCount = orders.length;
   const totalSalesVolume = orders.reduce(
-    (sum, order) => sum + order.totalPrice,
+    (sum, order) => sum + order.totalAmount,
     0
   );
 
@@ -131,7 +104,7 @@ export default async function ShippedOrdersPage({
         {orders.length > 0 ? (
           orders.map((order) => (
             <div
-              key={order.orderId}
+              key={order.id}
               className="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm flex items-center justify-between group hover:border-blue-200 transition-all"
             >
               <div className="flex items-center gap-4">
@@ -143,18 +116,18 @@ export default async function ShippedOrdersPage({
                     {order.customer_email}
                   </p>
                   <p className="text-[10px] text-slate-400 font-mono font-bold tracking-tighter uppercase">
-                    REF: {order.orderId}
+                    REF: {order.id}
                   </p>
                 </div>
               </div>
 
               <div className="text-right">
                 <p className="text-lg font-black text-slate-900 leading-none mb-1">
-                  ${order.totalPrice.toFixed(2)}
+                  ${order.totalAmount.toFixed(2)}
                 </p>
-                <div className="flex items-center gap-1 text-[10px] text-slate-400 font-bold justify-end uppercase tracking-widest">
+                <div className="bg-red flex items-center gap-1 text-[10px] text-slate-400 font-bold justify-end uppercase tracking-widest">
                   <Calendar size={12} />
-                  <span>{order.deliveryDate}</span>
+                  <span>{order.deliveredAt}</span>
                 </div>
               </div>
             </div>

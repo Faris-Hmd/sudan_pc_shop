@@ -19,8 +19,8 @@ function page() {
     }
   }, []);
   // Remove an item from the cart and persist to localStorage
-  function removeFromCart(productId: string) {
-    const updated = cart.filter((p) => p.productId !== productId);
+  function removeFromCart(id: string) {
+    const updated = cart.filter((p) => p.id !== id);
     setCart(updated);
     if (typeof window !== "undefined") {
       localStorage.setItem("sh", JSON.stringify(updated));
@@ -35,11 +35,11 @@ function page() {
           ) => (
             <div
               className="bg-white shadow-sm border border-gray-200 rounded-lg p-4 flex items-center justify-between transition duration-150 hover:shadow-md"
-              key={product.productId}
+              key={product.id}
             >
               <div className="flex items-center gap-4">
                 <Link
-                  href={`/products/${product.productId}`}
+                  href={`/products/${product.id}`}
                   className="relative w-20 h-20 shrink-0"
                 >
                   <Image
@@ -74,7 +74,7 @@ function page() {
                   {product.p_qu}
                 </div>
                 <button
-                  onClick={() => removeFromCart(product.productId)}
+                  onClick={() => removeFromCart(product.id)}
                   className="text-sm text-red-600 bg-red-50 p-2 rounded hover:bg-red-100 transition"
                   aria-label="Remove item"
                 >

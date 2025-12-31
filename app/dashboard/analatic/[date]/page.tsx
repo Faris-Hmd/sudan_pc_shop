@@ -1,29 +1,21 @@
 import Chart from "./components/chart";
 import {
-  collection,
-  query,
-  where,
-  getDocs,
   getCountFromServer,
+  query,
   Timestamp,
-  orderBy,
-  QueryDocumentSnapshot,
-  DocumentData,
+  where,
 } from "firebase/firestore";
-import { db, ordersRef, productsRef } from "@/db/firebase";
+import { ordersRef, productsRef } from "@/lib/firebase";
 import ChartPieInteractive from "./components/pie";
 import { categories } from "@/data/categories";
 import SectionCards from "./components/section";
-import {
-  CategoryDistribution,
-  DailySalesData,
-  OrderData,
-} from "@/types/productsTypes";
+import { CategoryDistribution, DailySalesData } from "@/types/productsTypes";
+import { getOrdersWhOrdered } from "@/services/ordersServices";
 export const revalidate = 60;
 
 // generateStaticParams is correctly typed for Next.js 15
 export async function generateStaticParams() {
-  return [{ date: "2025-12" }, { date: "2025-11" }];
+  return [{ date: "2025-12" }, { date: "2025-11" }, { date: "2026-01" }];
 }
 
 interface PageProps {
@@ -64,29 +56,21 @@ export default async function OverviewPage({ params }: PageProps) {
 
   // 3. Typed Fetch for Sales Data
   async function getSalesData(): Promise<DailySalesData[]> {
-    const q = query(
-      collection(db, "orders"),
-      where("status", "==", "Delivered"),
-      where("deleveratstamp", ">=", Timestamp.fromDate(startDate)),
-      where("deleveratstamp", "<=", Timestamp.fromDate(endDate)),
-      orderBy("deleveratstamp", "asc")
-    );
-
-    const querySnapshot = await getDocs(q);
+    const delveredOrders = await getOrdersWhOrdered([
+      { field: "status", op: "==", val: "Delivered" },
+      { field: "deleveratstamp", op: ">=", val: Timestamp.fromDate(startDate) },
+      { field: "deleveratstamp", op: "<=", val: Timestamp.fromDate(endDate) },
+    ]);
 
     // Explicitly type the accumulator map
     const statsMap: Record<number, { sales: number; orders: number }> = {};
-
-    querySnapshot.forEach((doc: QueryDocumentSnapshot<DocumentData>) => {
-      const data = doc.data() as OrderData;
-
+    delveredOrders.forEach((order) => {
       // Safety check for timestamps in 2025
-      if (!data.deleveratstamp) return;
-
-      const d = data.deleveratstamp.toDate();
+      if (!order.deliveredAt) return;
+      const d = new Date(order.deliveredAt);
       const day = d.getDate();
 
-      const orderTotal = (data.productsList || []).reduce(
+      const orderTotal = (order.productsList || []).reduce(
         (sum: number, item) =>
           sum + (Number(item.p_cost) * Number(item.p_qu) || 0),
         0

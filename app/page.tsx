@@ -1,8 +1,8 @@
-import { getProducts } from "../data/products";
 import ProductsCarousel from "../components/ProductsCarousel";
 import Hero from "../components/Hero";
 import Categories from "../components/Categories";
 import ProductGrid from "../components/ProductGrid";
+import { getProducts } from "@/services/productsServices";
 export const revalidate = 15; // revalidate at most every hour
 export const metadata = {
   title: "SPS | products Home",
@@ -10,7 +10,7 @@ export const metadata = {
 };
 
 export default async function Home() {
-  const products = await getProducts("all", "", 10);
+  const products = await getProducts();
   return (
     <>
       <Hero />

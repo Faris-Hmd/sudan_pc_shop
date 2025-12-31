@@ -44,7 +44,7 @@ export default function ProductsCarousel({
             className="md:basis-1/3 lg:basis-1/4 p-2 mx-auto"
           >
             <div className="w-full flex flex-col bg-white shadow-md rounded-lg overflow-hidden transition duration-300 hover:shadow-lg">
-              <Link href={`/products/${prod.productId}`}>
+              <Link href={`/products/${prod.id}`}>
                 <div className="relative h-56 w-full">
                   {" "}
                   {/* Fixed height for consistent card size */}

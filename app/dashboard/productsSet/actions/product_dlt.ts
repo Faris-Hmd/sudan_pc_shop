@@ -1,6 +1,6 @@
 "use server";
 
-import { productsRef } from "@/db/firebase";
+import { productsRef } from "@/lib/firebase";
 import { deleteDoc, doc } from "firebase/firestore";
 import { revalidatePath } from "next/cache";
 

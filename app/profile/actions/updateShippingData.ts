@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@/db/firebase";
+import { db } from "@/lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { ShippingInfo } from "../types/shippingAddressTypes";
 

@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@/auth";
+import { auth } from "@/lib/auth";
 
 export async function wait(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));

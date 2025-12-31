@@ -35,7 +35,7 @@ function CheckoutBtn() {
   function convertProductsToLineItems(products: ProductType[]) {
     return products.map((product) => {
       // Convert the string cost to a number and multiply by 100 for cents (e.g., $1.29 becomes 12900)
-      const unitAmountCents = Math.round(product.p_cost * 100);
+      const unitAmountCents = Math.round(Number(product.p_cost) * 100);
 
       return {
         price_data: {
@@ -47,15 +47,15 @@ function CheckoutBtn() {
         },
         quantity: product.p_qu,
         metadata: {
-          productId: product.productId,
+          id: product.id,
           p_cat: product.p_cat,
         },
       };
     });
   }
-  const payloadCart = convertProductsToLineItems(cart);
 
   async function handleSubmit(e: React.FormEvent) {
+    const payloadCart = convertProductsToLineItems(cart);
     e.preventDefault();
     if (!user) {
       toast.error("Please log in to proceed to checkout.");

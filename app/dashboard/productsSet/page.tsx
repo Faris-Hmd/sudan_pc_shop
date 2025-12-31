@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { getProducts } from "@/data/products";
 import { Plus, Package } from "lucide-react";
 import Dropdown from "./components/dropdown";
 import TableSearchForm from "./components/tableSearchForm";
+import { getProducts } from "@/services/productsServices";
 
 export default async function ProductTable({
   searchParams,
@@ -65,13 +65,10 @@ export default async function ProductTable({
               <tbody className="bg-white divide-y divide-gray-100">
                 {products?.length > 0 ? (
                   products.map((row) => (
-                    <tr
-                      key={row.productId}
-                      className="group hover:bg-blue-50/30"
-                    >
+                    <tr key={row.id} className="group hover:bg-blue-50/30">
                       <td className="px-3 md:px-6 py-3 md:py-4">
                         <Link
-                          href={"/products/" + row.productId}
+                          href={"/products/" + row.id}
                           className="flex items-center gap-2 md:gap-3"
                         >
                           <div className="hidden sm:flex p-2 bg-gray-100 rounded-lg text-gray-400">
@@ -98,7 +95,7 @@ export default async function ProductTable({
                         </span>
                       </td>
                       <td className="px-3 md:px-6 py-3 md:py-4 text-center">
-                        <Dropdown id={row.productId} />
+                        <Dropdown id={row.id} />
                       </td>
                     </tr>
                   ))

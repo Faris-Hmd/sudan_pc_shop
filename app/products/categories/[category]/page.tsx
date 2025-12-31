@@ -4,10 +4,10 @@ export async function generateStaticParams() {
   });
 }
 export const revalidate = 15; // revalidate at most every 15 seconds
-import { getProducts } from "@/data/products";
 import SearchForm from "@/components/SearchForm";
 import { categories } from "@/data/categories";
 import ProductGrid from "@/components/ProductGrid";
+import { getProducts } from "@/services/productsServices";
 async function page({ params }: { params: { category: string } }) {
   const { category } = await params;
   const products = await getProducts("p_cat", category);

@@ -15,8 +15,8 @@ const QuickAddBtn: React.FC<QuickAddBtnProps> = ({ product }) => {
   useEffect(() => {
     setMounted(true);
     const cart: ProductType[] = JSON.parse(localStorage.getItem("sh") || "[]");
-    setIsInCart(cart.some((p) => p.productId === product.productId));
-  }, [product.productId]);
+    setIsInCart(cart.some((p) => p.id === product.id));
+  }, [product.id]);
 
   const toggleCart = (e: React.MouseEvent) => {
     e.preventDefault(); // Stop Link navigation if nested
@@ -24,10 +24,10 @@ const QuickAddBtn: React.FC<QuickAddBtnProps> = ({ product }) => {
     let newCart;
 
     if (isInCart) {
-      newCart = cart.filter((p) => p.productId !== product.productId);
+      newCart = cart.filter((p) => p.id !== product.id);
       setIsInCart(false);
     } else {
-      newCart = cart.filter((p) => p.productId !== product.productId);
+      newCart = cart.filter((p) => p.id !== product.id);
       newCart.push({ ...product, p_qu: 1 });
       setIsInCart(true);
     }

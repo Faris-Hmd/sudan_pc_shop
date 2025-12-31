@@ -1,6 +1,6 @@
 import ProductGrid from "@/components/ProductGrid";
 import SearchForm from "@/components/SearchForm";
-import { getProducts } from "@/data/products";
+import { getProducts } from "@/services/productsServices";
 import { Search } from "lucide-react";
 export const metadata = {
   title: "SPS | products Sesrch",

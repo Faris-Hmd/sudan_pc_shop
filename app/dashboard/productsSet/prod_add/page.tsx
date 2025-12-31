@@ -1,6 +1,5 @@
 "use client";
 import Link from "next/link";
-import { product_add } from "./actions/product_add"; // Logic unchanged
 import { categories } from "@/data/categories"; // Logic unchanged
 import { Camera, CircleX, ImagePlus, Loader, Upload } from "lucide-react";
 import { useState } from "react";
@@ -14,7 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ProductImage } from "@/types/productsTypes";
+import { ProductImage, ProductType } from "@/types/productsTypes";
+import { addProduct } from "@/services/productsServices";
 
 export default function ProductImgUplpad() {
   const [imgs, setImgs] = useState<ProductImage[]>([]);
@@ -51,7 +51,7 @@ export default function ProductImgUplpad() {
         // 1. Parallel Upload
         // Assuming 'upload' is a typed function from a library like Vercel Blob
         const uploadTasks = imgs.map((img) =>
-          upload(img.productImgFile.name, img.productImgFile, {
+          upload(img.productImgFile?.name, img?.productImgFile, {
             access: "public",
             handleUploadUrl: "/api/uploadImgs",
           })
@@ -64,7 +64,13 @@ export default function ProductImgUplpad() {
         formData.set("p_imgs", JSON.stringify(productImgsUrl));
 
         // Execute Server Action (Ensure product_add is typed to accept FormData)
-        await product_add(formData);
+        await addProduct({
+          p_name: formData.get("p_name") as string,
+          p_cat: formData.get("p_cat") as string,
+          p_cost: formData.get("p_cost") as unknown as number,
+          p_details: formData.get("p_details") as string,
+          p_imgs: formData.get("p_imgs") as any,
+        });
 
         // 3. Cleanup
         imgs.forEach((img) => URL.revokeObjectURL(img.url)); // Cleanup memory

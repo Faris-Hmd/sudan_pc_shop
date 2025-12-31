@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { setDoc, doc } from "firebase/firestore";
-import { db } from "@/db/firebase";
 import { stripe } from "@/lib/stripe";
-import { OrderData } from "@/types/productsTypes";
+import { ProductType } from "@/types/productsTypes";
+import { addOrder } from "@/services/ordersServices";
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = request.nextUrl;
@@ -20,39 +19,31 @@ export async function GET(request: NextRequest) {
 
     // 2. Format Items with Metadata
     // Note: lineItems.data contains 'Stripe.LineItem' objects
-    const formattedItems = lineItems.data.map((item) => {
-      // In 2025, Stripe metadata is often on the Product object or passed through.
-      // If you attached metadata during checkout creation, it's accessed via item.price?.product
+    console.log(lineItems.data[0]);
+
+    const formattedItems: ProductType[] = lineItems.data.map((item) => {
       return {
-        p_name: item.description,
+        p_name: item.description || "Unnamed Product",
         // Calculate unit cost safely
         p_cost: item.amount_total / (item.quantity || 1) / 100,
         // Type cast metadata keys as strings
-<<<<<<< HEAD
-        productId: (item.metadata.productId as string) || "",
-        p_cat: (item.metadata?.p_cat as string) || "General",
-=======
-        productId: "",
-        p_cat: "General",
->>>>>>> 2a004f28237ec9af6d5d355226f5bd07c4cf1fe4
-        p_qu: item.quantity || 0,
-        
+        id: item.metadata.productId || "",
+        p_qu: item.quantity || 1,
+        p_cat: item.metadata.p_cat,
+        p_details: "",
+        createdAt: "",
+        p_imgs: [],
       };
     });
 
-    // 3. Save to Firestore
-    // setDoc returns Promise<void>, so we don't need to assign to docRef
-    await setDoc(doc(db, "orders", sessId), {
+    await addOrder({
       productsList: formattedItems,
       customer_email: session.customer_email,
-      orderId: sessId,
       status: "Processing",
       createdAt: new Date(Date.now()).toISOString(),
-      deliveredAt: null,
       totalAmount: session.amount_total ? session.amount_total / 100 : 0,
-      stripeSessionId: sessId,
-      // estimatedDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).getTime(), // Estimated 7 days from now
-    } as unknown as OrderData);
+      deliveredAt: "",
+    });
 
     // 4. Redirect to the relative /orders path
     return NextResponse.redirect(new URL("/orders", origin));

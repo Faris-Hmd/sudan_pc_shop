@@ -1,6 +1,4 @@
 export async function generateStaticParams() {
-  // console.log(await getProductsIds());
-
   return await getProductsIds();
 }
 
@@ -13,15 +11,15 @@ import ProductImgCarousel from "@/components/carousel";
 import ProductGrid from "@/components/ProductGrid";
 import { getProductsIds } from "./data/product_ids";
 import CartBtn from "./components/cartBtn";
-import { getProduct, getProducts } from "@/data/products";
+import { getProduct, getProducts } from "@/services/productsServices";
 
 export default async function ProductsDetails({
   params,
 }: {
-  params: { productId: string };
+  params: { id: string };
 }) {
-  const { productId } = await params;
-  const product = await getProduct(productId);
+  const { id } = await params;
+  const product = await getProduct(id);
   const prodSameCate = await getProducts("p_cat", product?.p_cat, 7);
   if (!product) {
     return (
@@ -77,8 +75,8 @@ export default async function ProductsDetails({
 
           {/* Action Buttons */}
           <div className="flex gap-4">
-            {/* <WishlistBtn productId={productId} /> {/* Uncomment if you have this component */}
-            <CartBtn product={{ ...product, productId }} />
+            {/* <WishlistBtn id={id} /> {/* Uncomment if you have this component */}
+            <CartBtn product={{ ...product, id }} />
           </div>
         </div>
       </div>{" "}

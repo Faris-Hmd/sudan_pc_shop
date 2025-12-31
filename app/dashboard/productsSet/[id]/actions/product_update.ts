@@ -1,7 +1,6 @@
 "use server";
-import { updateDoc, doc } from "firebase/firestore";
-import { productsRef } from "@/db/firebase";
 import { redirect } from "next/navigation";
+import { upProduct } from "@/services/productsServices";
 
 export async function product_update(formData: FormData) {
   // 1. Cast FormData entries to strings safely
@@ -16,12 +15,10 @@ export async function product_update(formData: FormData) {
   if (!id) throw new Error("Product ID is required");
 
   try {
-    const docRef = doc(productsRef, id);
-
-    await updateDoc(docRef, {
+    await upProduct(id, {
       p_name,
       p_cat,
-      p_cost,
+      p_cost: Number(p_cost),
       p_details,
       p_imgs: p_imgs_raw ? JSON.parse(p_imgs_raw) : [],
     });

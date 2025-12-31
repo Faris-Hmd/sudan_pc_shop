@@ -2,57 +2,20 @@
 import { useState } from "react";
 import useSWR, { mutate } from "swr";
 import {
-  collection,
-  getDocs,
-  doc,
-  updateDoc,
-  query,
-  where,
-  serverTimestamp,
-} from "firebase/firestore";
-import { db } from "@/db/firebase";
-import {
   Loader2,
   Package,
   ChevronDown,
   ChevronUp,
-  Calendar,
   RefreshCcw,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { OrderData, ProductType } from "@/types/productsTypes";
+import { getOrdersWh, upOrder } from "@/services/ordersServices";
 
 // --- Fetcher Logic ---
 const fetchOrders = async () => {
-  const ordersCol = collection(db, "orders");
-  const q = query(
-    ordersCol,
-    // orderBy("customer_email", "asc"),
-    where("status", "!=", "Delivered")
-  );
-  const snapshot = await getDocs(q);
-
-  return snapshot.docs.map((doc) => {
-    const d = doc.data() as OrderData;
-    console.log(d);
-
-    return {
-      orderId: doc.id,
-      // include both keys to satisfy OrderData shape and preserve current usage
-      customer_email: d.customer_email,
-      productsList: (d.productsList || []).map((item: ProductType) => ({
-        p_name: item.p_name,
-        p_cost: item.p_cost,
-        productId: item.productId,
-        p_qu: item.p_qu,
-        p_cat: item.p_cat,
-      })),
-      status: d.status || "Processing",
-      estimatedDate: d.estimatedDate || "Dec 24, 2025",
-    } as OrderData;
-  });
+  return getOrdersWh([{ field: "status", op: "!=", val: "Delivered" }]);
 };
 
 export default function ManageOrdersPage() {
@@ -80,25 +43,19 @@ export default function ManageOrdersPage() {
 
   const handleChangeStatus = async (orderId: string, newStatus: string) => {
     try {
-      const orderRef = doc(db, "orders", orderId);
       if (newStatus === "Delivered") {
-        await updateDoc(orderRef, {
+        await upOrder(orderId, {
           status: newStatus,
           deliveredAt: new Date(Date.now()).toISOString(), // Set delivered date to now
-          estimatedDate: null,
           deleveratstamp: new Date(Date.now()),
         });
       } else if (newStatus === "Shipped") {
-        await updateDoc(orderRef, {
+        await upOrder(orderId, {
           status: newStatus,
-          shippedAt: new Date(Date.now()).toISOString(),
-          estimatedDate: new Date(Date.now() + 5 * 60 * 1000).toISOString(), // You might want to set a real estimated date here
         });
-      } else if (newStatus === "Canceled" || newStatus === "Processing") {
-        await updateDoc(orderRef, {
+      } else if (newStatus === "Cancelled" || newStatus === "Processing") {
+        await upOrder(orderId, {
           status: newStatus,
-          estimatedDate: null,
-          deliveredAt: null,
         });
       }
 
@@ -172,19 +129,15 @@ export default function ManageOrdersPage() {
       {/* Orders List */}
       <div className="grid gap-4">
         {orders?.map((order) => {
-          const isExpanded = expandedOrders[order.orderId];
+          const isExpanded = expandedOrders[order.id];
           const totalItems = order.productsList.reduce(
             (sum, p) => sum + (Number(p.p_qu) || 0),
-            0
-          );
-          const totalPrice = order.productsList.reduce(
-            (sum, p) => sum + (Number(p.p_cost) || 0) * (Number(p.p_qu) || 0),
             0
           );
 
           return (
             <div
-              key={order.orderId}
+              key={order.id}
               className={cn(
                 "bg-white border rounded-3xl transition-all duration-300 overflow-hidden",
                 isExpanded
@@ -194,7 +147,7 @@ export default function ManageOrdersPage() {
             >
               {/* Summary Row */}
               <div
-                onClick={() => toggleOrder(order.orderId)}
+                onClick={() => toggleOrder(order.id)}
                 className="p-5 flex flex-wrap items-center justify-between gap-4 cursor-pointer select-none"
               >
                 <div className="flex items-center  gap-4 justify-between w-full">
@@ -220,7 +173,7 @@ export default function ManageOrdersPage() {
                         {totalItems} {totalItems === 1 ? "Item" : "Items"}
                       </span>
                       <span className="text-xs font-bold text-blue-600">
-                        ${totalPrice.toFixed(2)}
+                        ${order.totalAmount}
                       </span>
                     </div>
                   </div>{" "}
@@ -233,7 +186,7 @@ export default function ManageOrdersPage() {
                       <select
                         value={order.status}
                         onChange={(e) =>
-                          handleChangeStatus(order.orderId, e.target.value)
+                          handleChangeStatus(order.id, e.target.value)
                         }
                         className={cn(
                           "text-[11px] font-black uppercase tracking-wider rounded-xl px-4 py-2 border appearance-none cursor-pointer outline-none transition-all",
@@ -257,7 +210,7 @@ export default function ManageOrdersPage() {
                     <button
                       className=" text-gray-300 hover:text-gray-600 transition-colors"
                       onClick={() => {
-                        toggleOrder(order.orderId);
+                        toggleOrder(order.id);
                       }}
                     >
                       {isExpanded ? (
@@ -297,7 +250,7 @@ export default function ManageOrdersPage() {
                       <tbody className="divide-y divide-gray-100">
                         {order.productsList.map((p) => (
                           <tr
-                            key={p.productId}
+                            key={p.id}
                             className="group hover:bg-white transition-colors"
                           >
                             <td className="py-4 px-2 font-semibold text-gray-800">
@@ -326,12 +279,8 @@ export default function ManageOrdersPage() {
                   {/* Order Footer Info */}
                   <div className="mt-6 pt-6 border-t border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div className="flex items-center gap-4 text-xs text-gray-400">
-                      <div className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-lg border">
-                        <Calendar size={12} />
-                        <span>Est: {order.estimatedDate}</span>
-                      </div>
                       <span className="font-mono">
-                        ID: {order.orderId.slice(0, 16).toUpperCase()}
+                        ID: {order.id.slice(0, 16).toUpperCase()}
                       </span>
                     </div>
                     <div className="bg-blue-600 text-white px-6 py-3 rounded-2xl flex items-center gap-8 shadow-lg shadow-blue-100">
@@ -339,7 +288,7 @@ export default function ManageOrdersPage() {
                         Total Value
                       </span>
                       <span className="text-xl font-black">
-                        ${totalPrice.toFixed(2)}
+                        ${order.totalAmount.toFixed(2)}
                       </span>
                     </div>
                   </div>

@@ -8,10 +8,9 @@ import { ProductCardProps, ProductGridProps } from "@/types/productsTypes";
 // --- Product Card Component (Internal) ---
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const imageUrl = product.p_imgs?.[0]?.url;
-  const costNumber = product.p_cost || 0;
   return (
     <div className="bg-white rounded-md border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300">
-      <Link href={`/products/${product.productId}`}>
+      <Link href={`/products/${product.id}`}>
         <div className="block relative h-32 md:h-36">
           {" "}
           {/* Reduced height from h-48 */}
@@ -39,7 +38,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </h3>
         <div className="mt-2 flex items-center justify-between">
           <p className="text-sm font-black text-gray-900">
-            ${costNumber.toFixed(2)}
+            ${Number(product.p_cost).toFixed(2)}
           </p>
 
           {/* Small icon-only or text-only button for compactness */}
@@ -65,10 +64,7 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
         {products.length > 0 ? (
           products.map((product) => (
             // Use a real ID instead of Math.random() for better performance
-            <ProductCard
-              key={product.productId || product.productId}
-              product={product}
-            />
+            <ProductCard key={product.id || product.id} product={product} />
           ))
         ) : (
           <p className="col-span-full text-center text-[10px] uppercase font-bold tracking-widest text-gray-400 py-20">
