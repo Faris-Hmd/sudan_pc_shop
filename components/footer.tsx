@@ -56,21 +56,18 @@ export default function AppFooter() {
               Support
             </h4>
             <ul className="space-y-4 text-sm">
-              {[
-                "Privacy Policy",
-                "Terms of Service",
-                "Shipping Info",
-                "Contact Us",
-              ].map((link) => (
-                <li key={link}>
-                  <Link
-                    href={`/${link.toLowerCase().replace(" ", "-")}`}
-                    className="hover:text-blue-400 transition-colors"
-                  >
-                    {link}
-                  </Link>
-                </li>
-              ))}
+              {["Privacy Policy", "terms", "Shipping Info", "Contact Us"].map(
+                (link) => (
+                  <li key={link}>
+                    <Link
+                      href={`/${link.toLowerCase().replace(" ", "-")}`}
+                      className="hover:text-blue-400 transition-colors"
+                    >
+                      {link}
+                    </Link>
+                  </li>
+                )
+              )}
             </ul>
           </div>
 
