@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Cpu, Monitor, Zap, ArrowRight, Grid2X2 } from 'lucide-react';
+import { Monitor, Zap, ArrowRight, Grid2X2 } from 'lucide-react';
+import { Logo } from "@/components/Logo";
 
 function Hero() {
   return (
@@ -46,7 +47,7 @@ function Hero() {
 
       {/* Floating Icons (Parallax-ish) */}
       <div className="pointer-events-none absolute inset-0 z-0 hidden md:block">
-        <FloatingIcon icon={Cpu} className="top-1/4 left-10 text-blue-400" delay={0} />
+        <FloatingIcon icon={Logo} className="top-1/4 left-10 text-blue-400" delay={0} />
         <FloatingIcon icon={Zap} className="top-1/3 right-20 text-indigo-400" delay={2} />
         <FloatingIcon icon={Monitor} className="bottom-1/4 left-20 text-cyan-400" delay={4} />
       </div>

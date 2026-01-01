@@ -62,10 +62,10 @@ export default function DashboardPage() {
               Manage your store's operations and track performance metrics.
             </p>
           </div>
-          <div className="bg-white dark:bg-slate-900 px-4 py-2 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex items-center gap-3 transition-colors">
+          {/* <div className="bg-white dark:bg-slate-900 px-4 py-2 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm flex items-center gap-3 transition-colors">
              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
              <span className="text-xs font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest">System Live</span>
-          </div>
+          </div> */}
         </header>
 
         {/* Stats Section */}

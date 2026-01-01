@@ -1,7 +1,5 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import {
@@ -10,12 +8,13 @@ import {
   ShoppingCart,
   Package,
   LayoutDashboard,
-  Cpu,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useCart } from "@/hooks/useCart";
+import { Logo } from "@/components/Logo";
 
 import { ModeToggle } from "@/components/ModeToggle";
+import Link from "next/link";
 
 const NAV_ITEMS = [
   { title: "Home", href: "/", icon: Home },
@@ -27,18 +26,7 @@ export default function Navbar() {
   const { data: session } = useSession();
   const { cartCount } = useCart();
   const pathname = usePathname();
-  const [activeHash, setActiveHash] = useState("");
 
-  useEffect(() => {
-    const handleHashChange = () => setActiveHash(window.location.hash);
-    window.addEventListener("hashchange", handleHashChange);
-    window.addEventListener("popstate", handleHashChange);
-    setActiveHash(window.location.hash);
-    return () => {
-      window.removeEventListener("hashchange", handleHashChange);
-      window.removeEventListener("popstate", handleHashChange);
-    };
-  }, []);
 
   return (
     <nav className={`sticky top-0 z-50 transition-all duration-300 ${
@@ -49,7 +37,7 @@ export default function Navbar() {
         <div className="flex items-center gap-8">
           <Link href="/" className="group flex items-center gap-2.5 transition-transform active:scale-95">
             <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/20 group-hover:rotate-12 transition-transform duration-300">
-              <Cpu className="text-white w-6 h-6" />
+              <Logo className="text-white w-6 h-6" />
             </div>
             <div className="flex flex-col leading-none">
               <span className="text-xl font-black text-slate-900 dark:text-white tracking-tight">

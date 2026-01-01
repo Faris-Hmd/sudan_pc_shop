@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Facebook, Instagram, Twitter, Github, Send } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 export default function AppFooter() {
   return (
@@ -10,9 +11,16 @@ export default function AppFooter() {
           <div className="space-y-6">
             <Link
               href="/"
-              className="text-xl font-bold tracking-tighter text-white uppercase"
+              className="group flex items-center gap-3 text-xl font-bold tracking-tighter text-white uppercase"
             >
-              <span className="text-blue-500">Sudan</span> PC Shop
+              <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/20 transition-transform group-hover:scale-105">
+                <Logo className="text-white w-6 h-6" />
+              </div>
+              <div className="flex flex-col leading-none">
+                <span className="text-xl font-black tracking-tight">
+                  SUDAN<span className="text-blue-500">PC</span>
+                </span>
+              </div>
             </Link>
             <p className="text-sm leading-relaxed max-w-xs text-slate-400">
               Your premier destination for high-performance computing in Sudan.
