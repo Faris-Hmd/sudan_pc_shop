@@ -1,5 +1,5 @@
 import { Timestamp } from "firebase/firestore";
-import { Package, Calendar, CheckCircle2, ChevronLeft } from "lucide-react";
+import { Package, Calendar, CheckCircle2, ChevronLeft, History } from "lucide-react";
 import Link from "next/link";
 import DateSelector from "@/components/DataPicker";
 import { getOrdersWhOrdered } from "@/services/ordersServices";
@@ -53,30 +53,37 @@ export default async function ShippedOrdersPage({
   );
 
   return (
-    <div className="w-full mx-auto p-2 lg:p-10 pb-32">
+    <div className="w-full mx-auto  lg:p-10 pb-32">
       {/* Header */}
-      <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 p-6 mb-8 flex flex-row flex-wrap justify-between items-center gap-6 transition-colors">
-        <div className="flex items-center gap-2">
-          <Link
-            href="/dashboard/manegeOrder"
-            className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors text-blue-600 dark:text-blue-400"
-          >
-            <ChevronLeft size={24} />
-          </Link>
-          <div>
-            <h1 className="text-2xl lg:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-              Shipped Orders
-            </h1>
-            <p className="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest mt-0.5">
-              History & Fulfillment
-            </p>
+        <header className="mb-3 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h1 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white">
+                Shipped Orders
+              </h1>
+              <div   className="text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">
+<DateSelector currentMonth={date} />
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <Link
+                href={`/dashboard/manegeOrder` as any}
+                className="flex items-center gap-2 px-3 md:px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-xl text-xs font-bold hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors border border-blue-100 dark:border-blue-900/30 whitespace-nowrap"
+              >
+                <History size={16} />
+                <span className="hidden md:inline">Orders</span>
+              </Link>
+     
+            </div>
           </div>
         </div>
-        <DateSelector currentMonth={date} />
-      </div>
+      </header>
+          
+  
 
       {/* --- SUMMARY STATS --- */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-10">
+      <div className="p-2 grid grid-cols-2 sm:grid-cols-2 gap-4 md:gap-6 mb-5">
         <div className="bg-blue-600 dark:bg-blue-700 p-6 rounded-3xl shadow-lg shadow-blue-500/20 text-white">
           <p className="text-[10px] font-black uppercase opacity-80 tracking-widest mb-1">
             Monthly Revenue
@@ -97,7 +104,7 @@ export default async function ShippedOrdersPage({
       </div>
 
       {/* Orders List */}
-      <div className="grid gap-4">
+      <div className="p-2 grid gap-4">
         {orders.length > 0 ? (
           orders.map((order) => (
             <div

@@ -5,7 +5,10 @@ import Link from "next/link";
 import { useCart, dispatchCartUpdate } from "@/hooks/useCart";
 import CheckoutBtn from "./components/CheckoutBtn";
 
+
 function page() {
+
+
   const { cart } = useCart();
 
   // Remove an item from the cart
@@ -35,7 +38,7 @@ function page() {
       <div className="space-y-4">
         {cart.map((product) => (
           <div
-            className="group bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl p-4 sm:p-6 flex flex sm:flex-row items-start sm:items-center gap-6 transition-all duration-300 hover:shadow-lg dark:hover:shadow-blue-900/10 hover:border-blue-100 dark:hover:border-blue-900"
+            className="group bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded p-4 sm:p-6 flex flex sm:flex-row items-start sm:items-center gap-6 transition-all duration-300 hover:shadow-lg dark:hover:shadow-blue-900/10 hover:border-blue-100 dark:hover:border-blue-900"
             key={product.id}
           >
             {/* Product Image */}
@@ -114,18 +117,24 @@ function page() {
   }
 
   return (
-    <div className="min-h-screen bg-transparent py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto">
-        <header className="mb-8">
-          <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-            Shopping Cart
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400 mt-1">
-            {cart.length > 0
-              ? `You have ${cart.length} items in your cart`
-              : "Your cart is currently empty"}
-          </p>
-        </header>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-32">
+      {/* Header */}
+      <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
+          <div>
+            <h1 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white">
+              Shopping Cart
+            </h1>
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">
+              {cart.length > 0
+                ? `You have ${cart.length} items in your cart`
+                : "Your cart is currently empty"}
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto px-4 md:px-8 py-8">
 
         {cart.length > 0 ? (
           <div className="lg:grid lg:grid-cols-3 lg:gap-10 items-start">
@@ -164,7 +173,7 @@ function page() {
           </div>
         )}
       </div>
-    </div>
+      </div>
   );
 }
 

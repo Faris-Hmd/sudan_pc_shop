@@ -97,13 +97,7 @@ export default function UpdateForm({ product }: { product: ProductType }) {
     // Use a light gray background for contrast
     <div className="bg-transparent lg:min-h-screen p-2">
       {/* Header Card (White background, black text/border) */}
-      <div className="bg-white dark:bg-slate-900 flex justify-between items-center mb-6 shadow-sm border border-slate-100 dark:border-slate-800 rounded-lg p-4 max-w-2xl mx-auto transition-colors">
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white">
-          Edit Product Details
-        </h3>
-        <div className="h-2.5 w-2.5 rounded-full bg-blue-500 animate-pulse" />{" "}
-        {/* Small accent */}
-      </div>
+  
 
       {/* Main Form Container (White background, subtle shadow) */}
       <form

@@ -9,16 +9,26 @@ import {
   Package,
   XCircle,
   Phone,
-  User,
-  ExternalLink,
 } from "lucide-react";
 import { OrderData } from "@/types/productsTypes";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import useSWR from "swr";
+import { getDriver } from "@/services/driversServices";
+import { MessageSquare } from "lucide-react";
 
 const CompactOrderCard = ({ order }: { order: OrderData }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const isShipped = order.status === "Shipped";
+
+  // Fetch real driver info if assigned
+  const { data: driver } = useSWR(
+    order.driverId ? `driver-${order.driverId}` : null,
+    () => getDriver(order.driverId!),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60000,
+    }
+  );
 
   const statusConfig = useMemo(() => {
     switch (order.status) {
@@ -76,7 +86,7 @@ const CompactOrderCard = ({ order }: { order: OrderData }) => {
   return (
     <div
       className={cn(
-        "group w-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl transition-all duration-500 overflow-hidden",
+        "group w-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded transition-all duration-500 overflow-hidden",
         isOpen ? "shadow-xl shadow-slate-200/60 dark:shadow-none ring-1 ring-blue-500/5 dark:ring-blue-600/20" : "shadow-sm hover:shadow-md dark:hover:shadow-none hover:border-blue-100 dark:hover:border-blue-900",
       )}
     >
@@ -138,21 +148,26 @@ const CompactOrderCard = ({ order }: { order: OrderData }) => {
       >
         <div className="p-4 sm:p-6 space-y-6">
             
-            {/* Courier Info (Mock Data for Demo) */}
-            {isShipped && (
+            {/* Courier Info */}
+            {driver && (
                 <div className="flex items-center justify-between p-4 bg-white dark:bg-slate-900 border border-blue-50 dark:border-blue-900/30 rounded-2xl shadow-sm">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center">
-                            <User size={20} />
+                            <Truck size={20} />
                         </div>
                         <div>
-                            <p className="text-xs font-black text-slate-900 dark:text-white">Alex Thompson</p>
-                            <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Assigned Courier</p>
+                            <p className="text-xs font-black text-slate-900 dark:text-white">{driver.name}</p>
+                            <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Deployed Courier • {driver.vehicle}</p>
                         </div>
                     </div>
-                    <a href="tel:+" className="w-9 h-9 flex items-center justify-center rounded-xl bg-blue-600 text-white hover:bg-slate-900 dark:hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 dark:shadow-none active:scale-90">
-                        <Phone size={16} />
-                    </a>
+                    <div className="flex gap-2">
+                        <a href={`tel:${driver.phone}`} className="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 transition-all active:scale-90">
+                            <Phone size={16} />
+                        </a>
+                        <a href={`https://wa.me/${driver.phone.replace(/\+/g, '')}`} target="_blank" className="w-9 h-9 flex items-center justify-center rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-500/20 active:scale-90">
+                            <MessageSquare size={16} />
+                        </a>
+                    </div>
                 </div>
             )}
 

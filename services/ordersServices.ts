@@ -21,6 +21,24 @@ import { OrderData } from "@/types/productsTypes";
 const COL = "orders";
 
 /**
+ * GET ALL ORDERS: For dashboard metrics
+ */
+export async function getAllOrders(): Promise<OrderData[]> {
+  console.log("get all orders from server");
+  try {
+    const snap = await getDocs(collection(db, COL));
+    return snap.docs.map((d) => ({
+      ...d.data(),
+      id: d.id,
+      deleveratstamp: "",
+    })) as OrderData[];
+  } catch (error) {
+    console.error("Error fetching all orders:", error);
+    return [];
+  }
+}
+
+/**
  * GET: Returns a strictly typed OrderData or null
  */
 export async function getOrder(id: string): Promise<OrderData | null> {

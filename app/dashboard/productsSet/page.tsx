@@ -17,7 +17,7 @@ export default async function ProductTable({
     <div className="h-screen flex flex-col overflow-hidden bg-slate-50/30 dark:bg-black transition-colors duration-500">
       <div className="p-2 md:p-8 flex flex-col h-full gap-4 md:gap-6">
         {/* Header Section - More compact on mobile */}
-        <header className="flex flex-col gap-4 bg-white dark:bg-slate-900 p-4 md:p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm shrink-0 transition-all">
+        <header className="flex flex-col gap-4 bg-white dark:bg-slate-900 p-4 md:p-6 rounded border border-slate-200 dark:border-slate-800 shadow-sm shrink-0 transition-all">
           <div className="flex justify-between items-center">
             <div>
               <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
@@ -39,7 +39,7 @@ export default async function ProductTable({
         </header>
 
         {/* Table Container */}
-        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm grow overflow-hidden flex flex-col rounded-[2rem] transition-all">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm grow overflow-hidden flex flex-col rounded transition-all">
           <div className="overflow-y-auto grow">
             <table className="min-w-full divide-y divide-slate-100 dark:divide-slate-800 table-fixed">
               <thead className="bg-slate-50/50 dark:bg-slate-800/50 sticky top-0 z-10 backdrop-blur-md">
@@ -75,7 +75,7 @@ export default async function ProductTable({
                               {row.p_name}
                             </span>
                             <span className="text-[10px] text-slate-400 dark:text-slate-500 font-black uppercase tracking-widest truncate mt-1">
-                              ID: {row.id.slice(-8).toUpperCase()}
+                              {row.p_cat}
                             </span>
                           </div>
                         </Link>

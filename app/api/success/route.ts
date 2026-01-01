@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { ProductType } from "@/types/productsTypes";
 import { addOrder } from "@/services/ordersServices";
+import { getUser } from "@/services/userServices";
 
 import Stripe from "stripe";
 
@@ -19,7 +20,10 @@ export async function GET(request: NextRequest) {
     const session = await stripe.checkout.sessions.retrieve(sessId);
     const lineItems = await stripe.checkout.sessions.listLineItems(sessId);
 
-    // 2. Format Items with Metadata
+    // 2. Fetch user data to get shipping info
+    const userData = session.customer_email ? await getUser(session.customer_email) : null;
+
+    // 3. Format Items with Metadata
     // Note: lineItems.data contains 'Stripe.LineItem' objects
     console.log(lineItems.data[0]);
 
@@ -44,6 +48,8 @@ export async function GET(request: NextRequest) {
     await addOrder({
       productsList: formattedItems,
       customer_email: session.customer_email,
+      customer_name: userData?.name || session.customer_details?.name || undefined,
+      shippingInfo: userData?.shippingInfo,
       status: "Processing",
       createdAt: new Date(Date.now()).toISOString(),
       totalAmount: session.amount_total ? session.amount_total / 100 : 0,

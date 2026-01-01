@@ -8,6 +8,7 @@ import {
   ShoppingCart,
   Package,
   LayoutDashboard,
+  Truck,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useCart } from "@/hooks/useCart";
@@ -15,6 +16,8 @@ import { Logo } from "@/components/Logo";
 
 import { ModeToggle } from "@/components/ModeToggle";
 import Link from "next/link";
+import { getDriverByEmail } from "@/services/driversServices";
+import useSWR from "swr";
 
 const NAV_ITEMS = [
   { title: "Home", href: "/", icon: Home },
@@ -27,10 +30,16 @@ export default function Navbar() {
   const { cartCount } = useCart();
   const pathname = usePathname();
 
+  // Check if current user is a driver
+  const { data: driver } = useSWR(
+    session?.user?.email ? `nav-driver-${session.user.email}` : null,
+    () => getDriverByEmail(session?.user?.email as string)
+  );
+
 
   return (
-    <nav className={`sticky top-0 z-50 transition-all duration-300 ${
-        "bg-white dark:bg-slate-900/80 backdrop-blur-md py-4 border-b border-transparent dark:border-slate-800"
+    <nav className={`sticky backdrop-blur-md top-0 z-50 transition-all duration-300 ${
+        "bg-white/85 dark:bg-slate-900/2 backdrop-blur-md py-4 border-b border-transparent dark:border-slate-800"
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
         {/* Brand Logo */}
@@ -58,7 +67,7 @@ export default function Navbar() {
                   key={item.title}
                   href={item.href as any}
                   className={`relative px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 flex items-center gap-2 ${
-                    isActive 
+                    isActive  
                       ? "text-blue-600 bg-blue-50 dark:bg-blue-900/20" 
                       : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800"
                   }`}
@@ -89,6 +98,20 @@ export default function Navbar() {
               >
                 <LayoutDashboard size={18} strokeWidth={pathname.startsWith("/dashboard") ? 2.5 : 2} />
                 Dashboard
+              </Link>
+            )}
+
+            {driver && (
+              <Link
+                href={"/driver" as any}
+                className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 flex items-center gap-2 ${
+                  pathname.startsWith("/driver")
+                    ? "text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20"
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800"
+                }`}
+              >
+                <Truck size={18} strokeWidth={pathname.startsWith("/driver") ? 2.5 : 2} />
+                Driver Hub
               </Link>
             )}
           </div>

@@ -26,15 +26,20 @@ interface ProductGridProps {
   products: ProductType[]; // The prop you will pass in
 }
 
+import { ShippingInfo } from "./userTypes";
+
 export type OrderData = {
   id: string;
   customer_email: string | null;
+  customer_name?: string;
+  shippingInfo?: ShippingInfo;
   productsList: ProductType[];
   status: "Processing" | "Shipped" | "Delivered" | "Cancelled";
   deliveredAt: string;
   createdAt: string;
   deleveratstamp?: any;
   totalAmount: number;
+  driverId?: string;
 };
 
 export interface CategoryDistribution {

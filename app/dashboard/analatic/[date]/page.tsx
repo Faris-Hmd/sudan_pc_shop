@@ -107,7 +107,7 @@ export default async function OverviewPage({ params }: PageProps) {
 
   return (
     <div className="max-w-[100vw] overflow-x-hidden pb-10 bg-slate-50/30 dark:bg-black min-h-screen transition-colors duration-500">
-      <header className="bg-white dark:bg-slate-900 flex justify-between items-center m-2 p-4 border border-slate-100 dark:border-slate-800 shadow-sm rounded-2xl transition-all">
+      <header className="bg-white dark:bg-slate-900 flex justify-between items-center  p-4 border border-slate-100 dark:border-slate-800 shadow-sm  transition-all">
         <h1 className="text-2xl font-black text-slate-800 dark:text-white tracking-tight">
           Store Overview
         </h1>

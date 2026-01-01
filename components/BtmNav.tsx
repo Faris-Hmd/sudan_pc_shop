@@ -10,16 +10,25 @@ import {
   Package,
   User,
   LayoutDashboard,
+  Truck,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { useCart } from "@/hooks/useCart";
+import { getDriverByEmail } from "@/services/driversServices";
+import useSWR from "swr";
 
 export default function BtmNav() {
   const pathname = usePathname();
   const { data: session } = useSession();
   const { cartCount } = useCart();
   const [activeHash, setActiveHash] = useState("");
+
+  // Check if current user is a driver
+  const { data: driver } = useSWR(
+    session?.user?.email ? `btm-driver-${session.user.email}` : null,
+    () => getDriverByEmail(session?.user?.email as string)
+  );
 
   useEffect(() => {
     const handleHashChange = () => setActiveHash(window.location.hash);
@@ -48,6 +57,15 @@ export default function BtmNav() {
     });
   } else {
     navItems.push({ title: "Profile", href: "/profile", icon: User });
+  }
+
+  // Add Driver Hub if they are a driver
+  if (driver) {
+    navItems.push({
+      title: "Driver",
+      href: "/driver",
+      icon: Truck,
+    });
   }
 
   return (

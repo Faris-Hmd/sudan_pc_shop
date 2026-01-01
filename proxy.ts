@@ -15,5 +15,6 @@ export const config = {
     "/orders",
     "/checkout/:path*",
     "/profile/:path*",
+    "/driver/:path*",
   ],
 };

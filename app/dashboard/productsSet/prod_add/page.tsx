@@ -93,15 +93,21 @@ export default function ProductImgUplpad() {
 
   // --- END LOGIC UNCHANGED ---
   return (
-    <div className="bg-transparent lg:min-h-screen p-2">
+    <div className="bg-transparent lg:min-h-screen ">
       {/* Header */}
-      <div className="bg-white dark:bg-slate-900 flex justify-between items-center mb-6 shadow-sm border border-slate-100 dark:border-slate-800 rounded-lg p-4 max-w-2xl mx-auto transition-colors">
-        <h3 className="text-xl font-bold text-slate-800 dark:text-white">Add New Product</h3>
-      </div>
+         <header className="mb-2 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
+          <div>
+            <h1 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white">
+              Add New Product
+            </h1>
+          </div>
+        </div>
+      </header>
 
       <form
         onSubmit={handleProductImgsSubmit}
-        className="relative bg-white dark:bg-slate-900 p-6 rounded-xl shadow-md border border-slate-100 dark:border-slate-800 max-w-2xl mx-auto transition-colors"
+        className="m-2 relative bg-white dark:bg-slate-900 p-5 rounded-xl shadow-md border border-slate-100 dark:border-slate-800 max-w-2xl mx-2 md:mx-auto transition-colors"
       >
         {/* Loading Overlay */}
         {pending && (

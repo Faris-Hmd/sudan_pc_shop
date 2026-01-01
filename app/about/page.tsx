@@ -140,14 +140,14 @@ export default function AboutPage() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                href="/products"
+                href={"/products" as any}
                 className="bg-white text-blue-600 px-10 py-4 rounded-2xl font-black hover:bg-slate-50 transition-all flex items-center justify-center gap-3 shadow-lg shadow-black/5"
               >
                 Browse Shop
                 <ArrowRight size={20} />
               </Link>
               <Link
-                href="/contact"
+                href={"/contact" as any}
                 className="bg-blue-500/20 text-white border-2 border-white/20 px-10 py-4 rounded-2xl font-black hover:bg-white/10 transition-all backdrop-blur-sm"
               >
                 Contact Us

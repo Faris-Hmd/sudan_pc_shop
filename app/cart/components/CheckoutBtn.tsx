@@ -1,15 +1,26 @@
-import { ArrowRight, Loader2, ShieldCheck, CreditCard } from "lucide-react";
+import { ArrowRight, Loader2, ShieldCheck, CreditCard, AlertCircle } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import { ProductType } from "@/types/productsTypes";
 import { useCart } from "@/hooks/useCart";
+import useSWR from "swr";
+import { getUser } from "@/services/userServices";
+import { useRouter } from "next/navigation";
 
 function CheckoutBtn() {
   const { cart } = useCart();
   const [isPending, setIsPending] = useState(false);
-  const user = useSession().data?.user;
+  const { data: session } = useSession();
+  const user = session?.user;
+  const router = useRouter();
+
+  // Fetch user data to check shipping info
+  const { data: userData, isLoading: userLoading } = useSWR(
+    user?.email ? `checkout-user-${user.email}` : null,
+    () => getUser(user?.email as string)
+  );
 
   const total = useMemo(() => {
     return cart.reduce((acc, p) => acc + Number(p.p_cost) * Number(p.p_qu), 0);
@@ -49,6 +60,13 @@ function CheckoutBtn() {
       return;
     }
 
+    // Validate shipping info
+    if (!userData?.shippingInfo || !userData.shippingInfo.address || !userData.shippingInfo.phone) {
+      toast.error("Please complete your shipping information before checkout.");
+      router.push("/profile/edit" as any);
+      return;
+    }
+
     setIsPending(true);
     try {
       const payloadCart = convertProductsToLineItems(cart);
@@ -77,7 +95,7 @@ function CheckoutBtn() {
   }
 
   return (
-    <div className="mt-8 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all duration-300">
+    <div className="mt-2 bg-white dark:bg-slate-900 rounded border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all duration-300">
       <div className="p-6 space-y-4">
         <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">Order Summary</h2>
 

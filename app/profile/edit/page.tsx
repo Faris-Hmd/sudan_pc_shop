@@ -6,8 +6,8 @@ import { Loader2, MapPin, ChevronLeft, Save } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getShippingData } from "../data/getShippingData";
-import { updateShippingData } from "../actions/updateShippingData";
+import { getUser, upUser } from "@/services/userServices";
+import { UserData } from "@/types/userTypes";
 
 export default function UserInfoUpdatePage() {
   const { data: session } = useSession();
@@ -34,13 +34,11 @@ export default function UserInfoUpdatePage() {
 
       try {
         // 2. Call the Server Action
-        const result = await getShippingData(session.user.email);
+        const result = await getUser(session.user.email);
 
-        // 3. Handle the structured return from the action
-        if (result && "error" in result) {
-          toast.error(result.error);
-        } else if (result) {
-          setShipping(result);
+        // 3. Handle result
+        if (result?.shippingInfo) {
+          setShipping(result.shippingInfo);
         }
       } catch (error) {
         // Catch network-level failures
@@ -65,7 +63,9 @@ export default function UserInfoUpdatePage() {
 
     try {
       // 1. Call the Server Action
-      const result = await updateShippingData(session.user.email, shipping);
+      const result = await upUser(session.user.email, {
+        shippingInfo: shipping,
+      });
 
       if (result.success) {
         toast.success("Profile updated", {
