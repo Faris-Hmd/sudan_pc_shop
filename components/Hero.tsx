@@ -19,7 +19,7 @@ function Hero() {
             maskImage: 'radial-gradient(ellipse 60% 60% at 50% 50%, #000 70%, transparent 100%)'
           }}
         />
-        {/* Dynamic Blobs */}
+        {/* Dynamic Blobs - Hidden on mobile for performance */}
         <motion.div
           animate={{
             scale: [1, 1.2, 1],
@@ -28,7 +28,8 @@ function Hero() {
             y: [0, -50, 0],
           }}
           transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-40 -left-40 h-[30rem] w-[30rem] rounded-full bg-blue-600/30 blur-[100px]"
+          className="absolute -top-40 -left-40 h-[30rem] w-[30rem] rounded-full bg-blue-600/20 blur-[80px] hidden md:block"
+          style={{ willChange: "transform" }}
         />
         <motion.div
           animate={{
@@ -38,7 +39,8 @@ function Hero() {
             y: [0, 50, 0],
           }}
           transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-          className="absolute -bottom-40 -right-40 h-[30rem] w-[30rem] rounded-full bg-indigo-600/30 blur-[100px]"
+          className="absolute -bottom-40 -right-40 h-[30rem] w-[30rem] rounded-full bg-indigo-600/20 blur-[80px] hidden md:block"
+          style={{ willChange: "transform" }}
         />
       </div>
 
@@ -55,6 +57,7 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
+          style={{ willChange: "opacity, transform" }}
         >
           <h1 className="text-4xl font-extrabold leading-tight tracking-tight md:text-6xl">
             <span className="bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent">
@@ -69,6 +72,7 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          style={{ willChange: "opacity, transform" }}
           className="mx-auto mt-6 max-w-2xl text-lg text-white/70 md:text-xl"
         >
           Discover top-tier GPUs, CPUs, and components built for performance,
@@ -80,6 +84,7 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+          style={{ willChange: "opacity, transform" }}
           className="mt-8 flex justify-center"
         >
           <motion.a
