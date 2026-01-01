@@ -61,7 +61,6 @@ export default function ProductImgUplpad() {
         const productImgsUrl = blobs.map((blob) => ({ url: blob.url }));
 
         // 2. Prepare and Send Data
-        formData.set("p_imgs", JSON.stringify(productImgsUrl));
 
         // Execute Server Action (Ensure product_add is typed to accept FormData)
         await addProduct({
@@ -69,7 +68,7 @@ export default function ProductImgUplpad() {
           p_cat: formData.get("p_cat") as string,
           p_cost: formData.get("p_cost") as unknown as number,
           p_details: formData.get("p_details") as string,
-          p_imgs: formData.get("p_imgs") as any,
+          p_imgs: productImgsUrl ,
         });
 
         // 3. Cleanup
@@ -236,7 +235,7 @@ export default function ProductImgUplpad() {
         {/* Action Buttons */}
         <div className="flex items-center gap-3 mt-8 border-t pt-6">
           <Link
-            href="/Dashboard/productsSet"
+            href="/dashboard/productsSet"
             className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg border border-slate-200 text-slate-600 text-sm font-medium hover:bg-slate-50 transition-colors"
           >
             <CircleX size={18} /> Cancel

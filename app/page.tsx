@@ -14,14 +14,26 @@ export default async function Home() {
   return (
     <>
       <Hero />
-      <h2 className="text-3xl font-extrabold text-gray-800 my-8 text-center">
-        Featured PC Components
-      </h2>
-      <ProductGrid products={products.slice(0, 4)} />
-      <ProductsCarousel products={products} />
-      <Categories />
-      {/* <div className="text-2xl ps-2 text-center py-4">Most Viewed Products</div> */}
-      {/* <ProductsList products={products.slice(0, 10)} />; */}
+      
+      <main className="container mx-auto px-4 md:px-6 py-12 space-y-20">
+        <section id="shop" className="scroll-mt-24 space-y-10">
+          <div className="flex flex-col items-center text-center space-y-4">
+            <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tight">
+              Featured Components
+            </h2>
+            <p className="text-slate-500 max-w-2xl mx-auto text-lg">
+              Upgrade your rig with our top-rated selections for performance and aesthetics.
+            </p>
+          </div>
+          <ProductGrid products={products.slice(0, 4)} />
+        </section>
+
+        <section className="space-y-10">
+           <ProductsCarousel products={products} />
+        </section>
+
+        <Categories />
+      </main>
     </>
   );
 }

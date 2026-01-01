@@ -103,6 +103,8 @@ export default async function OverviewPage({ params }: PageProps) {
     getSalesData(),
   ]);
 
+  const totalMonthlySales = salesData.reduce((acc, curr) => acc + curr.sales, 0);
+
   return (
     <div className="max-w-[100vw] overflow-x-hidden pb-10">
       <header className="bg-white flex justify-between items-center m-2 p-4 border-b shadow-md rounded-2xl">
@@ -123,34 +125,44 @@ export default async function OverviewPage({ params }: PageProps) {
         </div>
       </header>
 
-      <main className="grid gap-4 md:grid-cols-3 lg:grid-cols-4 px-3">
-        <aside className="flex flex-col gap-4 md:col-span-1">
-          <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
-            <SectionCards productsNum={productsNum} ordersNum={ordersNum} />
-          </div>
+      <main className="p-4 space-y-6">
+        {/* Top Summary Cards */}
+        <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+          <SectionCards
+            productsNum={productsNum}
+            ordersNum={ordersNum}
+            totalSales={totalMonthlySales}
+          />
+        </div>
 
-          <div className="bg-white p-4 px-2 rounded-2xl shadow-sm border border-slate-100">
-            <div className="flex items-center gap-2 mb-2 px-2">
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Revenue Chart - Takes more space */}
+          <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 lg:col-span-2">
+            <div className="flex items-center gap-2 mb-4">
               <div className="w-1 h-4 bg-indigo-500 rounded-full" />
               <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider">
                 Daily Revenue
               </h3>
             </div>
-            <Chart salesData={salesData} />
+            <div className="w-full">
+              <Chart salesData={salesData} />
+            </div>
           </div>
-        </aside>
 
-        <section className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 md:col-span-2 lg:col-span-3">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider">
-              Inventory Distribution
-            </h3>
-            <span className="text-[10px] font-medium text-slate-400">
-              By Category
-            </span>
+          {/* Inventory Distribution - Smaller Side Panel */}
+          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 lg:col-span-1">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider">
+                Inventory
+              </h3>
+              <span className="text-[10px] font-medium text-slate-400">
+                By Category
+              </span>
+            </div>
+            <ChartPieInteractive categories={chartPieData} />
           </div>
-          <ChartPieInteractive categories={chartPieData} />
-        </section>
+        </div>
       </main>
     </div>
   );

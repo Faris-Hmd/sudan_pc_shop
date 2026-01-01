@@ -25,7 +25,7 @@ const ActionCard = ({
   Icon: any;
 }) => (
   <Link
-    href={href}
+    href={href as any}
     className="group p-4 md:p-6 rounded-xl border bg-white hover:border-blue-500 hover:shadow-md transition-all active:scale-95"
   >
     <div className="flex flex-col gap-3">
@@ -46,19 +46,16 @@ const ActionCard = ({
 
 export default function DashboardPage() {
   return (
-    <main className="max-w-7xl mx-auto  md:p-10 space-y-6  min-h-screen pb-24 md:pb-10">
-      {/* Header - More compact on mobile */}
-      <header className="bg-white shadow p-3 flex items-center justify-between border-b pb-4">
-        <div>
-          <h1 className="text-2xl  md:text-4xl font-extrabold tracking-tight text-slate-900">
-            Admin
+    <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        <header className="mb-8">
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+            Admin Dashboard
           </h1>
-          <p className="text-xs md:text-slate-500">Dec 2025 Store Overview</p>
-        </div>
-        <div className="p-2 bg-white rounded-full border md:hidden">
-          <Settings className="w-5 h-5 text-slate-500" />
-        </div>
-      </header>
+          <p className="text-slate-500 mt-1">
+            Overview of store performance and management tools
+          </p>
+        </header>
 
       {/* Stats Section - Scrollable/Grid compact */}
       <section className="p-4 py-1 grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-6">
@@ -107,7 +104,7 @@ export default function DashboardPage() {
       {/* Main Grid - 2 columns on mobile */}
       <section className="grid grid-cols-2 p-4 py-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5">
         <ActionCard
-          href="/dashboard/analatic/2025-12"
+          href="/dashboard/analatic/2026-01"
           title="Analytics"
           description="Sales & traffic"
           Icon={BarChart3}
@@ -131,7 +128,7 @@ export default function DashboardPage() {
           Icon={PlusCircle}
         />
         <ActionCard
-          href="/dashboard/manegeOrder/shipped/2025-12"
+          href="/dashboard/manegeOrder/shipped/2026-01"
           title="Logs"
           description="History"
           Icon={ClipboardList}
@@ -143,6 +140,7 @@ export default function DashboardPage() {
           Icon={Settings}
         />
       </section>
-    </main>
+      </div>
+    </div>
   );
 }

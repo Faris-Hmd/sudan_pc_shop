@@ -3,37 +3,34 @@
 import React, { useEffect, useState } from "react";
 import { ShoppingCart, Check } from "lucide-react";
 import { ProductType } from "@/types/productsTypes";
+import { useCart, dispatchCartUpdate } from "@/hooks/useCart";
 
 interface QuickAddBtnProps {
   product: ProductType;
 }
 
 const QuickAddBtn: React.FC<QuickAddBtnProps> = ({ product }) => {
-  const [isInCart, setIsInCart] = useState(false);
+  const { cart } = useCart();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const cart: ProductType[] = JSON.parse(localStorage.getItem("sh") || "[]");
-    setIsInCart(cart.some((p) => p.id === product.id));
-  }, [product.id]);
+  }, []);
+
+  const isInCart = cart.some((p) => p.id === product.id);
 
   const toggleCart = (e: React.MouseEvent) => {
     e.preventDefault(); // Stop Link navigation if nested
-    const cart: ProductType[] = JSON.parse(localStorage.getItem("sh") || "[]");
     let newCart;
 
     if (isInCart) {
       newCart = cart.filter((p) => p.id !== product.id);
-      setIsInCart(false);
     } else {
-      newCart = cart.filter((p) => p.id !== product.id);
-      newCart.push({ ...product, p_qu: 1 });
-      setIsInCart(true);
+      newCart = [...cart, { ...product, p_qu: 1 }];
     }
 
     localStorage.setItem("sh", JSON.stringify(newCart));
-    window.dispatchEvent(new Event("storage"));
+    dispatchCartUpdate();
   };
 
   if (!mounted)

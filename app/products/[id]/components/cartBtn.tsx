@@ -25,7 +25,10 @@ function CartBtn({ product }: { product: ProductType }) {
 
   const saveCart = (cart: CartProduct[]) => {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
-    window.dispatchEvent(new Event("storage"));
+    // Dispatch custom event for reactivity
+    import("@/hooks/useCart").then(({ dispatchCartUpdate }) =>
+      dispatchCartUpdate()
+    );
   };
 
   /* ---------------- Init ---------------- */

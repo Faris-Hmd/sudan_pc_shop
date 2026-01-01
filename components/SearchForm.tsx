@@ -49,7 +49,7 @@ function SearchForm() {
     const params = new URLSearchParams(searchParams);
     params.delete("search_word");
     // Stay on the current page but update the URL
-    replace(`${pathname}?${params.toString()}`);
+    replace(`${pathname}?${params.toString()}` as any) ;
   }, [pathname, replace, searchParams]);
 
   const handleSubmit = useCallback(
@@ -65,7 +65,7 @@ function SearchForm() {
 
       // Always navigate to the base products page with updated params on submit
       // This ensures search applies globally, not just within a specific category route
-      replace(`/products?${params.toString()}`);
+      replace(`/products?${params.toString()}` as any );
     },
     [searchValue, searchParams, replace]
   );

@@ -249,7 +249,7 @@ export default function UpdateForm({ product }: { product: ProductType }) {
         {/* Action Buttons - Blue primary, gray secondary */}
         <div className="flex items-center gap-4 mt-8 pt-6 border-t border-gray-200">
           <Link
-            href="/Dashboard/productsSet"
+            href="/dashboard/productsSet"
             className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg border border-gray-300 bg-gray-50 text-gray-700 text-sm font-medium hover:bg-gray-100 transition-colors"
           >
             <CircleX size={18} /> Cancel

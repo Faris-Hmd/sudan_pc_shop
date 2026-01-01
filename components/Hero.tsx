@@ -3,10 +3,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Cpu, Monitor, Zap, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 
 function Hero() {
   return (
-    <section className="relative isolate flex min-h-[80vh] items-center justify-center overflow-hidden bg-slate-900 py-20 md:py-32">
+    <section className="relative isolate flex min-h-[50vh] items-center justify-center overflow-hidden bg-slate-900 py-10 md:py-16">
       {/* Background Glows & Grid */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         {/* Animated Grid */}
@@ -18,7 +19,6 @@ function Hero() {
             maskImage: 'radial-gradient(ellipse 60% 60% at 50% 50%, #000 70%, transparent 100%)'
           }}
         />
-
         {/* Dynamic Blobs */}
         <motion.div
           animate={{
@@ -56,7 +56,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <h1 className="text-5xl font-extrabold leading-tight tracking-tight md:text-7xl">
+          <h1 className="text-4xl font-extrabold leading-tight tracking-tight md:text-6xl">
             <span className="bg-gradient-to-r from-blue-400 to-indigo-300 bg-clip-text text-transparent">
               Build Your Dream PC
             </span>
@@ -69,7 +69,7 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="mx-auto mt-8 max-w-2xl text-lg text-white/70 md:text-xl"
+          className="mx-auto mt-6 max-w-2xl text-lg text-white/70 md:text-xl"
         >
           Discover top-tier GPUs, CPUs, and components built for performance,
           reliability, and power.
@@ -80,13 +80,13 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-          className="mt-12 flex justify-center"
+          className="mt-8 flex justify-center"
         >
           <motion.a
             href="#shop"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="group relative inline-flex items-center gap-3 overflow-hidden rounded-2xl bg-blue-600 px-10 py-5 text-lg font-bold text-white shadow-xl shadow-blue-600/30 transition-all hover:bg-blue-500 hover:shadow-blue-500/50"
+            className="group relative inline-flex items-center gap-3 overflow-hidden rounded-2xl bg-blue-600 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-blue-600/30 transition-all hover:bg-blue-500 hover:shadow-blue-500/50"
           >
             <span className="relative z-10 flex items-center gap-2">
               Shop Now <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />

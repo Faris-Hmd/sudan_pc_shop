@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="disable">
       <body
         className={`${roboto.className} antialiased bg-[#eee] text-slate-900 min-h-screen flex flex-col`}
       >

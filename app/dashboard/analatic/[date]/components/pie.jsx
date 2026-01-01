@@ -77,11 +77,11 @@ export default function ChartPieInteractive({ categories }) {
       </CardHeader>
 
       {/* Chart */}
-      <CardContent className="flex flex-1 items-center justify-center pb-4">
+      <CardContent className="flex flex-1 items-center justify-center">
         <ChartContainer
           id={id}
           config={chartConfig}
-          className="aspect-square w-[220px]"
+          className="aspect-square h-[180px]"
         >
           <PieChart>
             <ChartTooltip

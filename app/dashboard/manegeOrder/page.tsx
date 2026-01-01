@@ -11,7 +11,7 @@ import {
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { getOrdersWh, upOrder } from "@/services/ordersServices";
+import { getOrdersWh, upOrder, delOrder } from "@/services/ordersServices";
 
 // --- Fetcher Logic ---
 const fetchOrders = async () => {
@@ -68,6 +68,21 @@ export default function ManageOrdersPage() {
     }
   };
 
+  const handleDelete = async (orderId: string) => {
+    if (!window.confirm("Are you sure you want to delete this order? This action cannot be undone.")) {
+      return;
+    }
+    
+    try {
+      await delOrder(orderId);
+      mutate("admin/orders");
+      toast.success("Order deleted successfully");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to delete order");
+    }
+  };
+
   if (isLoading)
     return (
       <div className="h-[70vh] w-full flex flex-col justify-center items-center gap-4">
@@ -82,7 +97,7 @@ export default function ManageOrdersPage() {
         Error loading database.
       </div>
     );
-
+ console.log(orders)
   return (
     <div className="max-w-6xl mx-auto p-2 md:p-8 space-y-2 pb-24">
       {/* Dashboard Header */}
@@ -278,10 +293,16 @@ export default function ManageOrdersPage() {
 
                   {/* Order Footer Info */}
                   <div className="mt-6 pt-6 border-t border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div className="flex items-center gap-4 text-xs text-gray-400">
-                      <span className="font-mono">
+                    <div className="flex flex-col gap-2">
+                       <span className="text-xs text-gray-400 font-mono">
                         ID: {order.id.slice(0, 16).toUpperCase()}
                       </span>
+                      <button
+                        onClick={() => handleDelete(order.id)}
+                        className="text-xs font-bold text-red-500 hover:text-red-700 hover:bg-red-50 py-1 px-3 -ml-3 rounded-lg transition-colors w-fit flex items-center gap-1"
+                      >
+                         Delete Order
+                      </button>
                     </div>
                     <div className="bg-blue-600 text-white px-6 py-3 rounded-2xl flex items-center gap-8 shadow-lg shadow-blue-100">
                       <span className="text-xs font-medium opacity-80 italic">

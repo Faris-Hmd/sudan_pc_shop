@@ -25,7 +25,7 @@ function TableSearchForm() {
     if (cat === "all") {
       handleReset();
     } else {
-      replace(`${pathname}?key=p_cat&value=${cat}`);
+      replace(`${pathname}?key=p_cat&value=${cat}` as any);
     }
   }
 
@@ -36,14 +36,14 @@ function TableSearchForm() {
 
     if (p_name?.trim()) {
       replace(
-        `${pathname}?key=p_name&value=${encodeURIComponent(p_name.trim())}`
+        `${pathname}?key=p_name&value=${encodeURIComponent(p_name.trim())} ` as any
       );
     }
   }
 
   function handleReset() {
     if (formRef.current) formRef.current.reset();
-    replace(pathname);
+    replace(pathname as any );
   }
 
   return (

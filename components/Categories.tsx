@@ -1,71 +1,50 @@
 import Link from "next/link";
 import Image from "next/image";
-
-// Your list of categories
-const categories = [
-  "PC",
-  "LAPTOP",
-  "WEBCAMS",
-  "HARD_DRIVES",
-  "HEADSETS",
-  "KEYBOARDS",
-  "SPEAKERS",
-  "PRINTERS",
-  "MICROPHONES",
-  "MONITORS",
-  // "TABLETS",
-  // "PROJECTORS",
-  // "SCANNERS",
-  "SSD",
-  "MOUSES",
-  // "DESKTOP",
-];
+import { categories } from "@/data/categories";
 
 export default function Categories() {
   return (
-    <div className="container mx-auto p-4 md:p-8">
-      <h2 className="text-3xl font-extrabold text-gray-800 mb-6 border-b pb-2 text-center">
-        Browse By Category
-      </h2>
+    <section className="py-12 bg-white">
+      <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+        <div className="flex flex-col items-center mb-10 text-center">
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-3">
+            Shop by Category
+          </h2>
+          <p className="text-slate-500 max-w-lg mx-auto">
+            Find exactly what you need for your setup.
+          </p>
+        </div>
 
-      {/* Responsive Grid Container */}
-      {/* It will show 3 columns on mobile, 4 on medium screens, and 6 on large screens */}
-      <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        {/* We map over all categories now for a complete list */}
-        {categories.map((cat) => {
-          // Construct the image URL
-          const imageUrl = `https://lzmijym9f9dkp5qm.public.blob.vercel-storage.com/icons/${cat}.png`;
+        <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 md:gap-6">
+          {categories.map((cat) => {
+            const imageUrl = `https://lzmijym9f9dkp5qm.public.blob.vercel-storage.com/icons/${cat}.png`;
+            const label = cat.replace(/_/g, " ");
 
-          return (
-            <div
-              key={cat}
-              // Card Styling: Clean background, shadow, interactive hover effects
-              className="group bg-white rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer"
-            >
-              <Link href={"/products/categories/" + cat}>
-                <div className="flex flex-col items-center justify-center p-4 h-full w-full">
-                  {/* Image Container with Next/Image */}
-                  <div className="h-16 w-16 relative mb-3">
+            return (
+              <Link
+                key={cat}
+                href={`/products/categories/${cat}`}
+                className="group flex flex-col items-center gap-3 p-4 rounded-3xl bg-slate-50 border border-slate-100 transition-all duration-300 hover:bg-white hover:border-blue-200 hover:shadow-lg hover:shadow-blue-50 hover:-translate-y-1"
+              >
+                <div className="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center bg-white rounded-2xl shadow-sm border border-slate-100 group-hover:scale-110 transition-transform duration-300">
+                  <div className="relative w-10 h-10 md:w-12 md:h-12">
                     <Image
-                      sizes="(max-width: 768px) 50vw, 33vw"
-                      alt={`Category: ${cat}`}
-                      fill
                       src={imageUrl}
-                      className="object-cover" // Ensures icons look good even if image shape varies
+                      alt={label}
+                      fill
+                      className="object-contain opacity-80 group-hover:opacity-100 transition-opacity"
                     />
                   </div>
-
-                  {/* Category Name */}
-                  <div className="text-sm font-semibold text-gray-700 text-center capitalize group-hover:text-blue-600 transition duration-300">
-                    {/* Replaces underscores with spaces for cleaner UI display */}
-                    {cat.replace(/_/g, " ")}
-                  </div>
                 </div>
+
+                <span className="text-xs md:text-sm font-bold text-slate-600 text-center uppercase tracking-wide group-hover:text-blue-600 transition-colors">
+                  {label}
+                </span>
               </Link>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }

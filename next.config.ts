@@ -1,12 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
-module.exports = {
+  typedRoutes: true,
   images: {
     remotePatterns: [
-      new URL("https://lzmijym9f9dkp5qm.public.blob.vercel-storage.com/**"),
+      {
+        protocol: 'https',
+        hostname: 'lzmijym9f9dkp5qm.public.blob.vercel-storage.com',
+      },
     ],
   },
 };

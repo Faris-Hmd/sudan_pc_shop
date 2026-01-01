@@ -111,7 +111,7 @@ export default function ProfilePage() {
           },
         ].map((stat, i) => (
           <Link
-            href={stat.href || "#"}
+             href={stat.href || "#" as any}
             key={i}
             className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center hover:shadow-md transition"
           >

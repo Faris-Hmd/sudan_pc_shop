@@ -14,6 +14,7 @@ import {
   LayoutDashboard,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import { useCart } from "@/hooks/useCart";
 
 const NAV_ITEMS = [
   { title: "Home", href: "/", icon: Home },
@@ -25,6 +26,7 @@ const NAV_ITEMS = [
 
 export default function Navbar() {
   const { data: session } = useSession();
+  const { cartCount } = useCart();
   const pathname = usePathname();
 
   return (
@@ -48,12 +50,19 @@ export default function Navbar() {
             return (
               <Link
                 key={item.title}
-                href={item.href}
+                href={item.href as any}
                 className={`flex items-center gap-2 text-sm font-medium transition-colors hover:text-blue-600 ${
                   isActive ? "text-blue-600" : "text-slate-600"
                 }`}
               >
-                <Icon size={18} />
+                <div className="relative">
+                  <Icon size={18} />
+                  {item.title === "Cart" && cartCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
+                      {cartCount}
+                    </span>
+                  )}
+                </div>
                 {item.title}
               </Link>
             );

@@ -30,60 +30,70 @@ export default async function ProductsDetails({
   }
 
   return (
-    // Added a main container for consistent padding across the site
-    <div className="container mx-auto px-2 py-2 md:py-12">
-      {/* Main Product Section: Two-column layout on medium screens */}
-      <div className="flex flex-col md:flex-row gap-2 bg-white shadow-lg rounded-xl overflow-hidden">
-        {/* Left Column: Image Gallery */}
-        <div className="md:w-1/2 p- md:p-6">
-          <ProductImgCarousel
-            imgH={"h-80 md:h-96"} // Adjusted height for better visual
-            imgs={product.p_imgs}
-            imgFill={"object-cover"}
-          />
+    <div className="min-h-screen bg-slate-50 pt-0 pb-10 md:py-10 p-3 mt-2 md:p-6">
+      <div className="container mx-auto px-0 md:px-6 max-w-7xl space-y-6 md:space-y-16">
+        {/* Main Product Section */}
+        <div className="bg-white md:rounded-3xl md:shadow-sm md:border border-slate-100 overflow-hidden">
+          <div className="grid md:grid-cols-2 gap-0">
+            {/* Left Column: Image Gallery */}
+            <div className="p-0 md:p-8 bg-white flex items-center justify-center border-b md:border-b-0 md:border-r border-slate-100">
+              <div className="w-full">
+                <ProductImgCarousel
+                  imgH={"h-[300px] md:h-[350px]"} 
+                  imgs={product.p_imgs}
+                  imgFill={"object-cover"} 
+                />
+              </div>
+            </div>
+
+            {/* Right Column: Product Details & Actions */}
+            <div className="p-4 md:p-8 flex flex-col justify-center space-y-6">
+              <div className="space-y-3">
+                <div className="flex items-center gap-3">
+                  <span className="px-2 py-1 text-[10px] font-bold text-blue-600 bg-blue-50 uppercase tracking-wider rounded-full">
+                    {product.p_cat}
+                  </span>
+                </div>
+                
+                <h1 className="text-2xl md:text-3xl font-black text-slate-900 leading-tight">
+                  {product.p_name}
+                </h1>
+
+                <div className="flex items-baseline gap-2">
+                  <span className="text-3xl font-black text-blue-600">
+                    {Number(product.p_cost).toLocaleString()}
+                  </span>
+                  <span className="text-lg font-bold text-slate-400">SDG</span>
+                </div>
+              </div>
+
+              <div className="prose prose-sm prose-slate max-w-none text-slate-500 leading-relaxed">
+                <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-1">
+                  Description
+                </h3>
+                <p>
+                  {product.p_details}
+                </p>
+              </div>
+
+              <div className="pt-4 border-t border-slate-100">
+                 <CartBtn product={{ ...product, id } as any} />
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Right Column: Product Details and Actions */}
-        <div className="md:w-1/2 p-4 md:p-6">
-          {/* Product Name */}
-          <h1 className="text-3xl font-bold text-gray-900 mb-3">
-            {product?.p_name}
-          </h1>
-
-          {/* Price and Category */}
-          <div className="flex items-center gap-4 mb-4 pb-4 border-b border-gray-100">
-            <span className="text-2xl font-bold text-green-700">
-              {product.p_cost} SDG
-            </span>
-            <span className="text-sm font-medium text-gray-500 uppercase tracking-wider">
-              | {product.p_cat}
-            </span>
+        {/* Related Products Section */}
+        <div className="space-y-6">
+          <div className="flex items-center gap-3">
+            <div className="h-6 w-1 bg-blue-600 rounded-full"/>
+            <h3 className="text-xl font-bold text-slate-900">
+              Similar Products
+            </h3>
           </div>
-
-          {/* Product Details (Using the provided lorem ipsum) */}
-          <div className="text-gray-600 mb-6">
-            <h2 className="text-lg font-semibold mb-2 text-gray-800">
-              Details
-            </h2>
-            <p>
-              {product.p_details} Lorem ipsum dolor sit amet consectetur
-              adipisicing elit. Fugiat soluta optio suscipit aperiam saepe
-              assumenda velit iusto explicabo architecto natus vel dolorum
-              ducimus adipisci facere dolores, nostrum aut ad repudiandae.
-            </p>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="flex gap-4">
-            {/* <WishlistBtn id={id} /> {/* Uncomment if you have this component */}
-            <CartBtn product={{ ...product, id }} />
-          </div>
+          <ProductGrid products={prodSameCate} />
         </div>
-      </div>{" "}
-      <h3 className="text-2xl font-extrabold text-gray-800 my-6 border-b pb-2 text-center">
-        Products with same Category
-      </h3>
-      <ProductGrid products={prodSameCate} />
+      </div>
     </div>
   );
 }

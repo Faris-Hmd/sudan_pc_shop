@@ -3,6 +3,8 @@ import { stripe } from "@/lib/stripe";
 import { ProductType } from "@/types/productsTypes";
 import { addOrder } from "@/services/ordersServices";
 
+import Stripe from "stripe";
+
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = request.nextUrl;
   const sessId = searchParams.get("session_id");
@@ -22,15 +24,16 @@ export async function GET(request: NextRequest) {
     console.log(lineItems.data[0]);
 
     const formattedItems: ProductType[] = lineItems.data.map((item) => {
+      const itemWithMeta = item as Stripe.LineItem & {
+        metadata: Record<string, string>;
+      };
       return {
         p_name: item.description || "Unnamed Product",
         // Calculate unit cost safely
         p_cost: item.amount_total / (item.quantity || 1) / 100,
         // Type cast metadata keys as strings
-        id: "",
-        p_cat: "General",
-        // id: item?.metadata?.productId || "",
-        // p_cat: item.metadata?.p_cat,
+        id: itemWithMeta.metadata?.id || Math.random().toString(),
+        p_cat: itemWithMeta.metadata?.p_cat || "General",
         p_qu: item.quantity || 1,
         p_details: "",
         createdAt: "",

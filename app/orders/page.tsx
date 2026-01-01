@@ -54,12 +54,18 @@ export default function Orders() {
   }
 
   return (
-    <div className=" max-w-5xl mx-auto md:px-0">
-      <header className="mb-2 flex items-center justify-between p-4 bg-white shadow">
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-          My Orders
-        </h1>
-      </header>
+    <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        <header className="mb-8">
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+            My Orders
+          </h1>
+          <p className="text-slate-500 mt-1">
+            {orders && orders.length > 0
+              ? `You have placed ${orders.length} orders`
+              : "Track your past and current orders"}
+          </p>
+        </header>
 
       {orders && orders.length > 0 ? (
         orders.map((order) => (
@@ -93,6 +99,7 @@ export default function Orders() {
           </Link>
         </div>
       )}
+      </div>
     </div>
   );
 }

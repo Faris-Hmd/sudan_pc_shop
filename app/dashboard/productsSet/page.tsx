@@ -68,7 +68,7 @@ export default async function ProductTable({
                     <tr key={row.id} className="group hover:bg-blue-50/30">
                       <td className="px-3 md:px-6 py-3 md:py-4">
                         <Link
-                          href={"/products/" + row.id}
+                          href={"/products/" + row.id as any} 
                           className="flex items-center gap-2 md:gap-3"
                         >
                           <div className="hidden sm:flex p-2 bg-gray-100 rounded-lg text-gray-400">

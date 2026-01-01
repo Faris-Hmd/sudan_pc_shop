@@ -22,14 +22,9 @@ import { db, productsRef } from "@/lib/firebase";
 import { revalidatePath } from "next/cache";
 import { ProductType, ProductFilterKey } from "@/types/productsTypes";
 
-/* ----------------------------------------
-   CONSTANTS
----------------------------------------- */
+
 const COL = "products";
 
-/* ----------------------------------------
-   MAPPER (DB → UI)
----------------------------------------- */
 function mapProduct(id: string, data: any): ProductType {
   return {
     id,
@@ -94,6 +89,8 @@ export async function getProducts(
 export async function addProduct(
   data: Omit<ProductType, "id">
 ): Promise<string> {
+  console.log("add product to servers", data);
+  
   const res = await addDoc(collection(db, COL), data);
   revalidatePath("/products");
   return res.id;
@@ -106,6 +103,8 @@ export async function upProduct(
   id: string,
   data: Partial<ProductType>
 ): Promise<void> {
+  console.log("update product to servers", data);
+  
   await updateDoc(doc(db, COL, id), data as any);
   revalidatePath("/products");
 }
@@ -114,6 +113,8 @@ export async function upProduct(
    DELETE
 ---------------------------------------- */
 export async function delProduct(id: string): Promise<void> {
+  console.log("delete product to servers", id);
+  
   await deleteDoc(doc(db, COL, id));
   revalidatePath("/products");
 }

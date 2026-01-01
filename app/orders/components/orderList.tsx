@@ -8,30 +8,13 @@ import {
   ChevronDown,
   Package,
   XCircle,
-  User,
   Phone,
+  User,
+  ExternalLink,
 } from "lucide-react";
 import { OrderData } from "@/types/productsTypes";
-
-/**
- * Utility to calculate human-readable delivery duration from ISO strings.
- */
-const getDeliveryDuration = (startStr: string, endStr?: string | any) => {
-  if (!startStr || !endStr) return null;
-  const start = new Date(startStr).getTime();
-  const end = new Date(endStr).getTime();
-
-  if (isNaN(start) || isNaN(end)) return null;
-
-  const diffMs = end - start;
-  const minutes = Math.floor(diffMs / (1000 * 60));
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-
-  if (days > 0) return `${days}d ${hours % 24}h`;
-  if (hours > 0) return `${hours}h ${minutes % 60}m`;
-  return `${minutes}m`;
-};
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const CompactOrderCard = ({ order }: { order: OrderData }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -43,28 +26,46 @@ const CompactOrderCard = ({ order }: { order: OrderData }) => {
     switch (order.status) {
       case "Delivered":
         return {
-          color: "text-green-600",
-          bg: "bg-green-100",
+          color: "text-emerald-600",
+          bg: "bg-emerald-50",
+          border: "border-emerald-100",
           Icon: CheckCircle2,
+          label: "Delivered",
         };
       case "Shipped":
-        return { color: "text-blue-600", bg: "bg-blue-100", Icon: Truck };
+        return {
+          color: "text-blue-600",
+          bg: "bg-blue-50",
+          border: "border-blue-100",
+          Icon: Truck,
+          label: "On the way",
+        };
       case "Processing":
-        return { color: "text-amber-600", bg: "bg-amber-100", Icon: Package };
+        return {
+          color: "text-amber-600",
+          bg: "bg-amber-50",
+          border: "border-amber-100",
+          Icon: Package,
+          label: "Processing",
+        };
       case "Cancelled":
-        return { color: "text-red-600", bg: "bg-red-100", Icon: XCircle };
+        return {
+          color: "text-rose-600",
+          bg: "bg-rose-50",
+          border: "border-rose-100",
+          Icon: XCircle,
+          label: "Cancelled",
+        };
       default:
-        return { color: "text-slate-600", bg: "bg-slate-100", Icon: Clock };
+        return {
+          color: "text-slate-600",
+          bg: "bg-slate-50",
+          border: "border-slate-100",
+          Icon: Clock,
+          label: order.status,
+        };
     }
   }, [order.status]);
-
-  const deliveryDuration = useMemo(() => {
-    if (!isDelivered) return null;
-    return getDeliveryDuration(
-      order.createdAt,
-      order.deliveredAt || order.deleveratstamp
-    );
-  }, [order.status, order.createdAt, order.deliveredAt, order.deleveratstamp]);
 
   const totalCost = useMemo(
     () =>
@@ -76,120 +77,118 @@ const CompactOrderCard = ({ order }: { order: OrderData }) => {
 
   return (
     <div
-      className={`w-full bg-white border-2 ${
-        isCancelled ? "border-red-100" : "border-slate-100"
-      } rounded-[1.5rem] shadow-sm overflow-hidden mb-3 transition-all active:scale-[0.99]`}
+      className={cn(
+        "group w-full bg-white border rounded-2xl transition-all duration-300 overflow-hidden",
+        isOpen ? "shadow-md ring-1 ring-black/5" : "shadow-sm hover:shadow-md",
+        statusConfig.border
+      )}
     >
+      {/* Header / Summary */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-4 focus:outline-none"
+        className="w-full flex items-center justify-between p-5 text-left focus:outline-none"
       >
         <div className="flex items-center gap-4">
           <div
-            className={`p-3.5 rounded-2xl ${statusConfig.bg} ${statusConfig.color}`}
+            className={cn(
+              "w-12 h-12 rounded-xl flex items-center justify-center transition-colors",
+              statusConfig.bg,
+              statusConfig.color
+            )}
           >
-            <statusConfig.Icon size={20} strokeWidth={2.5} />
+            <statusConfig.Icon size={24} />
           </div>
-          <div className="text-left">
-            <h3 className="text-sm font-black text-slate-900 leading-tight tracking-tight">
-              #{order.id.slice(-6).toUpperCase()}
-            </h3>
-            <p
-              className={`text-[10px] font-bold uppercase tracking-widest ${statusConfig.color}`}
-            >
-              {order.status}
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+               <span className="text-base font-bold text-slate-900">
+                Order #{order.id.slice(-6).toUpperCase()}
+               </span>
+               <span className={cn("text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full", statusConfig.bg, statusConfig.color)}>
+                  {statusConfig.label}
+               </span>
+            </div>
+            <p className="text-xs text-slate-500 font-medium">
+              {new Date(order.createdAt).toLocaleDateString(undefined, {
+                  month: 'short', day: 'numeric', year: 'numeric'
+              })}
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <span className="text-base font-black text-slate-900 tracking-tighter">
-            ${totalCost}
-          </span>
-          <div
-            className={`p-1.5 rounded-full bg-slate-50 transition-transform ${
-              isOpen ? "rotate-180 text-blue-600" : "text-slate-400"
-            }`}
-          >
-            <ChevronDown size={18} strokeWidth={3} />
+
+        <div className="flex items-center gap-6">
+          <div className="text-right hidden sm:block">
+            <p className="text-xs text-slate-400 font-medium mb-0.5">Total Amount</p>
+            <p className="text-lg font-black text-slate-900">${totalCost}</p>
+          </div>
+          
+          <div className={cn(
+              "w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 transition-transform duration-300",
+              isOpen && "rotate-180 bg-slate-100 text-slate-600"
+          )}>
+            <ChevronDown size={18} strokeWidth={2.5} />
           </div>
         </div>
       </button>
 
-      {isOpen && (
-        <div className="px-5 pb-5 pt-1 border-t border-slate-50 animate-in fade-in slide-in-from-top-2 duration-300">
-          {/* DELIVERY TIME BADGE - Only shows if delivered */}
-          {isDelivered && deliveryDuration && (
-            <div className="mb-4 p-3 bg-green-50 border border-green-100 rounded-xl flex justify-between items-center">
-              <span className="text-[10px] font-black text-green-600 uppercase tracking-widest">
-                Total Delivery Time
-              </span>
-              <span className="text-sm font-black text-green-700">
-                {deliveryDuration}
-              </span>
+      {/* Expanded Content */}
+      <div
+        className={cn(
+            "border-t border-slate-50 transition-all duration-300 ease-in-out bg-slate-50/50",
+            isOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+        )}
+      >
+        <div className="p-5 space-y-6">
+            
+            {/* Courier Info (Mock Data for Demo) */}
+            {isShipped && (
+                <div className="flex items-center justify-between p-4 bg-white border border-blue-100 rounded-xl shadow-sm">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center">
+                            <User size={20} />
+                        </div>
+                        <div>
+                            <p className="text-sm font-bold text-slate-900">Alex Thompson</p>
+                            <p className="text-xs text-slate-500">Your Courier</p>
+                        </div>
+                    </div>
+                    <a href="tel:+" className="w-9 h-9 flex items-center justify-center rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-blue-200 shadow-lg">
+                        <Phone size={16} />
+                    </a>
+                </div>
+            )}
+
+            {/* Items List */}
+            <div className="space-y-3">
+                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest pl-1">Order Items</h4>
+                {order.productsList.map((product, i) => (
+                    <div key={i} className="flex items-center justify-between p-3 bg-white border border-slate-100 rounded-xl">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-slate-100 rounded-lg flex-shrink-0" /> {/* Placeholder/Image */}
+                            <div>
+                                <Link href={`/products/${product.id}`} className="text-sm font-bold text-slate-800 hover:text-blue-600 line-clamp-1 transition-colors">
+                                    {product.p_name}
+                                </Link>
+                                <p className="text-xs text-slate-500">{product.p_cat} • x{product.p_qu}</p>
+                            </div>
+                        </div>
+                        <span className="font-bold text-slate-900 text-sm">
+                            ${(Number(product.p_cost) * (product.p_qu || 1)).toFixed(2)}
+                        </span>
+                    </div>
+                ))}
             </div>
-          )}
 
-          {isShipped && (
-            <div className="mb-4 p-3 bg-blue-50/50 border border-blue-100 rounded-xl flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white shadow-sm">
-                  <User size={16} />
-                </div>
-                <div>
-                  <p className="text-[9px] font-black text-blue-600 uppercase leading-none mb-0.5">
-                    Courier
-                  </p>
-                  <p className="text-xs font-bold text-slate-800">
-                    Alex Thompson
-                  </p>
-                </div>
-              </div>
-              <a
-                href="tel:00000000"
-                className="p-2 bg-white rounded-lg border border-blue-200 text-blue-600 active:bg-blue-600 active:text-white transition-colors"
-              >
-                <Phone size={16} />
-              </a>
+            {/* Footer Actions */}
+            <div className="flex justify-end pt-2">
+                <Link 
+                    href={`/orders/${order.id}` as any}
+                    className="text-xs font-bold text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1"
+                >
+                    View Invoice <ExternalLink size={12} />
+                </Link>
             </div>
-          )}
-
-          <div className="space-y-3 mb-4">
-            {order.productsList.map((product, i) => (
-              <div key={i} className="flex justify-between items-center py-1">
-                <div className="flex flex-col">
-                  <p
-                    className={`text-sm font-bold ${
-                      isCancelled
-                        ? "line-through text-slate-400"
-                        : "text-slate-800"
-                    }`}
-                  >
-                    {product.p_name}
-                  </p>
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">
-                    {product.p_cat}
-                  </span>
-                </div>
-                <div className="flex items-center gap-5">
-                  <span className="text-xs font-black text-slate-400">
-                    x{product.p_qu}
-                  </span>
-                  <span className="text-sm font-black text-slate-900">
-                    ${Number(product.p_cost).toFixed(2)}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex justify-between items-center text-[10px] font-bold text-slate-400 uppercase tracking-widest pt-3 border-t border-slate-50">
-            <span>
-              Ordered: {new Date(order.createdAt).toLocaleDateString()}
-            </span>
-            {isDelivered && <span>Fulfilled</span>}
-          </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

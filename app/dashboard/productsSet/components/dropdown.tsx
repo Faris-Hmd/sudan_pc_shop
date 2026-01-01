@@ -21,7 +21,7 @@ function Dropdown({ id }: any) {
       <DropdownMenuContent>
         <DropdownMenuItem>
           <Link
-            href={`productsSet/${id}`}
+            href={`productsSet/${id}` as any}
             className="flex gap-2 items-center w-full"
           >
             <Edit />

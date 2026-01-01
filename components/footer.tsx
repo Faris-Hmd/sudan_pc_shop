@@ -40,7 +40,7 @@ export default function AppFooter() {
               {["About", "Categories", "Offers", "Build PC"].map((link) => (
                 <li key={link}>
                   <Link
-                    href={`/${link.toLowerCase().replace(" ", "-")}`}
+                    href={`/${link.toLowerCase().replace(" ", "-")}` as any}
                     className="hover:text-blue-400 transition-colors"
                   >
                     {link}
@@ -60,7 +60,7 @@ export default function AppFooter() {
                 (link) => (
                   <li key={link}>
                     <Link
-                      href={`/${link.toLowerCase().replace(" ", "-")}`}
+                      href={`/${link.toLowerCase().replace(" ", "-")}` as any}
                       className="hover:text-blue-400 transition-colors"
                     >
                       {link}

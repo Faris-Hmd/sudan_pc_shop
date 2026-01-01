@@ -40,7 +40,7 @@ export default function Component({
   salesData: DaySales[];
 }) {
   const params = useParams();
-  const currentMonth = (params.date as string) || "2025-12";
+  const currentMonth = (params.date as string) || "2026-01";
 
   // Navigation Setup for 2025
 
@@ -55,9 +55,9 @@ export default function Component({
   }, [salesData]);
 
   return (
-    <Card className="space-y-3 w-full border-none shadow-none">
-      <div className=" flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="space-y-1 px-4">
+    <Card className="space-y-1 w-full border-none shadow-none overflow-hidden">
+      <div className=" flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+        <div className="space-y-0 px-4">
           <CardTitle className="text-xl font-black text-slate-900 ">
             Revenue Analytics
           </CardTitle>
@@ -76,10 +76,13 @@ export default function Component({
         </div>
       </div>
 
-      <div className="w-full sm:h-[180px] lg:h-50">
-        <ChartContainer config={chartConfig}>
+      <div className="w-full sm:h-[130px] sm:min-h-[130px] lg:h-[250px] lg:min-h-[250px]">
+        <ChartContainer config={chartConfig} className="h-full w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={salesData} margin={{ left: -20, right: 10 }}>
+            <AreaChart
+              data={salesData}
+              margin={{ left: 10, right: 10, top: 20, bottom: 0 }}
+            >
               <defs>
                 <linearGradient id="salesGrad" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
@@ -118,5 +121,6 @@ export default function Component({
         </ChartContainer>
       </div>
     </Card>
+
   );
 }

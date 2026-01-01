@@ -1,134 +1,168 @@
 "use client";
-import { ArrowRight, ShoppingBag, Trash } from "lucide-react";
+import { ArrowRight, ShoppingBag, Trash, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCart, dispatchCartUpdate } from "@/hooks/useCart";
 import CheckoutBtn from "./components/CheckoutBtn";
-import { ProductType } from "@/types/productsTypes";
+
 function page() {
-  const [cart, setCart] = useState<ProductType[]>([]);
-  useEffect(() => {
-    // Ensure we're in a browser environment and localStorage is available
-    if (
-      typeof window !== "undefined" &&
-      typeof window.localStorage !== "undefined"
-    ) {
-      const stored = localStorage.getItem("sh");
-      const _cart = stored ? JSON.parse(stored) : [];
-      setCart(_cart);
-    }
-  }, []);
-  // Remove an item from the cart and persist to localStorage
+  const { cart } = useCart();
+
+  // Remove an item from the cart
   function removeFromCart(id: string) {
     const updated = cart.filter((p) => p.id !== id);
-    setCart(updated);
     if (typeof window !== "undefined") {
       localStorage.setItem("sh", JSON.stringify(updated));
+      dispatchCartUpdate();
     }
   }
+
+  // Update item quantity
+  function updateQuantity(id: string, newQuantity: number) {
+    if (newQuantity < 1) return;
+    const updated = cart.map((p) =>
+      p.id === id ? { ...p, p_qu: newQuantity } : p
+    );
+
+    if (typeof window !== "undefined") {
+      localStorage.setItem("sh", JSON.stringify(updated));
+      dispatchCartUpdate();
+    }
+  }
+
   function CartList() {
     return (
-      <div className="p-2">
-        {cart.map(
-          (
-            product // Individual Cart Item Card
-          ) => (
-            <div
-              className="bg-white shadow-sm border border-gray-200 rounded-lg p-4 flex items-center justify-between transition duration-150 hover:shadow-md"
-              key={product.id}
+      <div className="space-y-4">
+        {cart.map((product) => (
+          <div
+            className="group bg-white border border-slate-100 rounded-2xl p-4 sm:p-6 flex flex sm:flex-row items-start sm:items-center gap-6 transition-all duration-200 hover:shadow-lg hover:border-blue-100"
+            key={product.id}
+          >
+            {/* Product Image */}
+            <Link
+              href={`/products/${product.id}`}
+              className="relative w-24 h-24 sm:w-28 sm:h-28 shrink-0 overflow-hidden rounded-xl border border-slate-100 bg-slate-50"
             >
-              <div className="flex items-center gap-4">
-                <Link
-                  href={`/products/${product.id}`}
-                  className="relative w-20 h-20 shrink-0"
-                >
-                  <Image
-                    loading="eager"
-                    className="object-cover rounded-lg"
-                    sizes="100px"
-                    fill
-                    src={
-                      product.p_imgs.length > 0
-                        ? product.p_imgs[0].url
-                        : "/placeholder.png"
-                    }
-                    alt={product.p_name}
-                  />
-                </Link>
+              <Image
+                loading="eager"
+                className="object-cover transition-transform duration-500 group-hover:scale-110"
+                sizes="(max-width: 640px) 100px, 120px"
+                fill
+                src={
+                  product.p_imgs?.length > 0
+                    ? product.p_imgs[0].url
+                    : "/placeholder.png"
+                }
+                alt={product.p_name}
+              />
+            </Link>
 
-                <div className="flex flex-col">
-                  <div className="text-base font-semibold text-gray-800 line-clamp-1">
+            {/* Product Details */}
+            <div className="flex-1 min-w-0 space-y-1">
+              <div className="flex justify-between items-start gap-4">
+                <div>
+                  <Link
+                    href={`/products/${product.id}`}
+                    className="text-lg font-bold text-slate-800 hover:text-blue-600 transition-colors line-clamp-1"
+                  >
                     {product.p_name}
-                  </div>
-                  <span className="text-sm font-bold text-green-700">
-                    ${product.p_cost} SDG
-                  </span>
-                  <span className="text-xs text-gray-500">
-                    | {product.p_cat}
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-3">
-                <div className="bg-blue-100 text-blue-800 p-2 flex items-center justify-center rounded-full font-semibold w-8 h-8 shrink-0">
-                  {product.p_qu}
+                  </Link>
+                  <p className="text-sm text-slate-500 font-medium">
+                    {product.p_cat}
+                  </p>
                 </div>
                 <button
                   onClick={() => removeFromCart(product.id)}
-                  className="text-sm text-red-600 bg-red-50 p-2 rounded hover:bg-red-100 transition"
+                  className="text-slate-400 hover:text-red-500 hover:bg-red-50 p-2 rounded-xl transition-all"
                   aria-label="Remove item"
                 >
-                  <Trash size={16} />
+                  <Trash size={18} />
                 </button>
               </div>
+
+              <div className="flex items-end justify-between pt-2">
+                <span className="text-lg font-extrabold text-slate-900">
+                  ${Number(product.p_cost).toLocaleString()}
+                </span>
+
+                {/* Quantity Controls */}
+                <div className="flex items-center gap-3 bg-slate-50 rounded-xl p-1 border border-slate-200">
+                  <button
+                    onClick={() => updateQuantity(product.id, product.p_qu - 1)}
+                    disabled={product.p_qu <= 1}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg bg-white text-slate-600 shadow-sm border border-slate-100 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    <Minus size={14} strokeWidth={3} />
+                  </button>
+                  <span className="w-6 text-center text-sm font-bold text-slate-700">
+                    {product.p_qu}
+                  </span>
+                  <button
+                    onClick={() => updateQuantity(product.id, product.p_qu + 1)}
+                    className="w-8 h-8 flex items-center justify-center rounded-lg bg-white text-blue-600 shadow-sm border border-slate-100 hover:bg-blue-50 transition-colors"
+                  >
+                    <Plus size={14} strokeWidth={3} />
+                  </button>
+                </div>
+              </div>
             </div>
-          )
-        )}
+          </div>
+        ))}
       </div>
     );
   }
+
   return (
-    <div className="container mx-auto md:p-8 ">
-      {/* Header Section - Only show checkout button if cart has items */}
-      <header className="mb-2 flex items-center justify-between p-4 bg-white shadow">
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-          My Cart
-        </h1>
-      </header>
-
-      {/* Cart Items List Container */}
-      {cart.length > 0 ? (
-        <>
-          <CartList />
-          <CheckoutBtn />
-        </>
-      ) : (
-        // Empty Cart Message
-        <div className="flex flex-col items-center justify-center  p-10 md:p-20 rounded-3xl  text-center ">
-          {/* Visual Element */}
-          <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6">
-            <ShoppingBag className="w-10 h-10 text-slate-300" />
-          </div>
-
-          {/* Engaging Copy */}
-          <h2 className="text-xl font-bold text-slate-800 mb-2">
-            No products found
-          </h2>
-          <p className="text-slate-500 max-w-xs mx-auto mb-8 text-sm leading-relaxed">
-            Looks like you haven't add any products to cart yet. Exploring our
-            latest products to fill this up!
+    <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-6xl mx-auto">
+        <header className="mb-8">
+          <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+            Shopping Cart
+          </h1>
+          <p className="text-slate-500 mt-1">
+            {cart.length > 0
+              ? `You have ${cart.length} items in your cart`
+              : "Your cart is currently empty"}
           </p>
+        </header>
 
-          {/* Clear Call-to-Action */}
-          <Link
-            href="/products"
-            className="inline-flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95"
-          >
-            Start Shopping
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      )}
+        {cart.length > 0 ? (
+          <div className="lg:grid lg:grid-cols-3 lg:gap-10 items-start">
+            {/* Left Column: Cart Items */}
+            <div className="lg:col-span-2 space-y-6">
+              <CartList />
+            </div>
+
+            {/* Right Column: Checkout Summary */}
+            <div className="mt-8 lg:mt-0 lg:sticky lg:top-24">
+              <CheckoutBtn />
+            </div>
+          </div>
+        ) : (
+          // Empty Cart State
+          <div className="flex flex-col items-center justify-center py-20 bg-white rounded-3xl border border-dashed border-slate-200">
+            <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-6 animate-bounce">
+              <ShoppingBag className="w-10 h-10 text-blue-500" />
+            </div>
+
+            <h2 className="text-2xl font-bold text-slate-800 mb-2">
+              Your cart is empty
+            </h2>
+            <p className="text-slate-500 max-w-sm text-center mb-8">
+              Looks like you haven't added anything to your cart yet. Browse our
+              categories to find cool gadgets!
+            </p>
+
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95"
+            >
+              Start Shopping
+              <ArrowRight className="w-4 h-4 ml-1" />
+            </Link>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

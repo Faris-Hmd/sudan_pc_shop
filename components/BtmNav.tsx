@@ -12,10 +12,12 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
+import { useCart } from "@/hooks/useCart";
 
 export default function BtmNav() {
   const pathname = usePathname();
   const { data: session } = useSession();
+  const { cartCount } = useCart();
 
   // Define base items
   const navItems = [
@@ -47,7 +49,7 @@ export default function BtmNav() {
         return (
           <Link
             key={item.title}
-            href={item.href}
+            href={item.href as any}
             className={cn(
               "flex flex-1 flex-col items-center justify-center gap-1 transition-all duration-300",
               isActive ? "text-blue-600" : "text-slate-500"
@@ -64,6 +66,11 @@ export default function BtmNav() {
                 strokeWidth={isActive ? 2.5 : 2}
                 className={cn("transition-transform", isActive && "scale-110")}
               />
+              {item.title === "Cart" && cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full border border-white font-bold">
+                  {cartCount}
+                </span>
+              )}
             </div>
             <span
               className={cn(
