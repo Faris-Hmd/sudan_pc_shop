@@ -20,35 +20,6 @@ export default function BtmNav() {
   const { data: session } = useSession();
   const { cartCount } = useCart();
   const [activeHash, setActiveHash] = useState("");
-  const [activeSection, setActiveSection] = useState("");
-
-  useEffect(() => {
-    if (pathname !== "/") return;
-
-    const observerOptions = {
-      root: null,
-      rootMargin: "-20% 0px -70% 0px",
-      threshold: 0,
-    };
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        } else if (activeSection === entry.target.id) {
-          setActiveSection("");
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(handleIntersect, observerOptions);
-    const target = document.getElementById("categories");
-    if (target) observer.observe(target);
-
-    return () => {
-      if (target) observer.unobserve(target);
-    };
-  }, [pathname, activeSection]);
 
   useEffect(() => {
     const handleHashChange = () => setActiveHash(window.location.hash);
@@ -64,7 +35,6 @@ export default function BtmNav() {
   // Define base items
   const navItems = [
     { title: "Home", href: "/", icon: Home },
-    { title: "Categories", href: "/#categories", icon: Grid2X2 },
     { title: "Cart", href: "/cart", icon: ShoppingCart },
     { title: "Orders", href: "/orders", icon: Package },
   ];
@@ -84,12 +54,9 @@ export default function BtmNav() {
     <nav className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around border-t dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-lg pb-safe md:hidden h-16 px-2">
       {navItems.map((item) => {
         const Icon = item.icon;
-        const isHashLink = item.href.includes("#");
-        const isActive = isHashLink 
-          ? (pathname === "/" || pathname === "") && activeSection === item.href.split("#")[1]
-          : item.href === "/" 
-            ? pathname === "/" && activeSection === ""
-            : pathname.startsWith(item.href);
+        const isActive = item.href === "/" 
+          ? pathname === "/" 
+          : pathname.startsWith(item.href);
 
         return (
           <Link

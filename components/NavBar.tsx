@@ -7,7 +7,6 @@ import { signIn, useSession } from "next-auth/react";
 import {
   Search,
   Home,
-  Grid2X2,
   ShoppingCart,
   Package,
   LayoutDashboard,
@@ -20,7 +19,6 @@ import { ModeToggle } from "@/components/ModeToggle";
 
 const NAV_ITEMS = [
   { title: "Home", href: "/", icon: Home },
-  { title: "Categories", href: "/#categories", icon: Grid2X2 },
   { title: "Cart", href: "/cart", icon: ShoppingCart },
   { title: "Orders", href: "/orders", icon: Package },
 ];
@@ -30,40 +28,10 @@ export default function Navbar() {
   const { cartCount } = useCart();
   const pathname = usePathname();
   const [activeHash, setActiveHash] = useState("");
-  const [activeSection, setActiveSection] = useState("");
-
-  useEffect(() => {
-    if (pathname !== "/") return;
-
-    const observerOptions = {
-      root: null,
-      rootMargin: "-20% 0px -70% 0px",
-      threshold: 0,
-    };
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        } else if (activeSection === entry.target.id) {
-          setActiveSection("");
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(handleIntersect, observerOptions);
-    const target = document.getElementById("categories");
-    if (target) observer.observe(target);
-
-    return () => {
-      if (target) observer.unobserve(target);
-    };
-  }, [pathname, activeSection]);
 
   useEffect(() => {
     const handleHashChange = () => setActiveHash(window.location.hash);
     window.addEventListener("hashchange", handleHashChange);
-    // Catch clicks on same page anchors
     window.addEventListener("popstate", handleHashChange);
     setActiveHash(window.location.hash);
     return () => {
@@ -95,10 +63,7 @@ export default function Navbar() {
           <div className="hidden lg:flex items-center gap-1">
             {NAV_ITEMS.map((item) => {
               const Icon = item.icon;
-              const isHashLink = item.href.includes("#");
-              const isActive = isHashLink 
-                ? (pathname === "/" || pathname === "") && activeSection === item.href.split("#")[1]
-                : pathname === item.href && activeSection === "";
+              const isActive = pathname === item.href;
               
               return (
                 <Link
@@ -109,13 +74,6 @@ export default function Navbar() {
                       ? "text-blue-600 bg-blue-50 dark:bg-blue-900/20" 
                       : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800"
                   }`}
-                  onClick={() => {
-                    if (isHashLink) {
-                      setActiveHash(item.href.replace("/", ""));
-                    } else {
-                      setActiveHash("");
-                    }
-                  }}
                 >
                   <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />
                   {item.title}

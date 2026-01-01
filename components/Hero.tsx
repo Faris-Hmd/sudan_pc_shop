@@ -2,11 +2,11 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Cpu, Monitor, Zap, ArrowRight } from 'lucide-react';
+import { Cpu, Monitor, Zap, ArrowRight, Grid2X2 } from 'lucide-react';
 
 function Hero() {
   return (
-    <section className="relative isolate flex min-h-[50vh] items-center justify-center overflow-hidden bg-slate-900 dark:bg-black py-10 md:py-16 transition-colors duration-500">
+    <section id="hero" className="relative isolate flex min-h-[50vh] items-center justify-center overflow-hidden bg-slate-900 dark:bg-black py-10 md:py-16 transition-colors duration-500">
       {/* Background Glows & Grid */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         {/* Animated Grid */}
@@ -102,19 +102,30 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
           style={{ willChange: "opacity, transform" }}
-          className="mt-10 flex justify-center"
+          className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4"
         >
           <motion.a
             href="#shop"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="group relative inline-flex items-center gap-3 overflow-hidden rounded-2xl bg-blue-600 px-10 py-4 text-lg font-black text-white shadow-2xl shadow-blue-600/30 transition-all hover:bg-blue-500"
+            className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-3 overflow-hidden rounded-2xl bg-blue-600 px-8 py-4 text-lg font-black text-white shadow-2xl shadow-blue-600/30 transition-all hover:bg-blue-500"
           >
             <span className="relative z-10 flex items-center gap-2">
               Shop Now <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
             </span>
-            {/* Shine Effect */}
             <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/20 to-transparent transition-transform duration-1000 group-hover:translate-x-full" />
+          </motion.a>
+
+          <motion.a
+            href="#categories"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="group w-full sm:w-auto inline-flex items-center justify-center gap-3 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 px-8 py-4 text-lg font-black text-white transition-all hover:bg-white/10 hover:border-white/20"
+          >
+            <div className="flex items-center gap-2">
+              <Grid2X2 className="h-5 w-5 text-blue-400" />
+              <span>Browse Categories</span>
+            </div>
           </motion.a>
         </motion.div>
       </div>

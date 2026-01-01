@@ -162,13 +162,7 @@ const CompactOrderCard = ({ order }: { order: OrderData }) => {
                 {order.productsList.map((product, i) => (
                     <div key={i} className="flex items-center justify-between p-3 bg-white dark:bg-slate-900 border border-slate-50 dark:border-slate-800/50 rounded-2xl hover:border-blue-100 dark:hover:border-blue-900 transition-colors">
                         <div className="flex items-center gap-3">
-                            <div className="relative w-10 h-10 bg-slate-50 dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-800">
-                               <img 
-                                 src={product.p_imgs?.[0]?.url || "/placeholder.png"} 
-                                 alt={product.p_name}
-                                 className="w-full h-full object-cover"
-                               />
-                            </div>
+                          
                             <div>
                                 <Link href={`/products/${product.id}`} className="text-xs font-black text-slate-800 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 line-clamp-1 transition-colors">
                                     {product.p_name}
@@ -186,14 +180,14 @@ const CompactOrderCard = ({ order }: { order: OrderData }) => {
             </div>
 
             {/* Footer Actions */}
-            <div className="flex justify-end pt-2">
+            {/* <div className="flex justify-end pt-2">
                 <Link 
                     href={`/orders/${order.id}` as any}
                     className="group/link text-[10px] font-black uppercase text-blue-600 dark:text-blue-400 hover:text-slate-900 dark:hover:text-white tracking-widest flex items-center gap-1.5 transition-colors"
                 >
                     Official Invoice <ExternalLink size={14} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
                 </Link>
-            </div>
+            </div> */}
         </div>
       </div>
     </div>
