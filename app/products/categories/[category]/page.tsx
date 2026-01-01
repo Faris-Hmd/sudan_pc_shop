@@ -13,10 +13,10 @@ async function page({ params }: { params: { category: string } }) {
   const products = await getProducts("p_cat", category);
 
   return (
-    <>
+    <div className="px-2">
       <SearchForm />
       <ProductGrid products={products} />
-    </>
+    </div>
   );
 }
 

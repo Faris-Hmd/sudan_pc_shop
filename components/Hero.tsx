@@ -3,22 +3,22 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Cpu, Monitor, Zap, ArrowRight } from 'lucide-react';
-import Link from 'next/link';
 
 function Hero() {
   return (
-    <section className="relative isolate flex min-h-[50vh] items-center justify-center overflow-hidden bg-slate-900 py-10 md:py-16">
+    <section className="relative isolate flex min-h-[50vh] items-center justify-center overflow-hidden bg-slate-900 dark:bg-black py-10 md:py-16 transition-colors duration-500">
       {/* Background Glows & Grid */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         {/* Animated Grid */}
         <div 
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0 opacity-20 dark:opacity-10"
           style={{
             backgroundImage: `linear-gradient(#3b82f6 1px, transparent 1px), linear-gradient(to right, #3b82f6 1px, transparent 1px)`,
             backgroundSize: '4rem 4rem',
             maskImage: 'radial-gradient(ellipse 60% 60% at 50% 50%, #000 70%, transparent 100%)'
           }}
         />
+        {/* ... (rest of the component remains same since it's already dark-themed) */}
         {/* Dynamic Blobs - Hidden on mobile for performance */}
         <motion.div
           animate={{
@@ -54,9 +54,26 @@ function Hero() {
       {/* Content */}
       <div className="relative z-10 mx-auto max-w-5xl px-6 text-center text-white">
         <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="mb-8 flex justify-center"
+        >
+          <motion.a
+            href="/about"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="inline-flex items-center gap-2 rounded-full bg-white/5 backdrop-blur-md border border-white/10 px-4 py-1.5 text-[10px] font-black text-blue-400 uppercase tracking-[0.3em] transition-all hover:bg-white/10"
+          >
+            Engineering Sudan&apos;s Future
+            <ArrowRight size={10} className="text-white/40" />
+          </motion.a>
+        </motion.div>
+
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
           style={{ willChange: "opacity, transform" }}
         >
           <h1 className="text-4xl font-extrabold leading-tight tracking-tight md:text-6xl">
@@ -71,7 +88,7 @@ function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+          transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
           style={{ willChange: "opacity, transform" }}
           className="mx-auto mt-6 max-w-2xl text-lg text-white/70 md:text-xl"
         >
@@ -83,15 +100,15 @@ function Hero() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+          transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
           style={{ willChange: "opacity, transform" }}
-          className="mt-8 flex justify-center"
+          className="mt-10 flex justify-center"
         >
           <motion.a
             href="#shop"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="group relative inline-flex items-center gap-3 overflow-hidden rounded-2xl bg-blue-600 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-blue-600/30 transition-all hover:bg-blue-500 hover:shadow-blue-500/50"
+            className="group relative inline-flex items-center gap-3 overflow-hidden rounded-2xl bg-blue-600 px-10 py-4 text-lg font-black text-white shadow-2xl shadow-blue-600/30 transition-all hover:bg-blue-500"
           >
             <span className="relative z-10 flex items-center gap-2">
               Shop Now <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />

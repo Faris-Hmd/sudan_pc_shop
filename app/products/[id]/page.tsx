@@ -30,13 +30,13 @@ export default async function ProductsDetails({
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-0 pb-10 md:py-10 p-3 mt-2 md:p-6">
+    <div className="min-h-screen bg-transparent pt-0 pb-10 md:py-10 p-3 mt-2 md:p-6">
       <div className="container mx-auto px-0 md:px-6 max-w-7xl space-y-6 md:space-y-16">
         {/* Main Product Section */}
-        <div className="bg-white md:rounded-3xl md:shadow-sm md:border border-slate-100 overflow-hidden">
+        <div className="bg-white dark:bg-slate-900 md:rounded-3xl md:shadow-sm md:border border-slate-100 dark:border-slate-800 overflow-hidden transition-colors">
           <div className="grid md:grid-cols-2 gap-0">
             {/* Left Column: Image Gallery */}
-            <div className="p-0 md:p-8 bg-white flex items-center justify-center border-b md:border-b-0 md:border-r border-slate-100">
+            <div className="p-0 md:p-8 bg-white dark:bg-slate-900 flex items-center justify-center border-b md:border-b-0 md:border-r border-slate-100 dark:border-slate-800 transition-colors">
               <div className="w-full">
                 <ProductImgCarousel
                   imgH={"h-[300px] md:h-[350px]"} 
@@ -50,25 +50,25 @@ export default async function ProductsDetails({
             <div className="p-4 md:p-8 flex flex-col justify-center space-y-6">
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <span className="px-2 py-1 text-[10px] font-bold text-blue-600 bg-blue-50 uppercase tracking-wider rounded-full">
+                  <span className="px-2 py-1 text-[10px] font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 uppercase tracking-wider rounded-full transition-colors">
                     {product.p_cat}
                   </span>
                 </div>
                 
-                <h1 className="text-2xl md:text-3xl font-black text-slate-900 leading-tight">
+                <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white leading-tight transition-colors">
                   {product.p_name}
                 </h1>
 
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-black text-blue-600">
+                  <span className="text-3xl font-black text-blue-600 dark:text-blue-400 transition-colors">
                     {Number(product.p_cost).toLocaleString()}
                   </span>
                   <span className="text-lg font-bold text-slate-400">SDG</span>
                 </div>
               </div>
 
-              <div className="prose prose-sm prose-slate max-w-none text-slate-500 leading-relaxed">
-                <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-1">
+              <div className="prose prose-sm prose-slate dark:prose-invert max-w-none text-slate-500 dark:text-slate-400 leading-relaxed transition-colors">
+                <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider mb-1">
                   Description
                 </h3>
                 <p>
@@ -76,7 +76,7 @@ export default async function ProductsDetails({
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-slate-100">
+              <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
                  <CartBtn product={{ ...product, id } as any} />
               </div>
             </div>
@@ -87,7 +87,7 @@ export default async function ProductsDetails({
         <div className="space-y-6">
           <div className="flex items-center gap-3">
             <div className="h-6 w-1 bg-blue-600 rounded-full"/>
-            <h3 className="text-xl font-bold text-slate-900">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">
               Similar Products
             </h3>
           </div>

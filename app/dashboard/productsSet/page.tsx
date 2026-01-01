@@ -14,87 +14,83 @@ export default async function ProductTable({
   const products = await getProducts(key as any, value, 20);
 
   return (
-    <div className="h-screen  flex flex-col overflow-hidden">
+    <div className="h-screen flex flex-col overflow-hidden bg-slate-50/30 dark:bg-black transition-colors duration-500">
       <div className="p-2 md:p-8 flex flex-col h-full gap-4 md:gap-6">
         {/* Header Section - More compact on mobile */}
-        <header className="flex flex-col gap-4 bg-white p-4 md:p-6 rounded-2xl border border-gray-200 shadow-sm shrink-0">
+        <header className="flex flex-col gap-4 bg-white dark:bg-slate-900 p-4 md:p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm shrink-0 transition-all">
           <div className="flex justify-between items-center">
             <div>
-              <h1 className="text-xl md:text-2xl font-bold text-gray-900 tracking-tight">
-                Products
+              <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+                Product Catalog
               </h1>
-              <p className="hidden md:block text-sm text-gray-500">
-                Manage your catalog
+              <p className="hidden md:block text-sm text-slate-500 dark:text-slate-400 font-bold tracking-tight">
+                Manage, audit, and expand your digital inventory
               </p>
             </div>
             <Link
               href="/dashboard/productsSet/prod_add"
-              className="flex items-center gap-1 bg-blue-600 text-white font-bold py-2 px-3 md:px-5 rounded-xl shadow-lg text-xs md:text-sm transition-all active:scale-95"
+              className="flex items-center gap-2 bg-blue-600 text-white font-black py-2.5 px-4 md:px-6 rounded-xl shadow-lg shadow-blue-500/20 text-xs md:text-sm transition-all active:scale-95 hover:bg-blue-700 hover:shadow-blue-500/40 uppercase tracking-widest"
             >
-              <Plus size={16} strokeWidth={3} />
-              <span className="xs:block">Add New</span>
+              <Plus size={18} strokeWidth={3} />
+              <span className="hidden sm:block">Add Product</span>
             </Link>
           </div>
           <TableSearchForm />
         </header>
 
         {/* Table Container */}
-        <div className="bg-white  border border-gray-200 shadow-sm grow overflow-hidden flex flex-col">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm grow overflow-hidden flex flex-col rounded-[2rem] transition-all">
           <div className="overflow-y-auto grow">
-            <table className="min-w-full divide-y divide-gray-200 table-fixed">
-              <thead className="bg-gray-50/50 sticky top-0 z-10 ">
+            <table className="min-w-full divide-y divide-slate-100 dark:divide-slate-800 table-fixed">
+              <thead className="bg-slate-50/50 dark:bg-slate-800/50 sticky top-0 z-10 backdrop-blur-md">
                 <tr>
-                  {/* Name: Priority 1 */}
-                  <th className="px-3 md:px-6 py-4 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest w-full">
-                    Product
+                  <th className="px-4 md:px-8 py-5 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] w-full">
+                    Product Identification
                   </th>
-                  {/* Price: Priority 2 */}
-                  <th className="px-3 md:px-6 py-4 text-right md:text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest w-20 md:w-28">
-                    Price
+                  <th className="px-4 md:px-8 py-5 text-right md:text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] w-24 md:w-40">
+                    Pricing
                   </th>
-                  {/* Category: Hidden on Mobile */}
-                  <th className="hidden md:table-cell px-6 py-4 text-left text-[10px] font-bold text-gray-400 uppercase tracking-widest w-40">
-                    Category
+                  <th className="hidden lg:table-cell px-8 py-5 text-left text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] w-48">
+                    Category Tag
                   </th>
-                  {/* Actions: Priority 3 */}
-                  <th className="px-3 md:px-6 py-4 text-center text-[10px] font-bold text-gray-400 uppercase tracking-widest w-16 md:w-24">
-                    Edit
+                  <th className="px-4 md:px-8 py-5 text-center text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] w-16 md:w-28">
+                    Actions
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-100">
+              <tbody className="bg-white dark:bg-slate-900 divide-y divide-slate-50 dark:divide-slate-800/40">
                 {products?.length > 0 ? (
                   products.map((row) => (
-                    <tr key={row.id} className="group hover:bg-blue-50/30">
-                      <td className="px-3 md:px-6 py-3 md:py-4">
+                    <tr key={row.id} className="group hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-colors">
+                      <td className="px-4 md:px-8 py-4 md:py-5">
                         <Link
                           href={"/products/" + row.id as any} 
-                          className="flex items-center gap-2 md:gap-3"
+                          className="flex items-center gap-3 md:gap-4 group/item"
                         >
-                          <div className="hidden sm:flex p-2 bg-gray-100 rounded-lg text-gray-400">
-                            <Package size={16} />
+                          <div className="hidden sm:flex p-2.5 bg-slate-50 dark:bg-slate-800 rounded-xl text-slate-400 dark:text-slate-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-all group-hover:scale-110">
+                            <Package size={18} />
                           </div>
                           <div className="flex flex-col min-w-0">
-                            <span className="text-xs md:text-sm font-bold text-gray-900 truncate">
+                            <span className="text-sm md:text-base font-black text-slate-900 dark:text-slate-100 truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                               {row.p_name}
                             </span>
-                            <span className="text-[12px] text-gray-400 font-mono truncate md:hidden">
-                              {row.p_cat}
+                            <span className="text-[10px] text-slate-400 dark:text-slate-500 font-black uppercase tracking-widest truncate mt-1">
+                              ID: {row.id.slice(-8).toUpperCase()}
                             </span>
                           </div>
                         </Link>
                       </td>
-                      <td className="px-3 md:px-6 py-3 md:py-4 text-right md:text-left whitespace-nowrap">
-                        <span className="text-xs md:text-sm font-bold text-gray-800">
-                          ${row.p_cost}
+                      <td className="px-4 md:px-8 py-4 md:py-5 text-right md:text-left whitespace-nowrap">
+                        <span className="text-sm md:text-base font-black text-slate-900 dark:text-white transition-colors">
+                          {Number(row.p_cost).toLocaleString()} <span className="text-[10px] text-slate-400 font-bold">SDG</span>
                         </span>
                       </td>
-                      <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap">
-                        <span className="px-2 py-0.5 rounded-full text-[12px] font-bold bg-gray-100 text-gray-600 border border-gray-200 uppercase">
-                          {row.p_cat}
+                      <td className="hidden lg:table-cell px-8 py-4 md:py-5 whitespace-nowrap">
+                        <span className="px-3 py-1 rounded-lg text-[10px] font-black bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-100 dark:border-slate-700 uppercase tracking-widest transition-colors">
+                          {row.p_cat.replace(/_/g, " ")}
                         </span>
                       </td>
-                      <td className="px-3 md:px-6 py-3 md:py-4 text-center">
+                      <td className="px-4 md:px-8 py-4 md:py-5 text-center">
                         <Dropdown id={row.id} />
                       </td>
                     </tr>
@@ -103,9 +99,9 @@ export default async function ProductTable({
                   <tr>
                     <td
                       colSpan={4}
-                      className="py-20 text-center text-gray-400 text-xs"
+                      className="py-32 text-center text-slate-300 dark:text-slate-700 text-xs font-black uppercase tracking-[0.3em] animate-pulse"
                     >
-                      No products found
+                      Empty Catalog Database
                     </td>
                   </tr>
                 )}

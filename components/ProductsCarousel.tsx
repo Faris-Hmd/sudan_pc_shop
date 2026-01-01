@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Carousel,
   CarouselContent,
@@ -7,8 +9,9 @@ import {
 } from "@/components/ui/carousel";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react"; // Example of an icon for a button
+import { ArrowRight, Tag } from "lucide-react";
 import { ProductType } from "@/types/productsTypes";
+import QuickAddBtn from "./quickAddBtn";
 
 export default function ProductsCarousel({
   products,
@@ -16,86 +19,84 @@ export default function ProductsCarousel({
   products: ProductType[];
 }) {
   return (
-    <Carousel
-      opts={{
-        align: "start",
-      }}
-      // Added max-w-7xl for better layout on large screens
-      className="w-full max-w-7xl m-auto px-4 sm:px-6 lg:px-8"
-    >
-      <div className="flex justify-between items-center my-6">
-        <h2
-          id="shop"
-          className="text-3xl font-extrabold text-gray-900" // Darker text for better contrast
-        >
-          Offers and Discounts
-        </h2>
-        {/* Added navigation controls to the header */}
-        <div className="flex space-x-4">
-          <CarouselPrevious className="static transform-none ms-0 text-gray-600 hover:text-gray-900 border-gray-300 hover:border-gray-400" />
-          <CarouselNext className="static transform-none me-0 text-gray-600 hover:text-gray-900 border-gray-300 hover:border-gray-400" />
+    <div className="w-full max-w-7xl mx-auto px-2">
+      <Carousel
+        opts={{
+          align: "start",
+          loop: true,
+        }}
+        className="w-full"
+      >
+        <div className="flex justify-between items-end mb-6 md:mb-10 px-2">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
+              <Tag size={16} className="animate-pulse md:w-[18px] md:h-[18px]" />
+              <span className="text-[10px] font-black uppercase tracking-[0.2em]">Priority List</span>
+            </div>
+            <h2 className="text-2xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-none">
+              Featured Deals
+            </h2>
+          </div>
+          
+          <div className="flex items-center gap-2 md:gap-3">
+            <CarouselPrevious className="static translate-y-0 h-10 w-10 md:h-12 md:w-12 rounded-xl md:rounded-2xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-800 transition-all shadow-sm" />
+            <CarouselNext className="static translate-y-0 h-10 w-10 md:h-12 md:w-12 rounded-xl md:rounded-2xl border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-800 transition-all shadow-sm" />
+          </div>
         </div>
-      </div>
 
-      <CarouselContent className="mx-auto">
-        {products?.map((prod, index: any) => (
-          <CarouselItem
-            key={index}
-            className="md:basis-1/3 lg:basis-1/4 p-2 mx-auto"
-          >
-            <div className="w-full flex flex-col bg-white shadow-md rounded-lg overflow-hidden transition duration-300 hover:shadow-lg">
-              <Link href={`/products/${prod.id}`}>
-                <div className="relative h-56 w-full">
-                  {" "}
-                  {/* Fixed height for consistent card size */}
+        <CarouselContent className="-ml-2 md:-ml-4">
+          {products?.map((prod, index) => (
+            <CarouselItem
+              key={prod.id || index}
+              className="pl-2 md:pl-4 basis-[55%] sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
+            >
+              <div className="group h-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/10 dark:hover:shadow-blue-900/10 hover:border-blue-100 dark:hover:border-blue-900 flex flex-col">
+                <Link href={`/products/${prod.id}`} className="block relative aspect-[16/11] overflow-hidden bg-slate-50 dark:bg-slate-800/50">
                   <Image
-                    className="object-cover"
-                    sizes="100"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
                     fill
                     src={prod.p_imgs[0].url}
-                    alt="Product Image"
+                    alt={prod.p_name}
                   />
-                  {/* Optional: Add a discount badge */}
-                  <span className="absolute top-2 left-2 bg-red-600 text-white text-xs font-semibold px-2 py-1 rounded-full">
-                    20% Off
-                  </span>
-                </div>
+                  
+                  {/* Discount Badge */}
+                  <div className="absolute top-2.5 left-2.5">
+                    <span className="flex items-center gap-1 bg-blue-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded-full shadow-lg shadow-blue-600/20">
+                      HOT
+                    </span>
+                  </div>
+                </Link>
 
-                <div className="p-4">
-                  {/* Product Title - use `prod.p_name` for a title if available */}
-                  <h3 className="text-gray-800 font-semibold text-lg truncate mb-1">
-                    {prod.p_name}
-                  </h3>
+                <div className="p-3 flex flex-col flex-1 gap-2">
+                  <div className="space-y-0.5">
+                    <span className="text-[9px] font-bold text-blue-500 uppercase tracking-widest">
+                      {prod.p_cat}
+                    </span>
+                    <h3 className="text-slate-800 dark:text-slate-100 font-bold text-[13px] leading-tight line-clamp-2 min-h-[2rem] group-hover:text-blue-600 transition-colors">
+                      {prod.p_name}
+                    </h3>
+                  </div>
 
-                  {/* Product Description - replace 'Lorem ipsum...' with actual product description if you have one */}
-                  <p className="text-sm text-gray-500 mb-3 line-clamp-2">
-                    {/* Your original description was long; keep it brief */}
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </p>
-
-                  <div className="flex justify-between items-center mt-3">
+                  <div className="mt-auto flex items-center justify-between border-t border-slate-50 dark:border-slate-800 pt-2.5">
                     <div className="flex flex-col">
-                      <span className="text-sm text-gray-400">
-                        {prod.p_cat}
-                      </span>
-                      <span className="text-xl font-bold text-green-700">
-                        {prod.p_cost} SDG
+                      <span className="text-[15px] font-black text-slate-900 dark:text-white leading-none">
+                        {Number(prod.p_cost).toLocaleString()}
+                        <span className="text-[8px] ml-0.5 text-slate-400 font-bold uppercase">SDG</span>
                       </span>
                     </div>
 
-                    {/* Optional: Add a "Shop Now" link or button */}
-                    <button className="flex items-center text-indigo-600 hover:text-indigo-800 font-medium">
-                      Shop Now
-                      <ArrowRight className="ml-1 h-4 w-4" />
-                    </button>
+                    {/* Always visible QuickAddBtn */}
+                    <div className="flex-shrink-0">
+                       <QuickAddBtn product={prod} />
+                    </div>
                   </div>
                 </div>
-              </Link>
-            </div>
-          </CarouselItem>
-        ))}
-      </CarouselContent>
-      {/* Navigation buttons were moved to the header div */}
-    </Carousel>
+              </div>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
+    </div>
   );
 }

@@ -53,26 +53,24 @@ function TableSearchForm() {
       className="flex flex-col md:flex-row items-center gap-2 w-full md:w-auto"
     >
       <div className="relative flex items-center w-full md:w-64 group">
-        {/* Added ml-1 for extra breathing room for the icon */}
-        {/* <Search
+        <Search
           size={16}
-          className="absolute left-3 ml-1 text-gray-400 group-focus-within:text-blue-500 transition-colors"
-        /> */}
+          className="absolute left-4 text-slate-400 group-focus-within:text-blue-500 transition-colors"
+        />
 
         <input
           type="text"
           name="p_name"
-          placeholder="Search product..."
+          placeholder="Search products..."
           defaultValue={activeKey === "p_name" ? activeValue || "" : ""}
-          /* Increased pl-12 (padding-left) to create space between icon and text */
-          className="w-full pl-12 pr-10 py-2 bg-white border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all shadow-sm h-[40px]"
+          className="w-full pl-11 pr-10 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-sm text-slate-900 dark:text-white placeholder:text-slate-400 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all shadow-sm h-[40px]"
         />
 
         {activeValue && (
           <button
             type="button"
             onClick={handleReset}
-            className="absolute right-3 p-1 rounded-full hover:bg-gray-100 text-gray-400 hover:text-red-500 transition-all"
+            className="absolute right-3 p-1 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-red-500 transition-all"
           >
             <X size={14} strokeWidth={3} />
           </button>
@@ -84,21 +82,19 @@ function TableSearchForm() {
           value={activeKey === "p_cat" ? activeValue || "" : ""}
           onValueChange={handleCatOnchange}
         >
-          <SelectTrigger className="w-full md:w-[160px] h-[40px] rounded-xl bg-white border-gray-200 text-sm shadow-sm">
-            <div className="flex items-center gap-3">
-              {" "}
-              {/* Increased gap between Filter icon and text */}
-              <Filter size={14} className="text-gray-400" />
+          <SelectTrigger className="w-full md:w-[160px] h-[40px] rounded-xl bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white text-sm shadow-sm transition-colors focus:ring-4 focus:ring-blue-500/10">
+            <div className="flex items-center gap-2.5">
+              <Filter size={14} className="text-slate-400" />
               <SelectValue placeholder="Category" />
             </div>
           </SelectTrigger>
-          <SelectContent className="rounded-xl shadow-xl">
-            <SelectItem value="all" className="font-medium text-blue-600">
+          <SelectContent className="rounded-xl shadow-xl dark:bg-slate-900 dark:border-slate-800">
+            <SelectItem value="all" className="font-bold text-blue-600 dark:text-blue-400">
               All Categories
             </SelectItem>
             {categories.map((cat) => (
-              <SelectItem key={cat} value={cat}>
-                {cat}
+              <SelectItem key={cat} value={cat} className="font-medium text-slate-700 dark:text-slate-300">
+                {cat.replace(/_/g, " ")}
               </SelectItem>
             ))}
           </SelectContent>
@@ -106,10 +102,10 @@ function TableSearchForm() {
 
         <button
           type="submit"
-          className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 md:px-3 h-[40px] rounded-xl shadow-md shadow-blue-100 transition-all active:scale-95 w-full md:w-auto"
+          className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 md:px-5 h-[40px] rounded-xl shadow-lg shadow-blue-500/20 dark:shadow-none transition-all active:scale-95 w-full md:w-auto"
         >
-          <span className="md:hidden text-sm font-bold">Search</span>
-          <Search size={18} strokeWidth={2.5} className="hidden md:block" />
+          <span className="md:hidden text-sm font-black uppercase tracking-tight">Search</span>
+          <Search size={18} strokeWidth={3} className="hidden md:block" />
           <ArrowRight size={16} className="md:hidden" />
         </button>
       </div>

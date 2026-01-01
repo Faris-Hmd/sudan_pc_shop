@@ -1,22 +1,54 @@
 import Link from "next/link";
 import Image from "next/image";
 import { categories } from "@/data/categories";
+import { 
+  Laptop, 
+  Monitor, 
+  Video, 
+  HardDrive, 
+  Headphones, 
+  Keyboard, 
+  Speaker, 
+  Printer, 
+  Mic, 
+  Mouse,
+  Smartphone,
+  Cpu
+} from "lucide-react";
+
+const IconMap: Record<string, any> = {
+  PC: Monitor,
+  LAPTOP: Laptop,
+  WEBCAMS: Video,
+  HARD_DRIVES: HardDrive,
+  HEADSETS: Headphones,
+  KEYBOARDS: Keyboard,
+  SPEAKERS: Speaker,
+  PRINTERS: Printer,
+  MICROPHONES: Mic,
+  MONITORS: Monitor,
+  SSD: Cpu,
+  MOUSES: Mouse,
+  TABLETS: Smartphone,
+};
 
 export default function Categories() {
   return (
-    <section className="py-12 bg-white">
+    <section id="categories" className="py-3 scroll-mt-24">
       <div className="container mx-auto px-4 md:px-6 max-w-7xl">
         <div className="flex flex-col items-center mb-10 text-center">
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight mb-3">
+          <div className="w-12 h-1 bg-blue-600 rounded-full mb-4" />
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight mb-3 transition-colors">
             Shop by Category
           </h2>
-          <p className="text-slate-500 max-w-lg mx-auto">
-            Find exactly what you need for your setup.
+          <p className="text-slate-500 dark:text-slate-400 max-w-lg mx-auto font-medium">
+            Explore our professional-grade hardware inventory
           </p>
         </div>
 
         <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-4 md:gap-6">
           {categories.map((cat) => {
+            const Icon = IconMap[cat];
             const imageUrl = `https://lzmijym9f9dkp5qm.public.blob.vercel-storage.com/icons/${cat}.png`;
             const label = cat.replace(/_/g, " ");
 
@@ -24,20 +56,24 @@ export default function Categories() {
               <Link
                 key={cat}
                 href={`/products/categories/${cat}`}
-                className="group flex flex-col items-center gap-3 p-4 rounded-3xl bg-slate-50 border border-slate-100 transition-all duration-300 hover:bg-white hover:border-blue-200 hover:shadow-lg hover:shadow-blue-50 hover:-translate-y-1"
+                className="group flex flex-col items-center gap-3 p-4 rounded-[2.5rem] bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/50 transition-all duration-300 hover:bg-white dark:hover:bg-slate-800 hover:border-blue-200 dark:hover:border-blue-900 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1.5"
               >
-                <div className="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center bg-white rounded-2xl shadow-sm border border-slate-100 group-hover:scale-110 transition-transform duration-300">
-                  <div className="relative w-10 h-10 md:w-12 md:h-12">
-                    <Image
-                      src={imageUrl}
-                      alt={label}
-                      fill
-                      className="object-contain opacity-80 group-hover:opacity-100 transition-opacity"
-                    />
-                  </div>
+                <div className="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center bg-white dark:bg-slate-900 rounded-[1.5rem] shadow-sm border border-slate-100 dark:border-slate-800 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/50 group-hover:border-blue-200 dark:group-hover:border-blue-800 transition-all duration-300">
+                  {Icon ? (
+                    <Icon className="w-8 h-8 md:w-10 md:h-10 text-slate-400 dark:text-slate-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:scale-110 transition-all" />
+                  ) : (
+                    <div className="relative w-10 h-10 md:w-12 md:h-12 group-hover:scale-110 transition-transform">
+                      <Image
+                        src={imageUrl}
+                        alt={label}
+                        fill
+                        className="object-contain opacity-80 dark:opacity-60 dark:invert dark:brightness-200 group-hover:opacity-100 group-hover:brightness-100 transition-all"
+                      />
+                    </div>
+                  )}
                 </div>
 
-                <span className="text-xs md:text-sm font-bold text-slate-600 text-center uppercase tracking-wide group-hover:text-blue-600 transition-colors">
+                <span className="text-[10px] md:text-xs font-black text-slate-600 dark:text-slate-500 text-center uppercase tracking-[0.1em] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                   {label}
                 </span>
               </Link>

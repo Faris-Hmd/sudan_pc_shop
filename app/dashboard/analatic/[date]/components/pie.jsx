@@ -28,60 +28,62 @@ import {
 export const description = "An interactive pie chart";
 
 const chartConfig = {
-  PC: { label: "PC", color: "hsl(0, 0%, 90%)" },
-  LAPTOP: { label: "LAPTOP", color: "hsl(0, 0%, 82%)" },
-  WEBCAMS: { label: "WEBCAMS", color: "hsl(0, 0%, 74%)" },
-  HARD_DRIVES: { label: "HARD_DRIVES", color: "hsl(0, 0%, 66%)" },
-  HEADSETS: { label: "HEADSETS", color: "hsl(0, 0%, 58%)" },
-  KEYBOARDS: { label: "KEYBOARDS", color: "hsl(0, 0%, 50%)" },
-  SPEAKERS: { label: "SPEAKERS", color: "hsl(0, 0%, 42%)" },
-  PRINTERS: { label: "PRINTERS", color: "hsl(0, 0%, 38%)" },
-  MICROPHONES: { label: "MICROPHONES", color: "hsl(0, 0%, 34%)" },
-  MONITORS: { label: "MONITORS", color: "hsl(0, 0%, 30%)" },
-  TABLETS: { label: "TABLETS", color: "hsl(0, 0%, 27%)" },
-  PROJECTORS: { label: "PROJECTORS", color: "hsl(0, 0%, 24%)" },
-  SCANNERS: { label: "SCANNERS", color: "hsl(0, 0%, 21%)" },
-  SSD: { label: "SSD", color: "hsl(0, 0%, 18%)" },
-  MOUSES: { label: "MOUSES", color: "hsl(0, 0%, 15%)" },
-  DESKTOP: { label: "DESKTOP", color: "hsl(0, 0%, 12%)" },
+  PC: { label: "PC", color: "#3b82f6" },
+  LAPTOP: { label: "Laptop", color: "#10b981" },
+  WEBCAMS: { label: "Webcams", color: "#f59e0b" },
+  HARD_DRIVES: { label: "Hard Drives", color: "#ef4444" },
+  HEADSETS: { label: "Headsets", color: "#8b5cf6" },
+  KEYBOARDS: { label: "Keyboards", color: "#ec4899" },
+  SPEAKERS: { label: "Speakers", color: "#06b6d4" },
+  PRINTERS: { label: "Printers", color: "#f97316" },
+  MICROPHONES: { label: "Microphones", color: "#14b8a6" },
+  MONITORS: { label: "Monitors", color: "#6366f1" },
+  TABLETS: { label: "Tablets", color: "#d946ef" },
+  PROJECTORS: { label: "Projectors", color: "#84cc16" },
+  SCANNERS: { label: "Scanners", color: "#475569" },
+  SSD: { label: "SSD", color: "#0f172a" },
+  MOUSES: { label: "Mouses", color: "#7c3aed" },
+  DESKTOP: { label: "Desktop", color: "#2563eb" },
 };
 
 export default function ChartPieInteractive({ categories }) {
   const id = "pie-interactive";
-  const [activeMonth, setActiveMonth] = React.useState(categories[0].category);
+  const [activeMonth, setActiveMonth] = React.useState(categories[0]?.category || "");
 
   const activeIndex = React.useMemo(
     () => categories.findIndex((item) => item.category === activeMonth),
-    [activeMonth]
+    [activeMonth, categories]
   );
   const months = React.useMemo(
     () => categories.map((item) => item.category),
-    []
+    [categories]
   );
+
+  if (!categories || categories.length === 0) return null;
 
   return (
     <Card
       data-chart={id}
-      className="flex flex-col rounded-xl border-none shadow-none w-full"
+      className="flex flex-col rounded-xl border-none shadow-none w-full bg-transparent"
     >
       <ChartStyle id={id} config={chartConfig} />
 
       {/* Header */}
-      <CardHeader className="">
-        <CardTitle className="text-base font-semibold">
-          Products by Category
+      <CardHeader className="p-0 pb-4">
+        <CardTitle className="text-sm font-black text-slate-800 dark:text-white uppercase tracking-widest">
+          Inventory Distribution
         </CardTitle>
-        <CardDescription className="text-xs">
-          Distribution of products across categories
+        <CardDescription className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-tight">
+          Stock allocation across all categories
         </CardDescription>
       </CardHeader>
 
       {/* Chart */}
-      <CardContent className="flex flex-1 items-center justify-center">
+      <CardContent className="flex flex-1 items-center justify-center p-0">
         <ChartContainer
           id={id}
           config={chartConfig}
-          className="aspect-square h-[180px]"
+          className="aspect-square h-[200px]"
         >
           <PieChart>
             <ChartTooltip
@@ -93,17 +95,18 @@ export default function ChartPieInteractive({ categories }) {
               data={categories}
               dataKey="quantity"
               nameKey="category"
-              innerRadius={65}
-              strokeWidth={4}
+              innerRadius={70}
+              strokeWidth={8}
+              stroke="transparent"
               activeIndex={activeIndex}
               activeShape={({ outerRadius = 0, ...props }) => (
                 <g>
-                  <Sector {...props} outerRadius={outerRadius + 8} />
+                  <Sector {...props} outerRadius={outerRadius + 10} />
                   <Sector
                     {...props}
-                    outerRadius={outerRadius + 18}
-                    innerRadius={outerRadius + 10}
-                    opacity={0.25}
+                    outerRadius={outerRadius + 20}
+                    innerRadius={outerRadius + 12}
+                    opacity={0.3}
                   />
                 </g>
               )}
@@ -119,7 +122,7 @@ export default function ChartPieInteractive({ categories }) {
                         dominantBaseline="middle"
                       >
                         <tspan
-                          className="fill-foreground text-2xl font-semibold"
+                          className="fill-slate-900 dark:fill-white text-3xl font-black"
                           x={viewBox.cx}
                           y={viewBox.cy}
                         >
@@ -127,10 +130,10 @@ export default function ChartPieInteractive({ categories }) {
                         </tspan>
                         <tspan
                           x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 18}
-                          className="fill-muted-foreground text-xs"
+                          y={(viewBox.cy || 0) + 20}
+                          className="fill-slate-400 dark:fill-slate-500 text-[10px] font-black uppercase tracking-widest"
                         >
-                          Products
+                          Units
                         </tspan>
                       </text>
                     );
@@ -143,27 +146,29 @@ export default function ChartPieInteractive({ categories }) {
       </CardContent>
 
       {/* Footer / Select */}
-      <div className="border-t px-4 py-3">
+      <div className="pt-6">
         <Select value={activeMonth} onValueChange={setActiveMonth}>
-          <SelectTrigger className="h-8 w-full text-xs">
+          <SelectTrigger className="h-10 w-full text-xs font-bold rounded-xl bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition-all focus:ring-4 focus:ring-blue-500/10">
             <SelectValue placeholder="Select category" />
           </SelectTrigger>
 
-          <SelectContent className="rounded-lg">
+          <SelectContent className="rounded-xl dark:bg-slate-900 dark:border-slate-800">
             {months.map((key) => {
               const config = chartConfig[key];
               if (!config) return null;
 
               return (
-                <SelectItem key={key} value={key} className="text-xs">
-                  <div className="flex items-center gap-2">
+                <SelectItem key={key} value={key} className="text-xs font-bold py-2">
+                  <div className="flex items-center gap-2.5">
                     <span
-                      className="h-2.5 w-2.5 rounded-sm"
+                      className="h-3 w-3 rounded-md"
                       style={{
-                        backgroundColor: `var(--color-${key})`,
+                        backgroundColor: config.color,
                       }}
                     />
-                    {config.label}
+                    <span className="text-slate-700 dark:text-slate-300">
+                      {config.label}
+                    </span>
                   </div>
                 </SelectItem>
               );

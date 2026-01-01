@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
@@ -10,110 +10,177 @@ import {
   Grid2X2,
   ShoppingCart,
   Package,
-  User,
   LayoutDashboard,
+  Cpu,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useCart } from "@/hooks/useCart";
 
+import { ModeToggle } from "@/components/ModeToggle";
+
 const NAV_ITEMS = [
   { title: "Home", href: "/", icon: Home },
-  { title: "Categories", href: "/products/categories", icon: Grid2X2 },
+  { title: "Categories", href: "/#categories", icon: Grid2X2 },
   { title: "Cart", href: "/cart", icon: ShoppingCart },
   { title: "Orders", href: "/orders", icon: Package },
-  { title: "Profile", href: "/profile", icon: User },
 ];
 
 export default function Navbar() {
   const { data: session } = useSession();
   const { cartCount } = useCart();
   const pathname = usePathname();
+  const [activeHash, setActiveHash] = useState("");
+  const [activeSection, setActiveSection] = useState("");
+
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "-20% 0px -70% 0px",
+      threshold: 0,
+    };
+
+    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        } else if (activeSection === entry.target.id) {
+          setActiveSection("");
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersect, observerOptions);
+    const target = document.getElementById("categories");
+    if (target) observer.observe(target);
+
+    return () => {
+      if (target) observer.unobserve(target);
+    };
+  }, [pathname, activeSection]);
+
+  useEffect(() => {
+    const handleHashChange = () => setActiveHash(window.location.hash);
+    window.addEventListener("hashchange", handleHashChange);
+    // Catch clicks on same page anchors
+    window.addEventListener("popstate", handleHashChange);
+    setActiveHash(window.location.hash);
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+      window.removeEventListener("popstate", handleHashChange);
+    };
+  }, []);
 
   return (
-    <nav className="bg-white/80 backdrop-blur-md sticky top-0 z-50 flex justify-between items-center px-4 py-3 border-b border-gray-200 shadow-sm">
-      {/* Brand Logo */}
-      <div className="flex items-center gap-4">
-        <Link href="/" className="flex items-center gap-2">
-          {/* Logo Icon */}
-          <img src="/favicon.ico" alt="Sudan PC Logo" className="w-8 h-8" />
-          {/* Logo Text */}
-          <span className="uppercase font-extrabold text-xl tracking-tighter text-blue-600">
-            Sudan PC
-          </span>
-        </Link>
+    <nav className={`sticky top-0 z-50 transition-all duration-300 ${
+        "bg-white dark:bg-slate-900/80 backdrop-blur-md py-4 border-b border-transparent dark:border-slate-800"
+    }`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
+        {/* Brand Logo */}
+        <div className="flex items-center gap-8">
+          <Link href="/" className="group flex items-center gap-2.5 transition-transform active:scale-95">
+            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/20 group-hover:rotate-12 transition-transform duration-300">
+              <Cpu className="text-white w-6 h-6" />
+            </div>
+            <div className="flex flex-col leading-none">
+              <span className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
+                SUDAN<span className="text-blue-600">PC</span>
+              </span>
+              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Hardware Store</span>
+            </div>
+          </Link>
 
-        {/* Desktop Navigation Links */}
-        <div className="hidden lg:flex items-center gap-6 ml-6">
-          {NAV_ITEMS.map((item) => {
-            const Icon = item.icon;
-            const isActive = pathname === item.href;
-            return (
-              <Link
-                key={item.title}
-                href={item.href as any}
-                className={`flex items-center gap-2 text-sm font-medium transition-colors hover:text-blue-600 ${
-                  isActive ? "text-blue-600" : "text-slate-600"
-                }`}
-              >
-                <div className="relative">
-                  <Icon size={18} />
+          {/* Desktop Navigation */}
+          <div className="hidden lg:flex items-center gap-1">
+            {NAV_ITEMS.map((item) => {
+              const Icon = item.icon;
+              const isHashLink = item.href.includes("#");
+              const isActive = isHashLink 
+                ? (pathname === "/" || pathname === "") && activeSection === item.href.split("#")[1]
+                : pathname === item.href && activeSection === "";
+              
+              return (
+                <Link
+                  key={item.title}
+                  href={item.href as any}
+                  className={`relative px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 flex items-center gap-2 ${
+                    isActive 
+                      ? "text-blue-600 bg-blue-50 dark:bg-blue-900/20" 
+                      : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800"
+                  }`}
+                  onClick={() => {
+                    if (isHashLink) {
+                      setActiveHash(item.href.replace("/", ""));
+                    } else {
+                      setActiveHash("");
+                    }
+                  }}
+                >
+                  <Icon size={18} strokeWidth={isActive ? 2.5 : 2} />
+                  {item.title}
                   {item.title === "Cart" && cartCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
+                    <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full border-2 border-white dark:border-slate-900 font-bold animate-in zoom-in">
                       {cartCount}
                     </span>
                   )}
-                </div>
-                {item.title}
+                </Link>
+              );
+            })}
+            
+            {session?.user && (
+              <div className="h-6 w-px bg-slate-200 dark:bg-slate-700 mx-2" />
+            )}
+            
+            {session?.user && (
+              <Link
+                href="/dashboard"
+                className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 flex items-center gap-2 ${
+                  pathname.startsWith("/dashboard")
+                    ? "text-indigo-600 bg-indigo-50 dark:bg-indigo-900/20"
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800"
+                }`}
+              >
+                <LayoutDashboard size={18} strokeWidth={pathname.startsWith("/dashboard") ? 2.5 : 2} />
+                Dashboard
               </Link>
-            );
-          })}
+            )}
+          </div>
+        </div>
 
-          {/* Dashboard Link if logged in */}
-          {session?.user && (
-            <Link
-              href="/dashboard"
-              className={`flex items-center gap-2 text-sm font-medium transition-colors hover:text-blue-600 border-l pl-6 ml-2 ${
-                pathname.startsWith("/dashboard")
-                  ? "text-blue-600"
-                  : "text-slate-600"
-              }`}
-            >
-              <LayoutDashboard size={18} />
-              Dashboard
+        {/* Right Actions */}
+        <div className="flex items-center gap-3">
+          <ModeToggle />
+          <Link
+            href="/products"
+            className="p-2.5 text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-all active:scale-95"
+          >
+            <Search size={22} strokeWidth={2.5} />
+          </Link>
+
+          <div className="h-8 w-px bg-slate-100 hidden sm:block mx-1" />
+
+          {session?.user ? (
+            <Link href="/profile" className="transition-transform active:scale-90">
+              <Avatar className="h-10 w-10 overflow-hidden rounded-xl border-2 border-slate-100 dark:border-slate-800 shadow-sm flex items-center justify-center bg-white dark:bg-slate-800 transition-colors">
+                <AvatarImage
+                  src={session.user?.image || ""}
+                  className="h-full w-full object-cover"
+                />
+                <AvatarFallback className="bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 font-bold text-xs">
+                  {session.user?.name?.substring(0, 2).toUpperCase() || "PC"}
+                </AvatarFallback>
+              </Avatar>
             </Link>
+          ) : (
+            <button
+              onClick={() => signIn("google")}
+              className="px-6 py-2.5 text-sm font-black text-white bg-slate-900 dark:bg-blue-600 rounded-xl hover:bg-blue-600 dark:hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-slate-200 dark:shadow-none active:scale-95"
+            >
+              LOGIN
+            </button>
           )}
         </div>
-      </div>
-
-      {/* Right Side Actions */}
-      <div className="flex items-center gap-4">
-        <Link
-          className="p-2 hover:bg-slate-100 rounded-full transition-colors"
-          href="/products"
-        >
-          <Search size={20} className="text-slate-600" />
-        </Link>
-
-        {session?.user ? (
-          <Link href="/profile">
-            <Avatar className="h-9 w-9 flex items-center justify-center overflow-hidden rounded-full border border-gray-200 shadow-sm transition-transform hover:scale-105 bg-white">
-              <AvatarImage
-                src={session.user?.image || "github.com"}
-                className="h-full w-full object-cover"
-              />
-              <AvatarFallback className="bg-blue-100 text-blue-700 font-bold text-xs uppercase">
-                {session.user?.name?.substring(0, 2) || "PC"}
-              </AvatarFallback>
-            </Avatar>
-          </Link>
-        ) : (
-          <button
-            onClick={() => signIn("google")}
-            className="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Login
-          </button>
-        )}
       </div>
     </nav>
   );

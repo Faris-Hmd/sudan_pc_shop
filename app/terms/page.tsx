@@ -54,53 +54,59 @@ function TermsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-900 text-white py-16 px-6 md:px-20 lg:px-40">
-      <div className="max-w-4xl mx-auto space-y-10">
+    <main className="min-h-screen bg-white dark:bg-black text-slate-900 dark:text-white py-16 px-6 md:px-20 lg:px-40 transition-colors duration-500">
+      <div className="max-w-4xl mx-auto space-y-12">
         {/* Title */}
-        <h1 className="text-4xl md:text-5xl font-extrabold text-center">
-          Terms & Services
-        </h1>
-        <p className="text-center text-slate-300 text-lg md:text-xl">
-          By using our website, you agree to the following terms and conditions.
-          Please read carefully.
-        </p>
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight uppercase">
+            Terms & <span className="text-blue-600 dark:text-blue-400">Services</span>
+          </h1>
+          <p className="max-w-2xl mx-auto text-slate-500 dark:text-slate-400 text-lg md:text-xl font-medium leading-relaxed">
+            By using our website, you agree to the following protocol. 
+            Please review our operational standards carefully.
+          </p>
+        </div>
 
         {/* Accordion Sections */}
         <div className="space-y-4">
           {terms.map((term, index) => (
             <div
               key={index}
-              className="bg-slate-800 rounded-lg shadow-md overflow-hidden"
+              className="bg-slate-50 dark:bg-slate-900 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all"
             >
               {/* Header */}
               <button
-                className="w-full flex justify-between items-center px-6 py-4 text-left font-semibold hover:bg-slate-700 transition"
+                className="w-full flex justify-between items-center px-8 py-6 text-left font-black text-lg hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors outline-none group"
                 onClick={() => toggle(index)}
               >
-                <span>{term.title}</span>
-                <ChevronDown
-                  className={`w-5 h-5 transition-transform ${
-                    openIndex === index ? "rotate-180" : ""
-                  }`}
-                />
+                <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{term.title}</span>
+                <div className={`p-2 rounded-xl bg-white dark:bg-slate-800 shadow-sm transition-transform ${openIndex === index ? "rotate-180 bg-blue-600 text-white" : ""}`}>
+                  <ChevronDown className="w-5 h-5" />
+                </div>
               </button>
 
               {/* Content */}
               <div
-                className={`px-6 pb-4 text-slate-300 transition-all duration-300 overflow-hidden ${
-                  openIndex === index ? "max-h-96" : "max-h-0"
+                className={`transition-all duration-500 ease-in-out overflow-hidden ${
+                  openIndex === index ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
                 }`}
               >
-                <p>{term.content}</p>
+                <div className="px-8 pb-8 text-slate-600 dark:text-slate-400 text-base md:text-lg leading-relaxed font-medium">
+                  <p className="p-6 bg-white dark:bg-slate-800/30 rounded-2xl border border-slate-100 dark:border-slate-800/50">
+                    {term.content}
+                  </p>
+                </div>
               </div>
             </div>
           ))}
         </div>
 
         {/* Conclusion */}
-        <p className="text-center text-slate-400 mt-8 text-lg md:text-xl">
-          By continuing to use our website, you agree to these terms.
-        </p>
+        <div className="pt-8 border-t border-slate-100 dark:border-slate-800 text-center">
+          <p className="text-slate-400 dark:text-slate-500 text-sm font-black uppercase tracking-[0.3em]">
+            Operational Sovereignty Reserved &copy; 2025
+          </p>
+        </div>
       </div>
     </main>
   );

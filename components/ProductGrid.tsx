@@ -1,47 +1,47 @@
-// components/ProductGridCustomData.tsx
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import QuickAddBtn from "./quickAddBtn";
 import { ProductCardProps, ProductGridProps } from "@/types/productsTypes";
 
-// --- Product Card Component (Internal) ---
+// --- Product Card Component ---
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const imageUrl = product.p_imgs?.[0]?.url;
+  
   return (
-    <div className="bg-white rounded-md border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300">
-      <Link href={`/products/${product.id}`}>
-        <div className="block relative h-32 md:h-36">
-          {" "}
-          {/* Reduced height from h-48 */}
-          <Image
-            src={imageUrl}
-            alt={product.p_name}
-            fill
-            sizes="(max-width: 768px) 33vw, 20vw"
-            className="transition duration-300 hover:scale-105 object-cover"
-          />
-        </div>
+    <div className="group relative bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-slate-200/50 dark:hover:shadow-blue-900/10 hover:border-blue-100 dark:hover:border-blue-900 flex flex-col">
+      <Link href={`/products/${product.id}`} className="block relative aspect-[16/11] bg-slate-50/50 dark:bg-slate-800/50 overflow-hidden">
+        <Image
+          src={imageUrl}
+          alt={product.p_name}
+          fill
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 16vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-110"
+        />
       </Link>
 
-      <div className="p-2.5">
-        {" "}
-        {/* Reduced padding from p-5 */}
-        <p className="text-[11px] font-bold text-blue-600 uppercase tracking-tighter mb-0.5">
-          {product.p_cat}
-        </p>
-        <h3
-          className="text-[14px] font-bold text-gray-800 leading-tight line-clamp-2 min-h-[2.4em]"
-          title={product.p_name}
-        >
-          {product.p_name}
-        </h3>
-        <div className="mt-2 flex items-center justify-between">
-          <p className="text-sm font-black text-gray-900">
-            ${Number(product.p_cost).toFixed(2)}
+      <div className="p-2.5 flex flex-col flex-1 gap-1.5">
+        <div className="space-y-0.5">
+          <p className="text-[9px] font-bold text-blue-500 uppercase tracking-widest">
+            {product.p_cat}
           </p>
+          <h3
+            className="text-[13px] font-bold text-slate-800 dark:text-slate-100 leading-tight line-clamp-2 min-h-[2rem] group-hover:text-blue-600 transition-colors"
+            title={product.p_name}
+          >
+            {product.p_name}
+          </h3>
+        </div>
 
-          {/* Small icon-only or text-only button for compactness */}
+        <div className="mt-auto pt-2 border-t border-slate-50 dark:border-slate-800 flex items-center justify-between">
+          <div className="flex flex-col">
+            <span className="text-[14px] font-black text-slate-900 dark:text-white leading-none">
+              {Number(product.p_cost).toLocaleString()}
+              <span className="text-[8px] ml-0.5 text-slate-400 uppercase font-bold">SDG</span>
+            </span>
+          </div>
           <QuickAddBtn product={product} />
         </div>
       </div>
@@ -49,29 +49,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   );
 };
 
-// --- Main Product Grid Container Component (Dynamic) ---
 const ProductGrid: React.FC<ProductGridProps> = ({ products }) => {
   return (
-    <div id="shop" className="container mx-auto p-2 md:p-4  ">
-      {/* 
-          Increased density: 
-          - 3 columns on mobile
-          - 4 on tablet
-          - 5-6 on desktop 
-          - Reduced gaps to 3 (12px)
-      */}
-      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-3">
-        {products.length > 0 ? (
-          products.map((product) => (
-            // Use a real ID instead of Math.random() for better performance
-            <ProductCard key={product.id || product.id} product={product} />
-          ))
-        ) : (
-          <p className="col-span-full text-center text-[10px] uppercase font-bold tracking-widest text-gray-400 py-20">
-            No products found.
+    <div className="w-full">
+      {products.length > 0 ? (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2.5 md:gap-4">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center py-24 px-4 text-center">
+          <div className="w-24 h-24 bg-slate-50 dark:bg-slate-900 rounded-[2rem] flex items-center justify-center mb-6 border border-slate-100 dark:border-slate-800 transition-colors">
+             <Image src="/favicon.ico" alt="Empty" width={40} height={40} className="opacity-10 grayscale dark:invert" />
+          </div>
+          <h3 className="text-slate-900 dark:text-white font-black text-xl tracking-tight transition-colors">No components found</h3>
+          <p className="text-slate-500 dark:text-slate-400 text-sm max-w-xs mx-auto font-medium mt-2 transition-colors">
+            Try adjusting your technical specifications or filters to locate the hardware.
           </p>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

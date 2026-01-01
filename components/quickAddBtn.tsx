@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ShoppingCart, Check } from "lucide-react";
+import { ShoppingCart, Check, Plus } from "lucide-react";
 import { ProductType } from "@/types/productsTypes";
 import { useCart, dispatchCartUpdate } from "@/hooks/useCart";
 
@@ -20,9 +20,10 @@ const QuickAddBtn: React.FC<QuickAddBtnProps> = ({ product }) => {
   const isInCart = cart.some((p) => p.id === product.id);
 
   const toggleCart = (e: React.MouseEvent) => {
-    e.preventDefault(); // Stop Link navigation if nested
+    e.preventDefault();
+    e.stopPropagation(); // Critical for when used inside Link
+    
     let newCart;
-
     if (isInCart) {
       newCart = cart.filter((p) => p.id !== product.id);
     } else {
@@ -34,25 +35,22 @@ const QuickAddBtn: React.FC<QuickAddBtnProps> = ({ product }) => {
   };
 
   if (!mounted)
-    return <div className="h-6 w-12 bg-gray-100 animate-pulse rounded" />;
+    return <div className="h-8 w-8 bg-slate-50 dark:bg-slate-800 rounded-lg animate-pulse" />;
 
   return (
     <button
       onClick={toggleCart}
-      className={`transition-all duration-300 flex items-center justify-center gap-1 px-2 py-1 rounded text-[10px] font-bold ${
+      className={`h-8 w-8 flex items-center justify-center rounded-xl transition-all duration-500 shadow-sm hover:-translate-y-0.5 active:scale-90 group/btn ${
         isInCart
-          ? "bg-green-100 text-green-700 border border-green-200"
-          : "bg-blue-600 text-white hover:bg-blue-700"
+          ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20 dark:shadow-none"
+          : "bg-slate-900 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700 shadow-lg shadow-slate-200 dark:shadow-none"
       }`}
+      title={isInCart ? "Remove from cart" : "Add to cart"}
     >
       {isInCart ? (
-        <>
-          <Check size={12} strokeWidth={3} /> In
-        </>
+        <Check size={16} strokeWidth={3} className="animate-in zoom-in fade-in duration-500" />
       ) : (
-        <>
-          <ShoppingCart size={12} /> Add
-        </>
+        <Plus size={16} strokeWidth={3} className="group-hover/btn:rotate-90 transition-transform duration-300" />
       )}
     </button>
   );

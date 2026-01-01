@@ -20,24 +20,24 @@ export default async function Home({
   }
 
   return (
-    <>
+    <div className="px-2">
       <SearchForm />
       {search_word ? (
         <ProductGrid products={products} />
       ) : (
-        <div className="flex min-h-[400px] flex-col items-center justify-center rounded-xl  px-4 py-12 text-center">
-          <div className="bg-white mb-4 flex h-16 w-16 items-center justify-center rounded-full  shadow-sm">
-            <Search className="h-8 w-8 text-gray-400" />
+        <div className="flex min-h-[400px] flex-col items-center justify-center rounded-xl px-4 py-12 text-center">
+          <div className="bg-white dark:bg-slate-900 mb-4 flex h-16 w-16 items-center justify-center rounded-full shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">
+            <Search className="h-8 w-8 text-gray-400 dark:text-slate-500" />
           </div>
-          <h2 className="max-w-xs text-xl font-semibold text-gray-900">
+          <h2 className="max-w-xs text-xl font-bold text-gray-900 dark:text-white transition-colors">
             Ready to find something?
           </h2>
-          <p className="mt-2 max-w-sm text-gray-500">
+          <p className="mt-2 max-w-sm text-gray-500 dark:text-slate-400 font-medium">
             Enter a keyword or product name above to start exploring our
             collection.
           </p>
         </div>
       )}
-    </>
+    </div>
   );
 }

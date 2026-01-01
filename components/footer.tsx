@@ -3,7 +3,7 @@ import { Facebook, Instagram, Twitter, Github, Send } from "lucide-react";
 
 export default function AppFooter() {
   return (
-    <footer className="bg-slate-900 text-slate-300 border-t border-slate-800">
+    <footer className="bg-slate-900 dark:bg-black text-slate-300 border-t border-slate-800 dark:border-slate-900 transition-colors duration-500">
       <div className="mx-auto max-w-7xl px-6 py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand & Socials */}
@@ -37,16 +37,18 @@ export default function AppFooter() {
               Store
             </h4>
             <ul className="space-y-4 text-sm">
-              {["About", "Categories", "Offers", "Build PC"].map((link) => (
-                <li key={link}>
-                  <Link
-                    href={`/${link.toLowerCase().replace(" ", "-")}` as any}
-                    className="hover:text-blue-400 transition-colors"
-                  >
-                    {link}
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link href={"/about" as any} className="hover:text-blue-400 transition-colors">About</Link>
+              </li>
+              <li>
+                <Link href={"/#categories" as any} className="hover:text-blue-400 transition-colors">Categories</Link>
+              </li>
+              <li>
+                <Link href={"/offers" as any} className="hover:text-blue-400 transition-colors">Offers</Link>
+              </li>
+              <li>
+                <Link href={"/build-pc" as any} className="hover:text-blue-400 transition-colors">Build PC</Link>
+              </li>
             </ul>
           </div>
 

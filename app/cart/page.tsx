@@ -35,13 +35,13 @@ function page() {
       <div className="space-y-4">
         {cart.map((product) => (
           <div
-            className="group bg-white border border-slate-100 rounded-2xl p-4 sm:p-6 flex flex sm:flex-row items-start sm:items-center gap-6 transition-all duration-200 hover:shadow-lg hover:border-blue-100"
+            className="group bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl p-4 sm:p-6 flex flex sm:flex-row items-start sm:items-center gap-6 transition-all duration-300 hover:shadow-lg dark:hover:shadow-blue-900/10 hover:border-blue-100 dark:hover:border-blue-900"
             key={product.id}
           >
             {/* Product Image */}
             <Link
               href={`/products/${product.id}`}
-              className="relative w-24 h-24 sm:w-28 sm:h-28 shrink-0 overflow-hidden rounded-xl border border-slate-100 bg-slate-50"
+              className="relative w-24 h-24 sm:w-28 sm:h-28 shrink-0 overflow-hidden rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50"
             >
               <Image
                 loading="eager"
@@ -63,17 +63,17 @@ function page() {
                 <div>
                   <Link
                     href={`/products/${product.id}`}
-                    className="text-lg font-bold text-slate-800 hover:text-blue-600 transition-colors line-clamp-1"
+                    className="text-lg font-bold text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors line-clamp-1"
                   >
                     {product.p_name}
                   </Link>
-                  <p className="text-sm text-slate-500 font-medium">
+                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
                     {product.p_cat}
                   </p>
                 </div>
                 <button
                   onClick={() => removeFromCart(product.id)}
-                  className="text-slate-400 hover:text-red-500 hover:bg-red-50 p-2 rounded-xl transition-all"
+                  className="text-slate-400 dark:text-slate-600 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-xl transition-all"
                   aria-label="Remove item"
                 >
                   <Trash size={18} />
@@ -81,25 +81,26 @@ function page() {
               </div>
 
               <div className="flex items-end justify-between pt-2">
-                <span className="text-lg font-extrabold text-slate-900">
-                  ${Number(product.p_cost).toLocaleString()}
+                <span className="text-lg font-black text-slate-900 dark:text-white">
+                  {Number(product.p_cost).toLocaleString()}
+                  <span className="text-[10px] ml-1 text-slate-400 font-bold uppercase">SDG</span>
                 </span>
 
                 {/* Quantity Controls */}
-                <div className="flex items-center gap-3 bg-slate-50 rounded-xl p-1 border border-slate-200">
+                <div className="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl p-1 border border-slate-200 dark:border-slate-700">
                   <button
                     onClick={() => updateQuantity(product.id, product.p_qu - 1)}
                     disabled={product.p_qu <= 1}
-                    className="w-8 h-8 flex items-center justify-center rounded-lg bg-white text-slate-600 shadow-sm border border-slate-100 hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="w-8 h-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 shadow-sm border border-slate-100 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
                     <Minus size={14} strokeWidth={3} />
                   </button>
-                  <span className="w-6 text-center text-sm font-bold text-slate-700">
+                  <span className="w-6 text-center text-sm font-bold text-slate-700 dark:text-slate-300">
                     {product.p_qu}
                   </span>
                   <button
                     onClick={() => updateQuantity(product.id, product.p_qu + 1)}
-                    className="w-8 h-8 flex items-center justify-center rounded-lg bg-white text-blue-600 shadow-sm border border-slate-100 hover:bg-blue-50 transition-colors"
+                    className="w-8 h-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm border border-slate-100 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors"
                   >
                     <Plus size={14} strokeWidth={3} />
                   </button>
@@ -113,13 +114,13 @@ function page() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-transparent py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <header className="mb-8">
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
             Shopping Cart
           </h1>
-          <p className="text-slate-500 mt-1">
+          <p className="text-slate-500 dark:text-slate-400 mt-1">
             {cart.length > 0
               ? `You have ${cart.length} items in your cart`
               : "Your cart is currently empty"}
@@ -140,22 +141,22 @@ function page() {
           </div>
         ) : (
           // Empty Cart State
-          <div className="flex flex-col items-center justify-center py-20 bg-white rounded-3xl border border-dashed border-slate-200">
-            <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mb-6 animate-bounce">
-              <ShoppingBag className="w-10 h-10 text-blue-500" />
+          <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-slate-900 rounded-3xl border border-dashed border-slate-200 dark:border-slate-800">
+            <div className="w-24 h-24 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center mb-6 animate-bounce">
+              <ShoppingBag className="w-10 h-10 text-blue-500 dark:text-blue-400" />
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-800 mb-2">
+            <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">
               Your cart is empty
             </h2>
-            <p className="text-slate-500 max-w-sm text-center mb-8">
+            <p className="text-slate-500 dark:text-slate-400 max-w-sm text-center mb-8">
               Looks like you haven't added anything to your cart yet. Browse our
               categories to find cool gadgets!
             </p>
 
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95"
+              className="inline-flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 dark:shadow-none active:scale-95"
             >
               Start Shopping
               <ArrowRight className="w-4 h-4 ml-1" />

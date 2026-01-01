@@ -106,17 +106,17 @@ export default async function OverviewPage({ params }: PageProps) {
   const totalMonthlySales = salesData.reduce((acc, curr) => acc + curr.sales, 0);
 
   return (
-    <div className="max-w-[100vw] overflow-x-hidden pb-10">
-      <header className="bg-white flex justify-between items-center m-2 p-4 border-b shadow-md rounded-2xl">
-        <h1 className="text-2xl font-black text-slate-800 tracking-tight">
+    <div className="max-w-[100vw] overflow-x-hidden pb-10 bg-slate-50/30 dark:bg-black min-h-screen transition-colors duration-500">
+      <header className="bg-white dark:bg-slate-900 flex justify-between items-center m-2 p-4 border border-slate-100 dark:border-slate-800 shadow-sm rounded-2xl transition-all">
+        <h1 className="text-2xl font-black text-slate-800 dark:text-white tracking-tight">
           Store Overview
         </h1>
         <div className="flex items-center gap-2">
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
-          <p className="text-[10px] font-bold text-blue-500 uppercase tracking-widest bg-blue-50 px-3 py-1 rounded-full">
+          <p className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest bg-emerald-50 dark:bg-emerald-900/20 px-3 py-1 rounded-full">
             {new Intl.DateTimeFormat("en-US", {
               month: "long",
               year: "numeric",
@@ -127,7 +127,7 @@ export default async function OverviewPage({ params }: PageProps) {
 
       <main className="p-4 space-y-6">
         {/* Top Summary Cards */}
-        <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100">
+        <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 transition-all">
           <SectionCards
             productsNum={productsNum}
             ordersNum={ordersNum}
@@ -138,11 +138,11 @@ export default async function OverviewPage({ params }: PageProps) {
         {/* Charts Section */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Revenue Chart - Takes more space */}
-          <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 lg:col-span-2">
+          <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 lg:col-span-2 transition-all">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-1 h-4 bg-indigo-500 rounded-full" />
-              <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider">
-                Daily Revenue
+              <div className="w-1.5 h-4 bg-blue-500 rounded-full" />
+              <h3 className="text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                Revenue Metrics
               </h3>
             </div>
             <div className="w-full">
@@ -151,12 +151,12 @@ export default async function OverviewPage({ params }: PageProps) {
           </div>
 
           {/* Inventory Distribution - Smaller Side Panel */}
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 lg:col-span-1">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 lg:col-span-1 transition-all">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-sm font-bold text-slate-400 uppercase tracking-wider">
-                Inventory
+              <h3 className="text-xs font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                Stock Allocation
               </h3>
-              <span className="text-[10px] font-medium text-slate-400">
+              <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-tighter">
                 By Category
               </span>
             </div>

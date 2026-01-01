@@ -18,49 +18,47 @@ import { cn } from "@/lib/utils";
 
 const CompactOrderCard = ({ order }: { order: OrderData }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const isCancelled = order.status === "Cancelled";
   const isShipped = order.status === "Shipped";
-  const isDelivered = order.status === "Delivered";
 
   const statusConfig = useMemo(() => {
     switch (order.status) {
       case "Delivered":
         return {
-          color: "text-emerald-600",
-          bg: "bg-emerald-50",
-          border: "border-emerald-100",
+          color: "text-emerald-600 dark:text-emerald-400",
+          bg: "bg-emerald-50 dark:bg-emerald-900/20",
+          border: "border-emerald-100 dark:border-emerald-900/40",
           Icon: CheckCircle2,
           label: "Delivered",
         };
       case "Shipped":
         return {
-          color: "text-blue-600",
-          bg: "bg-blue-50",
-          border: "border-blue-100",
+          color: "text-blue-600 dark:text-blue-400",
+          bg: "bg-blue-50 dark:bg-blue-900/20",
+          border: "border-blue-100 dark:border-blue-900/40",
           Icon: Truck,
           label: "On the way",
         };
       case "Processing":
         return {
-          color: "text-amber-600",
-          bg: "bg-amber-50",
-          border: "border-amber-100",
+          color: "text-amber-600 dark:text-amber-400",
+          bg: "bg-amber-50 dark:bg-amber-900/20",
+          border: "border-amber-100 dark:border-amber-900/40",
           Icon: Package,
           label: "Processing",
         };
       case "Cancelled":
         return {
-          color: "text-rose-600",
-          bg: "bg-rose-50",
-          border: "border-rose-100",
+          color: "text-rose-600 dark:text-rose-400",
+          bg: "bg-rose-50 dark:bg-rose-900/20",
+          border: "border-rose-100 dark:border-rose-900/40",
           Icon: XCircle,
           label: "Cancelled",
         };
       default:
         return {
-          color: "text-slate-600",
-          bg: "bg-slate-50",
-          border: "border-slate-100",
+          color: "text-slate-600 dark:text-slate-400",
+          bg: "bg-slate-50 dark:bg-slate-800",
+          border: "border-slate-100 dark:border-slate-700",
           Icon: Clock,
           label: order.status,
         };
@@ -71,43 +69,42 @@ const CompactOrderCard = ({ order }: { order: OrderData }) => {
     () =>
       order.productsList
         .reduce((acc, p) => acc + Number(p.p_cost) * (p.p_qu || 1), 0)
-        .toFixed(2),
+        .toLocaleString(),
     [order.productsList]
   );
 
   return (
     <div
       className={cn(
-        "group w-full bg-white border rounded-2xl transition-all duration-300 overflow-hidden",
-        isOpen ? "shadow-md ring-1 ring-black/5" : "shadow-sm hover:shadow-md",
-        statusConfig.border
+        "group w-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-3xl transition-all duration-500 overflow-hidden",
+        isOpen ? "shadow-xl shadow-slate-200/60 dark:shadow-none ring-1 ring-blue-500/5 dark:ring-blue-600/20" : "shadow-sm hover:shadow-md dark:hover:shadow-none hover:border-blue-100 dark:hover:border-blue-900",
       )}
     >
       {/* Header / Summary */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-5 text-left focus:outline-none"
+        className="w-full flex items-center justify-between p-4 sm:p-5 text-left focus:outline-none"
       >
         <div className="flex items-center gap-4">
           <div
             className={cn(
-              "w-12 h-12 rounded-xl flex items-center justify-center transition-colors",
+              "w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:scale-110",
               statusConfig.bg,
               statusConfig.color
             )}
           >
-            <statusConfig.Icon size={24} />
+            <statusConfig.Icon className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div>
-            <div className="flex items-center gap-2 mb-1">
-               <span className="text-base font-bold text-slate-900">
+            <div className="flex items-center gap-2 mb-0.5">
+               <span className="text-sm sm:text-base font-black text-slate-900 dark:text-white transition-colors">
                 Order #{order.id.slice(-6).toUpperCase()}
                </span>
-               <span className={cn("text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full", statusConfig.bg, statusConfig.color)}>
+               <span className={cn("text-[9px] font-black uppercase px-2 py-0.5 rounded-full tracking-wider transition-colors", statusConfig.bg, statusConfig.color)}>
                   {statusConfig.label}
                </span>
             </div>
-            <p className="text-xs text-slate-500 font-medium">
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-tight">
               {new Date(order.createdAt).toLocaleDateString(undefined, {
                   month: 'short', day: 'numeric', year: 'numeric'
               })}
@@ -115,17 +112,19 @@ const CompactOrderCard = ({ order }: { order: OrderData }) => {
           </div>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-4 sm:gap-6">
           <div className="text-right hidden sm:block">
-            <p className="text-xs text-slate-400 font-medium mb-0.5">Total Amount</p>
-            <p className="text-lg font-black text-slate-900">${totalCost}</p>
+            <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-widest mb-0.5">Total</p>
+            <p className="text-lg font-black text-slate-900 dark:text-white transition-colors">
+              {totalCost} <span className="text-[10px] text-slate-400 dark:text-slate-500">SDG</span>
+            </p>
           </div>
           
           <div className={cn(
-              "w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 transition-transform duration-300",
-              isOpen && "rotate-180 bg-slate-100 text-slate-600"
+              "w-8 h-8 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-400 dark:text-slate-500 transition-all duration-500",
+              isOpen && "rotate-180 bg-blue-600 dark:bg-blue-600 text-white shadow-lg shadow-blue-200 dark:shadow-none"
           )}>
-            <ChevronDown size={18} strokeWidth={2.5} />
+            <ChevronDown size={18} strokeWidth={3} />
           </div>
         </div>
       </button>
@@ -133,46 +132,54 @@ const CompactOrderCard = ({ order }: { order: OrderData }) => {
       {/* Expanded Content */}
       <div
         className={cn(
-            "border-t border-slate-50 transition-all duration-300 ease-in-out bg-slate-50/50",
-            isOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0"
+            "border-t border-slate-50 dark:border-slate-800 transition-all duration-500 ease-in-out bg-slate-50/30 dark:bg-slate-800/10",
+            isOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"
         )}
       >
-        <div className="p-5 space-y-6">
+        <div className="p-4 sm:p-6 space-y-6">
             
             {/* Courier Info (Mock Data for Demo) */}
             {isShipped && (
-                <div className="flex items-center justify-between p-4 bg-white border border-blue-100 rounded-xl shadow-sm">
+                <div className="flex items-center justify-between p-4 bg-white dark:bg-slate-900 border border-blue-50 dark:border-blue-900/30 rounded-2xl shadow-sm">
                     <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center">
+                        <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center">
                             <User size={20} />
                         </div>
                         <div>
-                            <p className="text-sm font-bold text-slate-900">Alex Thompson</p>
-                            <p className="text-xs text-slate-500">Your Courier</p>
+                            <p className="text-xs font-black text-slate-900 dark:text-white">Alex Thompson</p>
+                            <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase">Assigned Courier</p>
                         </div>
                     </div>
-                    <a href="tel:+" className="w-9 h-9 flex items-center justify-center rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-blue-200 shadow-lg">
+                    <a href="tel:+" className="w-9 h-9 flex items-center justify-center rounded-xl bg-blue-600 text-white hover:bg-slate-900 dark:hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 dark:shadow-none active:scale-90">
                         <Phone size={16} />
                     </a>
                 </div>
             )}
 
             {/* Items List */}
-            <div className="space-y-3">
-                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest pl-1">Order Items</h4>
+            <div className="space-y-2">
+                <h4 className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.15em] mb-3 ml-1">Order Manifest</h4>
                 {order.productsList.map((product, i) => (
-                    <div key={i} className="flex items-center justify-between p-3 bg-white border border-slate-100 rounded-xl">
+                    <div key={i} className="flex items-center justify-between p-3 bg-white dark:bg-slate-900 border border-slate-50 dark:border-slate-800/50 rounded-2xl hover:border-blue-100 dark:hover:border-blue-900 transition-colors">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-slate-100 rounded-lg flex-shrink-0" /> {/* Placeholder/Image */}
+                            <div className="relative w-10 h-10 bg-slate-50 dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-800">
+                               <img 
+                                 src={product.p_imgs?.[0]?.url || "/placeholder.png"} 
+                                 alt={product.p_name}
+                                 className="w-full h-full object-cover"
+                               />
+                            </div>
                             <div>
-                                <Link href={`/products/${product.id}`} className="text-sm font-bold text-slate-800 hover:text-blue-600 line-clamp-1 transition-colors">
+                                <Link href={`/products/${product.id}`} className="text-xs font-black text-slate-800 dark:text-slate-200 hover:text-blue-600 dark:hover:text-blue-400 line-clamp-1 transition-colors">
                                     {product.p_name}
                                 </Link>
-                                <p className="text-xs text-slate-500">{product.p_cat} • x{product.p_qu}</p>
+                                <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-tighter">
+                                  {product.p_cat} • x{product.p_qu}
+                                </p>
                             </div>
                         </div>
-                        <span className="font-bold text-slate-900 text-sm">
-                            ${(Number(product.p_cost) * (product.p_qu || 1)).toFixed(2)}
+                        <span className="font-black text-slate-900 dark:text-white text-xs transition-colors">
+                            {(Number(product.p_cost) * (product.p_qu || 1)).toLocaleString()}
                         </span>
                     </div>
                 ))}
@@ -182,9 +189,9 @@ const CompactOrderCard = ({ order }: { order: OrderData }) => {
             <div className="flex justify-end pt-2">
                 <Link 
                     href={`/orders/${order.id}` as any}
-                    className="text-xs font-bold text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1"
+                    className="group/link text-[10px] font-black uppercase text-blue-600 dark:text-blue-400 hover:text-slate-900 dark:hover:text-white tracking-widest flex items-center gap-1.5 transition-colors"
                 >
-                    View Invoice <ExternalLink size={12} />
+                    Official Invoice <ExternalLink size={14} className="group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
                 </Link>
             </div>
         </div>

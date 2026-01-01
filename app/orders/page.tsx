@@ -54,13 +54,13 @@ export default function Orders() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-transparent py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
         <header className="mb-8">
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight transition-colors">
             My Orders
           </h1>
-          <p className="text-slate-500 mt-1">
+          <p className="text-slate-500 dark:text-slate-400 mt-1 font-medium italic">
             {orders && orders.length > 0
               ? `You have placed ${orders.length} orders`
               : "Track your past and current orders"}
@@ -68,31 +68,33 @@ export default function Orders() {
         </header>
 
       {orders && orders.length > 0 ? (
-        orders.map((order) => (
-          <div key={order.id} className="mb-3 px-3">
-            <OrderList order={order} />
-          </div>
-        ))
+        <div className="grid gap-4">
+          {orders.map((order) => (
+            <div key={order.id}>
+              <OrderList order={order} />
+            </div>
+          ))}
+        </div>
       ) : (
-        <div className="flex flex-col items-center justify-center  p-10 md:p-20 rounded-3xl  text-center ">
+        <div className="flex flex-col items-center justify-center p-10 md:p-20 rounded-3xl text-center">
           {/* Visual Element */}
-          <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6">
-            <ShoppingBag className="w-10 h-10 text-slate-300" />
+          <div className="w-20 h-20 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center mb-6 transition-colors">
+            <ShoppingBag className="w-10 h-10 text-slate-300 dark:text-slate-600" />
           </div>
 
           {/* Engaging Copy */}
-          <h2 className="text-xl font-bold text-slate-800 mb-2">
+          <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 mb-2 transition-colors">
             No orders found
           </h2>
-          <p className="text-slate-500 max-w-xs mx-auto mb-8 text-sm leading-relaxed">
-            Looks like you havent placed any orders yet. Start exploring our
+          <p className="text-slate-500 dark:text-slate-400 max-w-xs mx-auto mb-8 text-sm leading-relaxed font-bold uppercase tracking-tight">
+            Looks like you haven't placed any orders yet. Start exploring our
             latest products to fill this up!
           </p>
 
           {/* Clear Call-to-Action */}
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-black rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20 active:scale-95"
           >
             Start Shopping
             <ArrowRight className="w-4 h-4" />

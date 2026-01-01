@@ -101,20 +101,20 @@ export default function ManageOrdersPage() {
   return (
     <div className="max-w-6xl mx-auto p-2 md:p-8 space-y-2 pb-24">
       {/* Dashboard Header */}
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
+      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm transition-colors">
         <div>
-          <h1 className="text-2xl font-black text-gray-900 tracking-tight">
+          <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight transition-colors">
             Order Management
           </h1>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
             Track, fulfill, and update customer shipments
           </p>
         </div>
         <div className="flex items-center gap-4">
           {/* Added Link to Shipped Orders */}
           <Link
-            href="/dashboard/manegeOrder/shipped/2025-12"
-            className="flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-600 rounded-xl text-xs font-bold hover:bg-blue-100 transition-colors border border-blue-100"
+            href={`/dashboard/manegeOrder/shipped/${new Date().toISOString().slice(0, 7)}` as any}
+            className="flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-xl text-xs font-bold hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors border border-blue-100 dark:border-blue-900/30"
           >
             <Package size={16} />
             <span>Delivered Orders</span>
@@ -123,18 +123,18 @@ export default function ManageOrdersPage() {
           <button
             onClick={() => mutate("admin/orders")}
             className={cn(
-              "p-2 rounded-full hover:bg-gray-100 transition",
+              "p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition",
               isValidating && "animate-spin"
             )}
           >
-            <RefreshCcw size={18} className="text-gray-400" />
+            <RefreshCcw size={18} className="text-slate-400 dark:text-slate-500" />
           </button>
-          <div className="h-10 w-px bg-gray-200 mx-2 hidden md:block" />
+          <div className="h-10 w-px bg-slate-200 dark:bg-slate-800 mx-2 hidden md:block" />
           <div className="text-right">
-            <p className="text-[10px] font-bold text-blue-600 uppercase">
+            <p className="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">
               Live Count
             </p>
-            <p className="text-2xl font-black text-gray-800 leading-none">
+            <p className="text-2xl font-black text-slate-800 dark:text-white leading-none">
               {orders?.length || 0}
             </p>
           </div>
@@ -154,10 +154,10 @@ export default function ManageOrdersPage() {
             <div
               key={order.id}
               className={cn(
-                "bg-white border rounded-3xl transition-all duration-300 overflow-hidden",
+                "bg-white dark:bg-slate-900 border rounded-3xl transition-all duration-300 overflow-hidden",
                 isExpanded
-                  ? "ring-2 ring-blue-500 shadow-xl scale-[1]"
-                  : "border-gray-100 shadow-sm hover:border-blue-200"
+                  ? "ring-2 ring-blue-500 dark:ring-blue-600 border-transparent shadow-xl dark:shadow-blue-900/10 scale-[1]"
+                  : "border-slate-100 dark:border-slate-800 shadow-sm hover:border-blue-200 dark:hover:border-blue-900"
               )}
             >
               {/* Summary Row */}
@@ -165,30 +165,24 @@ export default function ManageOrdersPage() {
                 onClick={() => toggleOrder(order.id)}
                 className="p-5 flex flex-wrap items-center justify-between gap-4 cursor-pointer select-none"
               >
-                <div className="flex items-center  gap-4 justify-between w-full">
+                <div className="flex items-center gap-4 justify-between w-full">
                   <div
                     className={cn(
                       "p-3 rounded-2xl transition-all",
                       isExpanded
-                        ? "bg-blue-600 text-white shadow-lg shadow-blue-200"
-                        : "bg-gray-50 text-gray-400"
+                        ? "bg-blue-600 dark:bg-blue-600 text-white shadow-lg shadow-blue-200 dark:shadow-none"
+                        : "bg-slate-50 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
                     )}
                   >
                     <Package size={22} />
                   </div>
-                  <div>
-                    <div className="flex items-center gap-2">
-                      {/* <span className="font-bold text-gray-900">
-                        {order.customerEmail}
-                      </span> */}
-                      {/* <ExternalLink size={12} className="text-gray-300" /> */}
-                    </div>
-                    <div className="flex items-center flex-wrap gap-3 mt-1">
-                      <span className="text-xs font-semibold px-2 py-0.5 bg-gray-100 text-gray-500 rounded-md">
+                  <div className="flex-1">
+                    <div className="flex items-center flex-wrap gap-3">
+                      <span className="text-xs font-black uppercase tracking-widest px-2 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-md">
                         {totalItems} {totalItems === 1 ? "Item" : "Items"}
                       </span>
-                      <span className="text-xs font-bold text-blue-600">
-                        ${order.totalAmount}
+                      <span className="text-sm font-black text-blue-600 dark:text-blue-400">
+                        {order.totalAmount.toLocaleString()} <span className="text-[9px] uppercase">SDG</span>
                       </span>
                     </div>
                   </div>{" "}
@@ -206,13 +200,13 @@ export default function ManageOrdersPage() {
                         className={cn(
                           "text-[11px] font-black uppercase tracking-wider rounded-xl px-4 py-2 border appearance-none cursor-pointer outline-none transition-all",
                           order.status === "Delivered" &&
-                            "bg-emerald-50 text-emerald-700 border-emerald-200",
+                            "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 border-emerald-200 dark:border-emerald-900/50",
                           order.status === "Processing" &&
-                            "bg-amber-50 text-amber-700 border-amber-200",
+                            "bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 border-amber-200 dark:border-amber-900/50",
                           order.status === "Shipped" &&
-                            "bg-blue-50 text-blue-700 border-blue-200",
+                            "bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border-blue-200 dark:border-blue-900/50",
                           order.status === "Cancelled" &&
-                            "bg-rose-50 text-rose-700 border-rose-200"
+                            "bg-rose-50 dark:bg-rose-900/20 text-rose-700 dark:text-rose-400 border-rose-200 dark:border-rose-900/50"
                         )}
                       >
                         <option value="Processing">Processing</option>
@@ -223,7 +217,7 @@ export default function ManageOrdersPage() {
                     </div>
 
                     <button
-                      className=" text-gray-300 hover:text-gray-600 transition-colors"
+                      className=" text-slate-300 dark:text-slate-600 hover:text-slate-600 dark:hover:text-slate-400 transition-colors"
                       onClick={() => {
                         toggleOrder(order.id);
                       }}
@@ -241,9 +235,9 @@ export default function ManageOrdersPage() {
               {/* Expanded Details Section */}
               <div
                 className={cn(
-                  "transition-all duration-500 ease-in-out bg-gray-50/50",
+                  "transition-all duration-500 ease-in-out bg-slate-50/50 dark:bg-slate-900/50",
                   isExpanded
-                    ? "max-h-[2000px] border-t opacity-100"
+                    ? "max-h-[2000px] border-t dark:border-slate-800 opacity-100"
                     : "max-h-0 opacity-0 pointer-events-none"
                 )}
               >
@@ -251,39 +245,39 @@ export default function ManageOrdersPage() {
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm text-left">
                       <thead>
-                        <tr className="text-gray-400 border-b border-gray-200">
-                          <th className="p-3 font-semibold px-2">Product</th>
-                          <th className="p-3 font-semibold text-center">
+                        <tr className="text-slate-400 dark:text-slate-500 border-b border-slate-200 dark:border-slate-800">
+                          <th className="p-3 font-black text-[10px] uppercase tracking-widest px-2">Product</th>
+                          <th className="p-3 font-black text-[10px] uppercase tracking-widest text-center">
                             Quantity
                           </th>
-                          <th className="p-3 font-semibold text-right">Unit</th>
-                          <th className="p-3 font-semibold text-right">
+                          <th className="p-3 font-black text-[10px] uppercase tracking-widest text-right">Unit</th>
+                          <th className="p-3 font-black text-[10px] uppercase tracking-widest text-right">
                             Subtotal
                           </th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-100">
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800/50">
                         {order.productsList.map((p) => (
                           <tr
                             key={p.id}
-                            className="group hover:bg-white transition-colors"
+                            className="group hover:bg-white dark:hover:bg-slate-800 transition-colors"
                           >
-                            <td className="py-4 px-2 font-semibold text-gray-800">
+                            <td className="py-4 px-2 font-bold text-slate-800 dark:text-slate-200">
                               {p.p_name}
-                              <p className="text-[10px] text-gray-400 font-normal uppercase tracking-tighter">
+                              <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-widest mt-0.5">
                                 {p.p_cat}
                               </p>
                             </td>
                             <td className="py-4 text-center">
-                              <span className="bg-white border shadow-sm px-3 py-1 rounded-lg font-mono text-xs">
+                              <span className="bg-white dark:bg-slate-800 border dark:border-slate-700 shadow-sm px-3 py-1 rounded-lg font-black text-xs">
                                 {p.p_qu}
                               </span>
                             </td>
-                            <td className="py-4 text-right text-gray-500 font-mono">
-                              ${Number(p.p_cost).toFixed(2)}
+                            <td className="py-4 text-right text-slate-500 dark:text-slate-400 font-bold text-xs">
+                              {Number(p.p_cost).toLocaleString()}
                             </td>
-                            <td className="py-4 text-right font-bold text-gray-900 font-mono">
-                              ${(Number(p.p_cost) * Number(p.p_qu)).toFixed(2)}
+                            <td className="py-4 text-right font-black text-slate-900 dark:text-white text-xs">
+                              {(Number(p.p_cost) * Number(p.p_qu)).toLocaleString()}
                             </td>
                           </tr>
                         ))}
@@ -292,24 +286,24 @@ export default function ManageOrdersPage() {
                   </div>
 
                   {/* Order Footer Info */}
-                  <div className="mt-6 pt-6 border-t border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                  <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div className="flex flex-col gap-2">
-                       <span className="text-xs text-gray-400 font-mono">
+                       <span className="text-[10px] text-slate-400 dark:text-slate-500 font-black uppercase tracking-wider">
                         ID: {order.id.slice(0, 16).toUpperCase()}
                       </span>
                       <button
                         onClick={() => handleDelete(order.id)}
-                        className="text-xs font-bold text-red-500 hover:text-red-700 hover:bg-red-50 py-1 px-3 -ml-3 rounded-lg transition-colors w-fit flex items-center gap-1"
+                        className="text-xs font-black uppercase tracking-widest text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 py-1.5 px-3 -ml-3 rounded-lg transition-colors w-fit flex items-center gap-1"
                       >
                          Delete Order
                       </button>
                     </div>
-                    <div className="bg-blue-600 text-white px-6 py-3 rounded-2xl flex items-center gap-8 shadow-lg shadow-blue-100">
-                      <span className="text-xs font-medium opacity-80 italic">
+                    <div className="bg-blue-600 text-white px-6 py-3 rounded-2xl flex items-center gap-8 shadow-lg shadow-blue-500/20">
+                      <span className="text-[10px] font-black uppercase tracking-widest opacity-80">
                         Total Value
                       </span>
                       <span className="text-xl font-black">
-                        ${order.totalAmount.toFixed(2)}
+                        {order.totalAmount.toLocaleString()} <span className="text-xs ml-1">SDG</span>
                       </span>
                     </div>
                   </div>
@@ -321,10 +315,10 @@ export default function ManageOrdersPage() {
       </div>
 
       {orders?.length === 0 && (
-        <div className="flex flex-col items-center justify-center p-10 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
-          <Package size={48} className="text-gray-300 mb-4" />
-          <p className="text-gray-500 font-medium">
-            No orders found in the database.
+        <div className="flex flex-col items-center justify-center p-12 bg-slate-50 dark:bg-slate-900 rounded-3xl border-2 border-dashed border-slate-200 dark:border-slate-800 transition-colors">
+          <Package size={48} className="text-slate-300 dark:text-slate-700 mb-4" />
+          <p className="text-slate-500 dark:text-slate-400 font-black uppercase tracking-widest text-xs">
+            No active orders found
           </p>
         </div>
       )}

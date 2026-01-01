@@ -55,66 +55,70 @@ export default function Component({
   }, [salesData]);
 
   return (
-    <Card className="space-y-1 w-full border-none shadow-none overflow-hidden">
-      <div className=" flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-        <div className="space-y-0 px-4">
-          <CardTitle className="text-xl font-black text-slate-900 ">
+    <Card className="space-y-6 w-full border-none shadow-none overflow-hidden bg-transparent">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 px-2">
+        <div className="space-y-1">
+          <CardTitle className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
             Revenue Analytics
           </CardTitle>
-          <div className="flex items-center gap-2 text-emerald-600 font-bold text-xs uppercase tracking-widest">
+          <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-black text-[10px] uppercase tracking-[0.2em] transition-colors">
+            <span className="flex h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <TrendingUp className="w-3 h-3" />
-            {totalOrders.toLocaleString()} Total Orders
+            {totalOrders.toLocaleString()} Successfully Fulfilled
           </div>
         </div>
 
         <div className="flex items-center gap-3 w-full sm:w-auto">
-          <Badge className="bg-blue-600 text-white font-black px-4 py-2 rounded-xl">
-            ${totalSales.toLocaleString()}
-          </Badge>
+          <div className="flex items-baseline gap-1 bg-blue-600 text-white font-black px-5 py-2.5 rounded-xl shadow-xl shadow-blue-500/20 dark:shadow-none">
+            <span className="text-lg">{totalSales.toLocaleString()}</span>
+            <span className="text-[10px] opacity-70 uppercase tracking-tighter">SDG</span>
+          </div>
 
           <DateSelector currentMonth={currentMonth} />
         </div>
       </div>
 
-      <div className="w-full sm:h-[130px] sm:min-h-[130px] lg:h-[250px] lg:min-h-[250px]">
+      <div className="w-full h-[200px] sm:h-[250px] lg:h-[300px]">
         <ChartContainer config={chartConfig} className="h-full w-full">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart
               data={salesData}
-              margin={{ left: 10, right: 10, top: 20, bottom: 0 }}
+              margin={{ left: 0, right: 0, top: 10, bottom: 0 }}
             >
               <defs>
                 <linearGradient id="salesGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
+                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4} />
+                  <stop offset="50%" stopColor="#3b82f6" stopOpacity={0.1} />
                   <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid
                 vertical={false}
-                strokeDasharray="3 3"
-                opacity={0.4}
+                strokeDasharray="4 4"
+                stroke="currentColor"
+                className="text-slate-100 dark:text-slate-800/50"
               />
               <XAxis
                 dataKey="day"
                 axisLine={false}
                 tickLine={false}
-                tickMargin={10}
-                className="text-[10px] font-bold"
+                tickMargin={12}
+                className="text-[10px] font-black text-slate-400 dark:text-slate-600 uppercase tracking-tighter"
               />
               <YAxis hide />
               <ChartTooltip
-                cursor={{ stroke: "#2563eb", strokeWidth: 1 }}
-                content={<ChartTooltipContent indicator="dot" />}
+                cursor={{ stroke: "#3b82f6", strokeWidth: 2, strokeDasharray: "4 4" }}
+                content={<ChartTooltipContent indicator="dot" className="rounded-xl border-slate-100 dark:border-slate-800 shadow-2xl" />}
               />
               <Area
                 type="monotone"
                 dataKey="sales"
-                stroke="#2563eb"
-                strokeWidth={3}
+                stroke="#3b82f6"
+                strokeWidth={4}
                 fill="url(#salesGrad)"
-                animationDuration={1000}
+                animationDuration={1500}
+                activeDot={{ r: 6, strokeWidth: 0, fill: "#3b82f6" }}
               />
-              {/* Internal tracking for Orders data series */}
               <Area dataKey="orders" fill="transparent" stroke="transparent" />
             </AreaChart>
           </ResponsiveContainer>
