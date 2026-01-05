@@ -30,7 +30,7 @@ export default async function Home() {
         </section>
 
         <section className="space-y-5">
-           <ProductsCarousel products={products} />
+           <ProductsCarousel products={products.filter((p) => p.isFeatured === true)} />
         </section>
 
         <Categories />
