@@ -8,30 +8,28 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ShoppingCart, Trash2, Check } from "lucide-react";
+import { ShoppingCart, Trash2, Check, Plus, RefreshCw } from "lucide-react";
 import { ProductType } from "@/types/productsTypes";
+import { cn } from "@/lib/utils";
 
 type CartProduct = ProductType & { p_qu: number };
-
 const CART_KEY = "sh";
 
 function CartBtn({ product }: { product: ProductType }) {
   const [quantity, setQuantity] = useState("1");
   const [inCart, setInCart] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  /* ---------------- Helpers ---------------- */
   const getCart = (): CartProduct[] =>
     JSON.parse(localStorage.getItem(CART_KEY) || "[]");
 
   const saveCart = (cart: CartProduct[]) => {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
-    // Dispatch custom event for reactivity
     import("@/hooks/useCart").then(({ dispatchCartUpdate }) =>
       dispatchCartUpdate()
     );
   };
 
-  /* ---------------- Init ---------------- */
   useEffect(() => {
     const item = getCart().find((p) => p.id === product.id);
     if (item) {
@@ -40,13 +38,16 @@ function CartBtn({ product }: { product: ProductType }) {
     }
   }, [product.id]);
 
-  /* ---------------- Actions ---------------- */
   const upsert = useCallback(
     (q: string) => {
+      setIsUpdating(true);
       const cart = getCart().filter((p) => p.id !== product.id);
       cart.push({ ...product, p_qu: Number(q) });
       saveCart(cart);
       setInCart(true);
+      
+      // Artificial delay for tactile feedback
+      setTimeout(() => setIsUpdating(false), 400);
     },
     [product]
   );
@@ -57,63 +58,72 @@ function CartBtn({ product }: { product: ProductType }) {
     setQuantity("1");
   }, [product.id]);
 
-  /* ---------------- UI ---------------- */
   return (
-    <div className="flex items-center gap-2 w-full">
-      {/* Quantity */}
-      <Select
-        value={quantity}
-        onValueChange={(v) => {
-          setQuantity(v);
-          if (inCart) upsert(v); // 🔥 auto-update
-        }}
-      >
-        <SelectTrigger className="w-20 h-10 font-semibold">
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
-            <SelectItem key={n} value={n.toString()}>
-              {n}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-
-      {/* Main Action */}
-      <button
-        onClick={() => upsert(quantity)}
-        className="flex-1 h-10 flex items-center justify-center gap-2
-                   rounded-lg bg-green-600 text-white font-semibold
-                   hover:bg-green-700 active:scale-95 transition"
-      >
-        <ShoppingCart size={16} />
-        {inCart ? "Update" : "Add"}
-      </button>
-
-      {/* Remove */}
-      {inCart && (
-        <button
-          onClick={remove}
-          title="Remove from cart"
-          className="w-10 h-10 flex items-center justify-center
-                     rounded-lg bg-red-50 text-red-600
-                     hover:bg-red-100 active:scale-95 transition"
+    <div className="group flex flex-col sm:flex-row items-center gap-3 w-full">
+      
+      {/* --- QUANTITY SELECTOR --- */}
+      <div className="flex flex-col gap-1 w-full sm:w-auto">
+        <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Quantity</p>
+        <Select
+          value={quantity}
+          onValueChange={(v) => {
+            setQuantity(v);
+            if (inCart) upsert(v);
+          }}
         >
-          <Trash2 size={16} />
-        </button>
-      )}
+          <SelectTrigger className="w-full sm:w-24 h-12 bg-slate-50 dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-xl font-black text-xs ring-offset-blue-600 focus:ring-blue-600">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 rounded-xl">
+            {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
+              <SelectItem key={n} value={n.toString()} className="text-xs font-bold uppercase tracking-tighter">
+                {n.toString().padStart(2, '0')} Units
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
 
-      {/* Status */}
-      {inCart && (
-        <div
-          className="w-10 h-10 flex items-center justify-center
-                        rounded-full border border-green-300
-                        bg-green-50 text-green-600"
-        >
-          <Check size={18} strokeWidth={3} />
+      {/* --- MAIN ACTION BUTTON --- */}
+      <div className="flex flex-col gap-1 w-full flex-1">
+        <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Deployment</p>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => upsert(quantity)}
+            className={cn(
+              "relative flex-1 h-12 flex items-center justify-center gap-3 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] transition-all active:scale-[0.97] overflow-hidden",
+              inCart 
+                ? "bg-slate-900 dark:bg-white text-white dark:text-black shadow-xl shadow-slate-900/10" 
+                : "bg-blue-600 text-white shadow-xl shadow-blue-600/20 hover:bg-blue-700"
+            )}
+          >
+            {isUpdating ? (
+              <RefreshCw size={16} className="animate-spin" />
+            ) : inCart ? (
+              <>
+                <Check size={16} strokeWidth={3} className="text-blue-500" />
+                Update Order
+              </>
+            ) : (
+              <>
+                <Plus size={16} strokeWidth={3} />
+                Add to Cart
+              </>
+            )}
+          </button>
+
+          {/* --- REMOVE BUTTON --- */}
+          {inCart && (
+            <button
+              onClick={remove}
+              title="Remove from system"
+              className="h-12 w-12 flex items-center justify-center rounded-xl bg-red-50 dark:bg-red-500/10 text-red-500 hover:bg-red-100 dark:hover:bg-red-500/20 transition-all active:scale-90 border border-red-100 dark:border-red-500/20"
+            >
+              <Trash2 size={18} />
+            </button>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 }

@@ -39,7 +39,7 @@ export default function Navbar() {
 
   return (
     <nav className={`sticky backdrop-blur-md top-0 z-50 transition-all duration-300 ${
-        "bg-white/85 dark:bg-slate-900/2 backdrop-blur-md py-4 border-b border-transparent dark:border-slate-800"
+        "bg-white/55 dark:bg-slate-900/2 backdrop-blur-md py-4 border-b border-transparent dark:border-slate-800"
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
         {/* Brand Logo */}
@@ -52,7 +52,7 @@ export default function Navbar() {
               <span className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
                 SUDAN<span className="text-blue-600">PC</span>
               </span>
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-0.5">Hardware Store</span>
+              <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest mt-0.5">Hardware Store</span>
             </div>
           </Link>
 
@@ -144,7 +144,7 @@ export default function Navbar() {
           ) : (
             <button
               onClick={() => signIn("google")}
-              className="px-6 py-2.5 text-sm font-black text-white bg-slate-900 dark:bg-blue-600 rounded-xl hover:bg-blue-600 dark:hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-slate-200 dark:shadow-none active:scale-95"
+              className="px-6 py-2.5 text-xs font-black text-white bg-slate-900 dark:bg-blue-600 rounded-xl hover:bg-blue-600 dark:hover:bg-blue-700 transition-all duration-300 shadow-lg shadow-slate-200 dark:shadow-none active:scale-95"
             >
               LOGIN
             </button>

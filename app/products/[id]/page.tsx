@@ -1,17 +1,19 @@
+import { getProductsIds, getProduct, getProducts } from "@/services/productsServices";
+import ProductImgCarousel from "@/components/carousel";
+import ProductGrid from "@/components/ProductGrid";
+import CartBtn from "./components/cartBtn";
+import { ChevronLeft, Info, Package, ShieldCheck } from "lucide-react";
+import Link from "next/link";
+
 export async function generateStaticParams() {
   return await getProductsIds();
 }
 
 export const revalidate = 15;
 export const metadata = {
-  title: `SPS | product detail`,
-  description: "product detail",
+  title: `SPS | Product Detail`,
+  description: "Product technical details and specifications",
 };
-import ProductImgCarousel from "@/components/carousel";
-import ProductGrid from "@/components/ProductGrid";
-import { getProductsIds } from "@/services/productsServices";
-import CartBtn from "./components/cartBtn";
-import { getProduct, getProducts } from "@/services/productsServices";
 
 export default async function ProductsDetails({
   params,
@@ -21,75 +23,128 @@ export default async function ProductsDetails({
   const { id } = await params;
   const product = await getProduct(id);
   const prodSameCate = await getProducts("p_cat", product?.p_cat, 7);
+
   if (!product) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold text-gray-800">Product not found</h1>
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4">
+        <Package size={48} className="text-slate-300" />
+        <h1 className="text-xl font-black text-slate-800 dark:text-white uppercase tracking-tighter">Product not found</h1>
+        <Link href="/products" className="text-xs font-bold text-blue-600 uppercase underline">Back to catalog</Link>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-transparent pt-0 pb-10 md:py-10 p-3 mt-2 md:p-6">
-      <div className="container mx-auto px-0 md:px-6 max-w-7xl space-y-6 md:space-y-16">
-        {/* Main Product Section */}
-        <div className="bg-white dark:bg-slate-900 md:rounded-3xl md:shadow-sm md:border border-slate-100 dark:border-slate-800 overflow-hidden transition-colors">
-          <div className="grid md:grid-cols-2 gap-0">
-            {/* Left Column: Image Gallery */}
-            <div className="p-0 md:p-8 bg-white dark:bg-slate-900 flex items-center justify-center border-b md:border-b-0 md:border-r border-slate-100 dark:border-slate-800 transition-colors">
-              <div className="w-full">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#05070a] transition-colors pb-20">
+      {/* Top Navigation Bar */}
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-4">
+        <Link href={"/products/categories/" + product?.p_cat as any} className="inline-flex items-center gap-2 text-slate-500 hover:text-blue-600 transition-colors">
+          <ChevronLeft size={16} />
+          <span className="text-[10px] font-black uppercase tracking-widest">Back to Catalog</span>
+        </Link>
+      </div>
+
+      <div className="container mx-auto px-0 md:px-6 max-w-7xl">
+        {/* Main Product Card */}
+        <div className="bg-white dark:bg-[#0a0c12] md:rounded-[2.5rem] shadow-2xl shadow-blue-500/5 border-y md:border border-slate-100 dark:border-white/5 overflow-hidden transition-all">
+          <div className="grid md:grid-cols-2">
+            
+            {/* Left: Interactive Gallery */}
+            <div className="relative bg-white dark:bg-[#0a0c12] flex items-center justify-center border-b md:border-b-0 md:border-r border-slate-100 dark:border-white/5">
+              <div className="w-full h-full">
                 <ProductImgCarousel
-                  imgH={"h-[300px] md:h-[350px]"} 
+                  imgH={"h-[400px] md:h-[550px]"} 
                   imgs={product.p_imgs}
-                  imgFill={"object-cover"} 
+                  imgFill={"object-cover p-4 md:p-12"} 
                 />
+              </div>
+              <div className="absolute top-6 left-6 hidden md:block">
+                 <span className="px-3 py-1 text-[9px] font-black text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded-full uppercase tracking-tighter">
+                   Official Hardware
+                 </span>
               </div>
             </div>
 
-            {/* Right Column: Product Details & Actions */}
-            <div className="p-4 md:p-8 flex flex-col justify-center space-y-6">
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <span className="px-2 py-1 text-[10px] font-bold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 uppercase tracking-wider rounded-full transition-colors">
-                    {product.p_cat}
-                  </span>
-                </div>
-                
-                <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white leading-tight transition-colors">
-                  {product.p_name}
-                </h1>
+            {/* Right: Technical Details */}
+            <div className="p-6 md:p-12 flex flex-col">
+              <div className="flex-1 space-y-8">
+                {/* Product Meta */}
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-1 text-[9px] font-black text-white bg-blue-600 rounded-md uppercase tracking-widest">
+                      {product.p_cat}
+                    </span>
+                    <div className="h-[1px] w-8 bg-slate-200 dark:bg-slate-800" />
+                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">SKU: {id.slice(0,8)}</span>
+                  </div>
+                  
+                  <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white leading-tight uppercase tracking-tighter">
+                    {product.p_name}
+                  </h1>
 
-                <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-black text-blue-600 dark:text-blue-400 transition-colors">
-                    {Number(product.p_cost).toLocaleString()}
-                  </span>
-                  <span className="text-lg font-bold text-slate-400">SDG</span>
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-2xl font-black text-blue-600 dark:text-blue-400 tracking-tighter">
+                        {Number(product.p_cost).toLocaleString()}
+                      </span>
+                      <span className="text-xs font-black text-slate-400 uppercase">SDG</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Structured Specs */}
+                <div className="grid grid-cols-2 gap-3 py-6 border-y border-slate-100 dark:border-white/5">
+                  <div className="space-y-1">
+                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Status</p>
+                    <div className="flex items-center gap-1.5 text-emerald-500">
+                      <ShieldCheck size={14} />
+                      <span className="text-xs font-bold uppercase tracking-tight">In Stock</span>
+                    </div>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Delivery</p>
+                    <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300">
+                      <Package size={14} />
+                      <span className="text-xs font-bold uppercase tracking-tight">Fast Shipping</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Description Text */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 text-slate-900 dark:text-white">
+                    <Info size={14} className="text-blue-600" />
+                    <h3 className="text-[10px] font-black uppercase tracking-widest">Technical Overview</h3>
+                  </div>
+                  <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
+                    {product.p_details}
+                  </p>
                 </div>
               </div>
 
-              <div className="prose prose-sm prose-slate dark:prose-invert max-w-none text-slate-500 dark:text-slate-400 leading-relaxed transition-colors">
-                <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-wider mb-1">
-                  Description
-                </h3>
-                <p>
-                  {product.p_details}
-                </p>
-              </div>
-
-              <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+              {/* Action Area */}
+              <div className="mt-12">
                  <CartBtn product={{ ...product, id } as any} />
+                 <p className="text-[8px] text-center mt-4 text-slate-400 font-bold uppercase tracking-[0.2em]">
+                   Secure Transaction • Verified SPS Hardware
+                 </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Related Products Section */}
-        <div className="space-y-6">
-          <div className="flex items-center gap-3">
-            <div className="h-6 w-1 bg-blue-600 rounded-full"/>
-            <h3 className="text-xl font-bold text-slate-900 dark:text-white">
-              Similar Products
-            </h3>
+        {/* Recommended Feed */}
+        <div className="mt-16 space-y-8 px-4 md:px-0">
+          <div className="flex items-end justify-between border-b border-slate-100 dark:border-white/5 pb-4">
+            <div>
+              <p className="text-[10px] font-black text-blue-600 uppercase tracking-[0.3em] mb-1">Related Assets</p>
+              <h3 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">
+                Similar Products
+              </h3>
+            </div>
+            <Link href={"/products/categories/" + product?.p_cat as any} className="text-[10px] font-black text-slate-400 hover:text-blue-600 uppercase tracking-widest transition-colors">
+              View All
+            </Link>
           </div>
           <ProductGrid products={prodSameCate} />
         </div>
