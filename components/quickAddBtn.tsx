@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { ShoppingCart, Check, Plus } from "lucide-react";
+import { ShoppingCart, Check } from "lucide-react";
 import { ProductType } from "@/types/productsTypes";
 import { useCart, dispatchCartUpdate } from "@/hooks/useCart";
 
@@ -21,7 +21,7 @@ const QuickAddBtn: React.FC<QuickAddBtnProps> = ({ product }) => {
 
   const toggleCart = (e: React.MouseEvent) => {
     e.preventDefault();
-    e.stopPropagation(); // Critical for when used inside Link
+    e.stopPropagation(); 
     
     let newCart;
     if (isInCart) {
@@ -35,23 +35,33 @@ const QuickAddBtn: React.FC<QuickAddBtnProps> = ({ product }) => {
   };
 
   if (!mounted)
-    return <div className="h-8 w-8 bg-slate-50 dark:bg-slate-800 rounded-lg animate-pulse" />;
+    return <div className="h-9 w-9 bg-slate-100 dark:bg-slate-800/50 rounded-xl animate-pulse" />;
 
   return (
     <button
       onClick={toggleCart}
-      className={`h-8 w-8 flex items-center justify-center rounded-xl transition-all duration-500 shadow-sm hover:-translate-y-0.5 active:scale-90 group/btn ${
+      className={`group/btn relative h-9 w-9 flex items-center justify-center rounded-xl transition-all duration-300 border ${
         isInCart
-          ? "bg-emerald-500 text-white shadow-lg shadow-emerald-500/20 dark:shadow-none"
-          : "bg-slate-900 dark:bg-blue-600 text-white hover:bg-blue-600 dark:hover:bg-blue-700 shadow-lg shadow-slate-200 dark:shadow-none"
+          ? "bg-slate-900 border-slate-900 dark:bg-white dark:border-white text-white dark:text-slate-900 shadow-lg shadow-slate-200 dark:shadow-none"
+          : "bg-transparent border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:border-blue-600 dark:hover:border-blue-500 hover:text-blue-600 dark:hover:text-blue-500"
       }`}
       title={isInCart ? "Remove from cart" : "Add to cart"}
     >
-      {isInCart ? (
-        <Check size={16} strokeWidth={3} className="animate-in zoom-in fade-in duration-500" />
-      ) : (
-        <Plus size={16} strokeWidth={3} className="group-hover/btn:rotate-90 transition-transform duration-300" />
-      )}
+      <div className="relative flex items-center justify-center">
+        {isInCart ? (
+          <Check 
+            size={18} 
+            strokeWidth={3} 
+            className="animate-in zoom-in fade-in duration-300" 
+          />
+        ) : (
+          <ShoppingCart 
+            size={18} 
+            strokeWidth={2} 
+            className="transition-transform duration-300 group-hover/btn:scale-110" 
+          />
+        )}
+      </div>
     </button>
   );
 };

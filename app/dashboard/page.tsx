@@ -60,7 +60,7 @@ export default function DashboardPage() {
     dedupingInterval: 30000,
   });
 
-  const realRevenue = orders?.reduce((acc, order) => acc + (order.totalAmount || 0), 0) || 0;
+  const realRevenue = orders?.filter(o => o.status === "Delivered").reduce((acc, order) => acc + (order.totalAmount || 0), 0) || 0;
   const openOrdersCount = orders?.filter(o => o.status === "Processing").length || 0;
 
   return (

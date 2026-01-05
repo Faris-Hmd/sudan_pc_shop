@@ -16,6 +16,7 @@ export interface ProductType {
   p_imgs: ProductImage[];
   createdAt?: number | string | Date | null; // Optional, as it may not be present in all contexts
   p_qu?: number; // Quantity
+  isFeatured?: boolean;
 }
 
 interface ProductCardProps {

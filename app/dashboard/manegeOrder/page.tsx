@@ -7,6 +7,7 @@ import {
   ChevronDown,
   ChevronUp,
   RefreshCcw,
+  History,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
@@ -92,7 +93,7 @@ export default function ManageOrdersPage() {
                 href={`/dashboard/manegeOrder/shipped/${new Date().toISOString().slice(0, 7)}` as any}
                 className="flex items-center gap-2 px-3 md:px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-xl text-xs font-bold hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors border border-blue-100 dark:border-blue-900/30 whitespace-nowrap"
               >
-                <Package size={16} />
+                <History size={16} />
                 <span className="hidden md:inline">Delivered Orders</span>
               </Link>
               <button
@@ -119,149 +120,113 @@ export default function ManageOrdersPage() {
           );
 
           return (
-            <div
-              key={order.id}
-              className={cn(
-                "bg-white dark:bg-slate-900 border rounded-3xl transition-all duration-300 overflow-hidden",
-                isExpanded
-                  ? "ring-2 ring-blue-500 dark:ring-blue-600 border-transparent shadow-xl dark:shadow-blue-900/10 scale-[1]"
-                  : "border-slate-100 dark:border-slate-800 shadow-sm hover:border-blue-200 dark:hover:border-blue-900"
-              )}
-            >
-              {/* Summary Row */}
-              <div
-                onClick={() => toggleOrder(order.id)}
-                className="p-5 flex flex-wrap items-center justify-between gap-4 cursor-pointer select-none"
-              >
-                <div className="flex items-center gap-4 justify-between w-full">
-                  <div
-                    className={cn(
-                      "p-3 rounded-2xl transition-all",
-                      isExpanded
-                        ? "bg-blue-600 dark:bg-blue-600 text-white shadow-lg shadow-blue-200 dark:shadow-none"
-                        : "bg-slate-50 dark:bg-slate-800 text-slate-400 dark:text-slate-500"
-                    )}
-                  >
-                    <Package size={22} />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center flex-wrap gap-3">
-                      <span className="text-xs font-black uppercase tracking-widest px-2 py-0.5 bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-md">
-                        {totalItems} {totalItems === 1 ? "Item" : "Items"}
-                      </span>
-                      <span className="text-sm font-black text-blue-600 dark:text-blue-400">
-                        {order.totalAmount.toLocaleString()} <span className="text-[9px] uppercase">SDG</span>
-                      </span>
-                    </div>
-                  </div>{" "}
-                  <div
-                    className="flex items-center gap-3"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {/* Status Picker */}
-                    <Link
-                      href={`/dashboard/manegeOrder/${order.id}` as any}
-                      className="text-[11px] font-black uppercase tracking-wider rounded-xl px-4 py-2 bg-slate-900 text-white hover:bg-slate-800 transition-all shadow-lg shadow-slate-900/10"
-                    >
-                      Control Dispatch
-                    </Link>
+     <div
+  key={order.id}
+  className={cn(
+    "bg-white dark:bg-slate-900 border rounded-2xl transition-all duration-300 overflow-hidden mx-auto w-full",
+    isExpanded
+      ? "ring-1 ring-blue-500/50 border-transparent shadow-lg"
+      : "border-slate-100 dark:border-slate-800 shadow-sm"
+  )}
+>
+  {/* Summary Row */}
+  <div
+    onClick={() => toggleOrder(order.id)}
+    className="p-3 sm:p-4 cursor-pointer select-none"
+  >
+    <div className="flex items-center gap-3">
+      {/* Minified Icon */}
+      <div
+        className={cn(
+          "p-2 rounded-xl transition-all shrink-0",
+          isExpanded
+            ? "bg-blue-600 text-white shadow-md"
+            : "bg-slate-50 dark:bg-slate-800 text-slate-400"
+        )}
+      >
+        <Package size={16} />
+      </div>
 
-                   
+      <div className="flex-1 min-w-0">
+        <div className="flex flex-col">
+          {/* Status and Items */}
+          <div className="flex items-center gap-2">
+            <span className={cn(
+              "text-[7px] font-black uppercase tracking-[0.1em] px-1 py-0.5 rounded border",
+              order.status === "Delivered" 
+                ? "bg-emerald-50 text-emerald-600 border-emerald-100 dark:bg-emerald-500/10 dark:text-emerald-400"
+                : "bg-amber-50 text-amber-600 border-amber-100 dark:bg-amber-500/10 dark:text-amber-400"
+            )}>
+              {order.status || "Pending"}
+            </span>
+            <span className="text-[7px] font-black text-slate-400 uppercase tracking-widest">
+              {totalItems} {totalItems === 1 ? "Unit" : "Units"}
+            </span>
+          </div>
 
-                    <button
-                      className=" text-slate-300 dark:text-slate-600 hover:text-slate-600 dark:hover:text-slate-400 transition-colors"
-                      onClick={() => {
-                        toggleOrder(order.id);
-                      }}
-                    >
-                      {isExpanded ? (
-                        <ChevronUp size={24} />
-                      ) : (
-                        <ChevronDown size={24} />
-                      )}
-                    </button>
-                  </div>
-                </div>
-              </div>
+          {/* Amount */}
+          <p className="text-xs font-black text-slate-900 dark:text-white mt-0.5">
+            {order.totalAmount.toLocaleString()} <span className="text-[8px] text-blue-600">SDG</span>
+          </p>
+        </div>
+      </div>
 
-              {/* Expanded Details Section */}
-              <div
-                className={cn(
-                  "transition-all duration-500 ease-in-out bg-slate-50/50 dark:bg-slate-900/50",
-                  isExpanded
-                    ? "max-h-[2000px] border-t dark:border-slate-800 opacity-100"
-                    : "max-h-0 opacity-0 pointer-events-none"
-                )}
-              >
-                <div className="p-2 lg:p-6">
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm text-left">
-                      <thead>
-                        <tr className="text-slate-400 dark:text-slate-500 border-b border-slate-200 dark:border-slate-800">
-                          <th className="p-3 font-black text-[10px] uppercase tracking-widest px-2">Product</th>
-                          <th className="p-3 font-black text-[10px] uppercase tracking-widest text-center">
-                            Quantity
-                          </th>
-                          <th className="p-3 font-black text-[10px] uppercase tracking-widest text-right">Unit</th>
-                          <th className="p-3 font-black text-[10px] uppercase tracking-widest text-right">
-                            Subtotal
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800/50">
-                        {order.productsList.map((p) => (
-                          <tr
-                            key={p.id}
-                            className="group hover:bg-white dark:hover:bg-slate-800 transition-colors"
-                          >
-                            <td className="py-4 px-2 font-bold text-slate-800 dark:text-slate-200">
-                              {p.p_name}
-                              <p className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-widest mt-0.5">
-                                {p.p_cat}
-                              </p>
-                            </td>
-                            <td className="py-4 text-center">
-                              <span className="bg-white dark:bg-slate-800 border dark:border-slate-700 shadow-sm px-3 py-1 rounded-lg font-black text-xs">
-                                {p.p_qu}
-                              </span>
-                            </td>
-                            <td className="py-4 text-right text-slate-500 dark:text-slate-400 font-bold text-xs">
-                              {Number(p.p_cost).toLocaleString()}
-                            </td>
-                            <td className="py-4 text-right font-black text-slate-900 dark:text-white text-xs">
-                              {(Number(p.p_cost) * Number(p.p_qu)).toLocaleString()}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
+      {/* --- MINIFIED VIEW BUTTON --- */}
+      <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+        <Link
+          href={`/dashboard/manegeOrder/${order.id}` as any}
+          className="text-[8px] font-black uppercase tracking-widest px-2.5 py-1.5 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 rounded-lg hover:bg-blue-600 hover:text-white transition-all border border-slate-200 dark:border-white/5"
+        >
+          View
+        </Link>
+        <button className="text-slate-300">
+           {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        </button>
+      </div>
+    </div>
+  </div>
 
-                  {/* Order Footer Info */}
-                  <div className="mt-6 pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                    <div className="flex flex-col gap-2">
-                       <span className="text-[10px] text-slate-400 dark:text-slate-500 font-black uppercase tracking-wider">
-                        ID: {order.id.slice(0, 16).toUpperCase()}
-                      </span>
-                      <button
-                        onClick={() => handleDelete(order.id)}
-                        className="text-xs font-black uppercase tracking-widest text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 py-1.5 px-3 -ml-3 rounded-lg transition-colors w-fit flex items-center gap-1"
-                      >
-                         Delete Order
-                      </button>
-                    </div>
-                    <div className="bg-blue-600 text-white px-6 py-3 rounded-2xl flex items-center gap-8 shadow-lg shadow-blue-500/20">
-                      <span className="text-[10px] font-black uppercase tracking-widest opacity-80">
-                        Total Value
-                      </span>
-                      <span className="text-xl font-black">
-                        {order.totalAmount.toLocaleString()} <span className="text-xs ml-1">SDG</span>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+  {/* Expanded Details */}
+  <div
+    className={cn(
+      "transition-all duration-300 ease-in-out bg-slate-50/50 dark:bg-slate-900/50",
+      isExpanded ? "max-h-[2000px] border-t dark:border-slate-800 opacity-100" : "max-h-0 opacity-0 pointer-events-none"
+    )}
+  >
+    <div className="p-3 space-y-3">
+      {/* Mobile-Friendly Product List */}
+      <div className="space-y-1.5">
+        {order.productsList.map((p) => (
+          <div key={p.id} className="bg-white dark:bg-slate-800/50 p-2 rounded-lg border border-slate-100 dark:border-white/5 flex justify-between items-center">
+            <div className="min-w-0">
+              <p className="text-[10px] font-bold text-slate-700 dark:text-slate-200 truncate">{p.p_name}</p>
+              <p className="text-[7px] text-slate-400 font-black uppercase tracking-widest">
+                {p.p_qu} × {Number(p.p_cost).toLocaleString()}
+              </p>
             </div>
+            <p className="text-[10px] font-black text-slate-900 dark:text-white shrink-0">
+              {(Number(p.p_cost) * Number(p.p_qu)).toLocaleString()}
+            </p>
+          </div>
+        ))}
+      </div>
+
+      {/* Compact Total Footer */}
+      <div className="flex items-center justify-between pt-2 border-t border-slate-200 dark:border-slate-800">
+        <button
+          onClick={() => handleDelete(order.id)}
+          className="text-[8px] font-black uppercase tracking-widest text-red-400 hover:text-red-600 px-1"
+        >
+          Delete
+        </button>
+        <div className="flex items-center gap-3">
+            <span className="text-[8px] font-black text-slate-400 uppercase">Total:</span>
+            <span className="text-xs font-black text-blue-600">{order.totalAmount.toLocaleString()} SDG</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
           );
         })}
       </div>

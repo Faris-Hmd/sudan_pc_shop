@@ -23,7 +23,7 @@ export default async function Home({
     <div className="px-2">
       <SearchForm />
       {search_word ? (
-        <ProductGrid products={products} />
+        <ProductGrid products={products} showSort={true} />
       ) : (
         <div className="flex min-h-[400px] flex-col items-center justify-center rounded-xl px-4 py-12 text-center">
           <div className="bg-white dark:bg-slate-900 mb-4 flex h-16 w-16 items-center justify-center rounded-full shadow-sm border border-slate-100 dark:border-slate-800 transition-colors">

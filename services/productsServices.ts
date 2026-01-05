@@ -16,6 +16,7 @@ import {
   limit,
   QueryConstraint,
   WhereFilterOp,
+  serverTimestamp,
 } from "firebase/firestore";
 
 import { db, productsRef } from "@/lib/firebase";
@@ -34,6 +35,7 @@ function mapProduct(id: string, data: any): ProductType {
     p_details: data.p_details ?? "",
     p_imgs: data.p_imgs ?? [],
     createdAt: data.createdAt?.toMillis?.() ?? null,
+    isFeatured: data.isFeatured ?? false,
   };
 }
 
@@ -155,4 +157,49 @@ export async function getProductsIds() {
     id: doc.id,
   }));
   return products;
+}
+
+
+
+const IMG_URLS = [
+  "https://lzmijym9f9dkp5qm.public.blob.vercel-storage.com/blue1.jpeg",
+  "https://lzmijym9f9dkp5qm.public.blob.vercel-storage.com/green1.jpeg",
+  "https://lzmijym9f9dkp5qm.public.blob.vercel-storage.com/green2.jpeg"
+];
+
+const CATEGORIES = ["PC", "LAPTOP", "WEBCAMS", "HARD_DRIVES", "HEADSETS", "KEYBOARDS", "SPEAKERS", "PRINTERS", "MICROPHONES", "MONITORS", "SSD", "MOUSES"];
+
+// Real-world PC component brands
+const BRANDS = ["ASUS", "MSI", "Gigabyte", "Corsair", "Samsung", "Western Digital", "Logitech", "Razer", "Intel", "AMD", "Crucial", "Kingston"];
+const ADJECTIVES = ["Pro", "Ultra", "Gaming", "Elite", "Series X", "Wireless", "NextGen"];
+
+/**
+ * Generates and uploads random products with brand names to Firestore.
+ */
+
+export async function product_feature_toggle(id: string, currentStatus: boolean) {
+  console.log("product_feature_toggle", id, currentStatus);
+  
+  try {
+    const docRef = doc(db, "products", id);
+    await updateDoc(docRef, {
+      isFeatured: !currentStatus,
+    });
+    revalidatePath("/dashboard/productsSet");
+    return { success: true };
+  } catch (error) {
+    console.error(error);
+    return { success: false };
+  }
+}
+
+export async function product_dlt(id: string): Promise<void> {
+  try {
+    const docRef = doc(productsRef, id);
+    await deleteDoc(docRef);
+    revalidatePath("/dashboard/productsSet");
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    throw new Error("Failed to delete product.");
+  }
 }

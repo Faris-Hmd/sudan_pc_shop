@@ -15,7 +15,7 @@ async function page({ params }: { params: { category: string } }) {
   return (
     <div className="px-2">
       <SearchForm />
-      <ProductGrid products={products} />
+      <ProductGrid products={products}   showSort={true} />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { Package, Calendar, CheckCircle2, ChevronLeft, History } from "lucide-re
 import Link from "next/link";
 import DateSelector from "@/components/DataPicker";
 import { getOrdersWhOrdered } from "@/services/ordersServices";
+import ShippedOrdersList from "@/components/dashboard/shippedOrdersList";
 
 export const revalidate = 20;
 
@@ -71,7 +72,7 @@ export default async function ShippedOrdersPage({
                 href={`/dashboard/manegeOrder` as any}
                 className="flex items-center gap-2 px-3 md:px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-xl text-xs font-bold hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors border border-blue-100 dark:border-blue-900/30 whitespace-nowrap"
               >
-                <History size={16} />
+                <Package size={16} />
                 <span className="hidden md:inline">Orders</span>
               </Link>
      
@@ -106,36 +107,7 @@ export default async function ShippedOrdersPage({
       {/* Orders List */}
       <div className="p-2 grid gap-4">
         {orders.length > 0 ? (
-          orders.map((order) => (
-            <div
-              key={order.id}
-              className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-2xl p-5 shadow-sm flex items-center justify-between group hover:border-blue-200 dark:hover:border-blue-900 transition-all cursor-default"
-            >
-              <div className="flex items-center gap-4">
-                <div className="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 p-3 rounded-2xl group-hover:bg-blue-600 dark:group-hover:bg-blue-600 group-hover:text-white transition-all">
-                  <CheckCircle2 size={22} />
-                </div>
-                <div>
-                  <p className="font-bold text-slate-800 dark:text-slate-100 leading-none mb-1 text-sm lg:text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
-                    {order.customer_email}
-                  </p>
-                  <p className="text-[10px] text-slate-400 dark:text-slate-500 font-black tracking-tight uppercase">
-                    REF: {order.id.slice(0, 16).toUpperCase()}
-                  </p>
-                </div>
-              </div>
-
-              <div className="text-right">
-                <p className="text-lg font-black text-slate-900 dark:text-white leading-none mb-1 transition-colors">
-                  {order.totalAmount.toLocaleString()} <span className="text-[10px] text-slate-400">SDG</span>
-                </p>
-                <div className="flex items-center gap-1 text-[10px] text-slate-400 dark:text-slate-500 font-black justify-end uppercase tracking-widest mt-1">
-                  <Calendar size={12} />
-                  <span>{order.deliveredAt}</span>
-                </div>
-              </div>
-            </div>
-          ))
+          <ShippedOrdersList orders={orders} />
         ) : (
           <div className="text-center py-24 bg-slate-50 dark:bg-slate-900 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-3xl transition-colors">
             <Package size={48} className="mx-auto text-slate-300 dark:text-slate-700 mb-4" />

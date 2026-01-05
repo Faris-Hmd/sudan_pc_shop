@@ -26,7 +26,7 @@ export default async function Home() {
               Upgrade your rig with our top-rated selections for performance and aesthetics.
             </p>
           </div>
-          <ProductGrid products={products.slice(0, 4)} />
+          <ProductGrid products={products.slice(0, 6)} />
         </section>
 
         <section className="space-y-5">
