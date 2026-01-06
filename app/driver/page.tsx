@@ -6,10 +6,10 @@ import useSWR from "swr";
 import { getOrdersWh, upOrder } from "@/services/ordersServices";
 import { getDriverByEmail } from "@/services/driversServices";
 import { 
-  Package, MapPin, Phone, Truck, Clock, 
+   MapPin, Phone, Clock, 
   CheckCircle2, MessageSquare, Loader2, 
-  User, ChevronRight, Hash, AlertCircle,
-  History, ArrowUpRight
+  User, ChevronRight,
+  History,
 } from "lucide-react";
 import { toast } from "sonner";
 import Link from "next/link";
@@ -61,7 +61,6 @@ export default function DriverTaskPage() {
   }
 
   const activeOrders = orders?.filter(o => o.status !== "Delivered" && o.status !== "Cancelled") || [];
-  const completedOrders = orders?.filter(o => o.status === "Delivered") || [];
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-[#05070a] pb-20 transition-colors duration-500">
@@ -125,6 +124,10 @@ export default function DriverTaskPage() {
           <div className="bg-slate-100 dark:bg-white/5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/5">
              <span className="text-[10px] font-black text-slate-900 dark:text-white uppercase tracking-tight">{activeOrders.length} Tasks</span>
           </div>
+             <Link href={"/driver/history" as any}>
+             <History size={16} className="ml-2" />
+             </Link>
+          
         </div>
       </header>
 
@@ -191,48 +194,6 @@ export default function DriverTaskPage() {
               </div>
             ))
           )}
-        </section>
-
-        {/* --- MISSION LOG SECTION --- */}
-        <section className="space-y-4 pt-4 border-t border-slate-100 dark:border-white/5">
-          <div className="flex items-center justify-between px-1">
-            <div className="flex items-center gap-2">
-              <History size={14} className="text-slate-400" />
-              <h2 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Mission Log</h2>
-            </div>
-            {/* LINK TO ANOTHER PAGE */}
-            <Link 
-              href={"/driver/history" as any }
-              className="text-[9px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest flex items-center gap-1 hover:underline"
-            >
-              Full History <ArrowUpRight size={10} />
-            </Link>
-          </div>
-
-          <div className="space-y-2">
-            {completedOrders.length > 0 ? (
-              completedOrders.slice(0, 3).map((order) => (
-                <div key={order.id} className="bg-white/50 dark:bg-white/5 rounded-xl py-3.5 px-4 border border-slate-100 dark:border-white/5 flex items-center justify-between opacity-70">
-                  <div className="flex items-center gap-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                    <div className="min-w-0">
-                      <span className="text-[10px] font-black dark:text-white uppercase tracking-tighter block leading-none">
-                        LOG_{order.id.slice(-6)}
-                      </span>
-                      <span className="text-[8px] font-bold text-slate-400 uppercase tracking-widest">Successful Handover</span>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-[8px] font-black text-slate-400 uppercase block leading-none">
-                      {new Date(order.deliveredAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                    </span>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className="text-[10px] text-slate-400 font-bold uppercase text-center py-4">No records for this cycle</p>
-            )}
-          </div>
         </section>
       </main>
     </div>
