@@ -39,7 +39,7 @@ export default function Navbar() {
 
   return (
     <nav className={`sticky backdrop-blur-md top-0 z-50 transition-all duration-300 ${
-        "bg-white/55 dark:bg-slate-900/2 backdrop-blur-md py-4 border-b border-transparent dark:border-slate-800"
+        "bg-white/55 dark:bg-slate-900/2  py-4 border-b border-transparent dark:border-slate-800"
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
         {/* Brand Logo */}
