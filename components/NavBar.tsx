@@ -1,23 +1,14 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { signIn, useSession } from "next-auth/react";
-import {
-  Search,
-  Home,
-  ShoppingCart,
-  Package,
-  LayoutDashboard,
-  Truck,
-} from "lucide-react";
+import { Search, Home, ShoppingCart, Package } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { useCart } from "@/hooks/useCart";
 import { Logo } from "@/components/Logo";
 
 import { ModeToggle } from "@/components/ModeToggle";
 import Link from "next/link";
-import { getDriverByEmail } from "@/services/driversServices";
-import useSWR from "swr";
+import { signIn, useSession } from "next-auth/react";
 
 const NAV_ITEMS = [
   { title: "Home", href: "/", icon: Home },
@@ -26,25 +17,21 @@ const NAV_ITEMS = [
 ];
 
 export default function Navbar() {
-  const { data: session } = useSession();
   const { cartCount } = useCart();
   const pathname = usePathname();
-
-  // Check if current user is a driver
-  const { data: driver } = useSWR(
-    session?.user?.email ? `nav-driver-${session.user.email}` : null,
-    () => getDriverByEmail(session?.user?.email as string)
-  );
-
+  const { data: session } = useSession();
 
   return (
-    <nav className={`sticky top-0 z-50 transition-all duration-300 ${
-        "bg-white dark:bg-slate-900  py-4 border-b border-transparent dark:border-slate-800"
-    }`}>
+    <nav
+      className={`sticky top-0 z-50 transition-all duration-300 ${"bg-white dark:bg-slate-900  py-4 border-b border-transparent dark:border-slate-800"}`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
         {/* Brand Logo */}
         <div className="flex items-center gap-8">
-          <Link href="/" className="group flex items-center gap-2.5 transition-transform active:scale-95">
+          <Link
+            href="/"
+            className="group flex items-center gap-2.5 transition-transform active:scale-95"
+          >
             <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-600/20 group-hover:rotate-12 transition-transform duration-300">
               <Logo className="text-white w-6 h-6" />
             </div>
@@ -52,7 +39,9 @@ export default function Navbar() {
               <span className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
                 SUDAN<span className="text-blue-600">PC</span>
               </span>
-              <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest mt-0.5">Hardware Store</span>
+              <span className="text-[10px] font-bold text-slate-600 uppercase tracking-widest mt-0.5">
+                Hardware Store
+              </span>
             </div>
           </Link>
 
@@ -61,14 +50,14 @@ export default function Navbar() {
             {NAV_ITEMS.map((item) => {
               const Icon = item.icon;
               const isActive = pathname === item.href;
-              
+
               return (
                 <Link
                   key={item.title}
                   href={item.href as any}
                   className={`relative px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 flex items-center gap-2 ${
-                    isActive  
-                      ? "text-blue-600 bg-blue-50 dark:bg-blue-900/20" 
+                    isActive
+                      ? "text-blue-600 bg-blue-50 dark:bg-blue-900/20"
                       : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800"
                   }`}
                 >
@@ -82,37 +71,9 @@ export default function Navbar() {
                 </Link>
               );
             })}
-            
+
             {session?.user && (
               <div className="h-6 w-px bg-slate-200 dark:bg-slate-700 mx-2" />
-            )}
-            
-            {session?.user && (
-              <Link
-                href="/dashboard"
-                className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 flex items-center gap-2 ${
-                  pathname.startsWith("/dashboard")
-                    ? "text-indigo-600 bg-indigo-50 dark:bg-indigo-900/20"
-                    : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800"
-                }`}
-              >
-                <LayoutDashboard size={18} strokeWidth={pathname.startsWith("/dashboard") ? 2.5 : 2} />
-                Dashboard
-              </Link>
-            )}
-
-            {driver && (
-              <Link
-                href={"/driver" as any}
-                className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-300 flex items-center gap-2 ${
-                  pathname.startsWith("/driver")
-                    ? "text-emerald-600 bg-emerald-50 dark:bg-emerald-900/20"
-                    : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800"
-                }`}
-              >
-                <Truck size={18} strokeWidth={pathname.startsWith("/driver") ? 2.5 : 2} />
-                Driver Hub
-              </Link>
             )}
           </div>
         </div>
@@ -130,7 +91,10 @@ export default function Navbar() {
           <div className="h-8 w-px bg-slate-100 hidden sm:block mx-1" />
 
           {session?.user ? (
-            <Link href="/profile" className="transition-transform active:scale-90">
+            <Link
+              href="/profile"
+              className="transition-transform active:scale-90"
+            >
               <Avatar className="h-10 w-10 overflow-hidden rounded-xl border-2 border-slate-100 dark:border-slate-800 shadow-sm flex items-center justify-center bg-white dark:bg-slate-800 transition-colors">
                 <AvatarImage
                   src={session.user?.image || ""}

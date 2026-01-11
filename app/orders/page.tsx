@@ -1,69 +1,72 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { 
-  Loader2, 
-  ShoppingBag, 
-  Clock, 
-  CheckCircle2, 
-  Wallet, 
+import {
+  Loader2,
+  Clock,
+  CheckCircle2,
+  Wallet,
+  HistoryIcon,
+  PackageOpen, // Added for empty state icon
   ArrowRight,
-  Package,
-  Calendar
 } from "lucide-react";
-
 import OrderList from "./components/orderList";
 import { OrderData } from "@/types/productsTypes";
-import { getOrdersWh } from "@/services/ordersServices";
 import { cn } from "@/lib/utils";
+import { getOrdersWh, getUserOrdersStats } from "@/services/ordersServices";
+import Link from "next/link";
 
-export default function UnifiedOrdersPage() {
+export default function OrdersPage() {
   const { data: session, status } = useSession();
-  const [sortBy, setSortBy] = useState<"date" | "cost">("date");
 
-  const { data: orders, isLoading } = useSWR<OrderData[]>(
-    session?.user?.email ? `customer-all-orders/${session.user.email}` : null,
-    () => getOrdersWh([{ field: "customer_email", op: "==", val: session?.user?.email }]),
-    { revalidateOnFocus: false, dedupingInterval: 10000 }
+  const { data: statsData } = useSWR<{ count: number; totalSpend: number }>(
+    session?.user?.email ? `customer-orders-stats/${session.user.email}` : null,
+    () => getUserOrdersStats(session?.user?.email as string),
+    {
+      revalidateIfStale: true,
+      revalidateOnFocus: false,
+      dedupingInterval: 20000,
+    },
   );
 
-  // --- REFINED SORTING & STATS ---
-  const { sortedOrders, stats } = useMemo(() => {
-    if (!orders) return { sortedOrders: [], stats: { active: 0, completed: 0, totalSpend: 0 } };
+  const { data: ordersData, isLoading } = useSWR<OrderData[]>(
+    session?.user?.email ? `customer-all-orders/${session.user.email}` : null,
+    () =>
+      getOrdersWh([
+        { field: "customer_email", op: "==", val: session?.user?.email },
+        { field: "status", op: "!=", val: "Delivered" },
+      ]),
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 10000,
+      revalidateIfStale: true,
+    },
+  );
 
-    const activeOrders = orders.filter((o) => o.status !== "Delivered");
-    const completedOrders = orders.filter((o) => o.status === "Delivered");
-    const totalSpend = completedOrders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
+  const { stats } = useMemo(() => {
+    if (!statsData)
+      return {
+        stats: { active: 0, completed: 0, totalSpend: 0 },
+      };
 
-    const sorted = [...orders].sort((a, b) => {
-      // 1. Primary: Active on top
-      const aIsActive = a.status !== "Delivered";
-      const bIsActive = b.status !== "Delivered";
-      if (aIsActive && !bIsActive) return -1;
-      if (!aIsActive && bIsActive) return 1;
+    const activeOrders = ordersData?.length || 0;
+    const completedOrders = statsData.count - activeOrders;
+    const totalSpend = statsData.totalSpend;
 
-      // 2. Secondary: Selection
-      if (sortBy === "cost") {
-        return (b.totalAmount || 0) - (a.totalAmount || 0);
-      }
-      
-      // 3. Date Parsing (Handles ISO String: 2025-12-31T21:55:32.700Z)
-      const timeA = a.createdAt ? new Date(a.createdAt as any).getTime() : 0;
-      const timeB = b.createdAt ? new Date(b.createdAt as any).getTime() : 0;
-      return timeB - timeA;
-    });
-
-    return { sortedOrders: sorted, stats: { active: activeOrders.length, completed: completedOrders.length, totalSpend } };
-  }, [orders, sortBy]);
+    return {
+      stats: { active: activeOrders, completed: completedOrders, totalSpend },
+    };
+  }, [statsData, ordersData]);
 
   if (status === "loading" || isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[80vh] gap-3">
         <Loader2 className="animate-spin text-blue-600" size={28} />
-        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Syncing Dashboard...</p>
+        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">
+          Syncing Dashboard...
+        </p>
       </div>
     );
   }
@@ -76,57 +79,82 @@ export default function UnifiedOrdersPage() {
             My <span className="text-blue-600">Orders</span>
           </h1>
 
-          <div className="flex bg-slate-100 dark:bg-white/5 p-1 rounded-xl border border-slate-200 dark:border-white/5">
-            {["date", "cost"].map((type) => (
-              <button 
-                key={type}
-                onClick={() => setSortBy(type as any)}
-                className={cn(
-                  "px-3 py-1.5 text-[9px] font-black uppercase rounded-lg transition-all",
-                  sortBy === type ? "bg-white dark:bg-slate-800 text-blue-600 shadow-sm" : "text-slate-400"
-                )}
-              >
-                {type}
-              </button>
-            ))}
-          </div>
+          <Link
+            href="/orders/history"
+            className="flex items-center justify-center gap-2 bg-blue-600/10 p-2 rounded-lg hover:bg-blue-600/20 transition-all duration-300 group"
+          >
+            <HistoryIcon
+              size={16}
+              className="text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform"
+            />
+            <span className="text-[11px] font-black uppercase tracking-tight text-blue-600 dark:text-blue-400 hidden md:block">
+              Previous Orders
+            </span>
+          </Link>
         </div>
       </header>
 
       <main className="max-w-4xl mx-auto px-4 py-6 space-y-4">
         {/* COMPACT STATS */}
         <div className="grid grid-cols-3 gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-white/5 p-2 rounded-2xl shadow-sm">
-          <StatBox icon={<Clock className="text-amber-500" size={10} />} label="Active" value={stats.active} />
-          <StatBox icon={<CheckCircle2 className="text-emerald-500" size={10} />} label="Received" value={stats.completed} />
-          <StatBox 
-            icon={<Wallet className="text-blue-500" size={10} />} 
-            label="Total" 
-            value={`${stats.totalSpend >= 1000 ? (stats.totalSpend / 1000).toFixed(1) + 'k' : stats.totalSpend}`} 
+          <StatBox
+            icon={<Clock className="text-amber-500" size={10} />}
+            label="Active"
+            value={stats.active}
+          />
+          <StatBox
+            icon={<CheckCircle2 className="text-emerald-500" size={10} />}
+            label="Received"
+            value={stats.completed}
+          />
+          <StatBox
+            icon={<Wallet className="text-blue-500" size={10} />}
+            label="Total"
+            value={`${stats.totalSpend >= 1000 ? (stats.totalSpend / 1000).toFixed(1) + "k" : stats.totalSpend}`}
             suffix="SDG"
           />
         </div>
 
-        {/* FEED */}
-        <div className="space-y-4">
-          {sortedOrders.map((order, idx) => {
-            const isFirstDelivered = order.status === "Delivered" && sortedOrders[idx - 1]?.status !== "Delivered";
-            return (
-              <React.Fragment key={order.id}>
-                {isFirstDelivered && (
-                  <div className="flex items-center gap-4 py-2">
-                    <span className="text-[8px] font-black text-slate-400 uppercase tracking-[0.4em] shrink-0">Historical</span>
-                    <div className="h-[1px] w-full bg-slate-200 dark:bg-white/5"></div>
-                  </div>
-                )}
-                <div className={cn(
+        {/* FEED / EMPTY STATE */}
+        <div className="space-y-4 pt-4">
+          {ordersData && ordersData.length > 0 ? (
+            ordersData.map((order, idx) => (
+              <div
+                key={order.id}
+                className={cn(
                   "transition-all duration-300",
-                  order.status === "Delivered" ? "opacity-60 grayscale-[0.3]" : "opacity-100"
-                )}>
-                  <OrderList order={order} />
-                </div>
-              </React.Fragment>
-            );
-          })}
+                  order.status === "Delivered"
+                    ? "opacity-60 grayscale-[0.3]"
+                    : "opacity-100",
+                )}
+              >
+                <OrderList order={order} />
+              </div>
+            ))
+          ) : (
+            <div className="flex flex-col items-center justify-center py-20 px-6 bg-white dark:bg-slate-900/50 rounded-[2.5rem] border border-dashed border-slate-200 dark:border-white/10 text-center">
+              <div className="w-16 h-16 bg-blue-600/5 rounded-full flex items-center justify-center mb-4">
+                <PackageOpen size={32} className="text-blue-600/40" />
+              </div>
+              <h3 className="text-lg font-black text-slate-900 dark:text-white uppercase tracking-tighter">
+                No Active Missions
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 max-w-[200px] mt-1 leading-relaxed">
+                You don&apos;t have any orders in transit right now.
+              </p>
+
+              <Link
+                href="/orders/history"
+                className="mt-6 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-blue-600 hover:text-blue-700 transition-colors group"
+              >
+                View History{" "}
+                <ArrowRight
+                  size={12}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
+              </Link>
+            </div>
+          )}
         </div>
       </main>
     </div>
@@ -134,15 +162,28 @@ export default function UnifiedOrdersPage() {
 }
 
 // Small Helper Component for Stats
-function StatBox({ icon, label, value, suffix }: { icon: React.ReactNode, label: string, value: string | number, suffix?: string }) {
+function StatBox({
+  icon,
+  label,
+  value,
+  suffix,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string | number;
+  suffix?: string;
+}) {
   return (
     <div className="flex flex-col items-center justify-center py-2 border-r last:border-0 border-slate-100 dark:border-white/5">
       <div className="flex items-center gap-1.5 mb-1 opacity-60">
         {icon}
-        <span className="text-[12px] font-black text-slate-400 uppercase tracking-tighter">{label}</span>
+        <span className="text-[12px] font-black text-slate-400 uppercase tracking-tighter">
+          {label}
+        </span>
       </div>
       <p className="text-[12px] font-black text-slate-900 dark:text-white">
-        {value} {suffix && <span className="text-[12px] opacity-40">{suffix}</span>}
+        {value}{" "}
+        {suffix && <span className="text-[12px] opacity-40">{suffix}</span>}
       </p>
     </div>
   );

@@ -21,7 +21,9 @@ export async function GET(request: NextRequest) {
     const lineItems = await stripe.checkout.sessions.listLineItems(sessId);
 
     // 2. Fetch user data to get shipping info
-    const userData = session.customer_email ? await getUser(session.customer_email) : null;
+    const userData = session.customer_email
+      ? await getUser(session.customer_email)
+      : null;
 
     // 3. Format Items with Metadata
     // Note: lineItems.data contains 'Stripe.LineItem' objects
@@ -48,7 +50,8 @@ export async function GET(request: NextRequest) {
     await addOrder({
       productsList: formattedItems,
       customer_email: session.customer_email,
-      customer_name: userData?.name || session.customer_details?.name || undefined,
+      customer_name:
+        userData?.name || session.customer_details?.name || undefined,
       shippingInfo: userData?.shippingInfo,
       status: "Processing",
       createdAt: new Date(Date.now()).toISOString(),
@@ -62,7 +65,7 @@ export async function GET(request: NextRequest) {
     console.error("Stripe/Firestore Error:", error);
     return NextResponse.json(
       { error: "Order processing failed" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
