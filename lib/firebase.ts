@@ -6,13 +6,13 @@ import {
   collection,
 } from "firebase/firestore";
 const firebaseConfig = {
-  apiKey: "AIzaSyACa5a0MmohKo2h4-fN2ffnl7BlgLDr4iQ",
-  authDomain: "sudan-pc-shop.firebaseapp.com",
-  projectId: "sudan-pc-shop",
-  storageBucket: "sudan-pc-shop.firebasestorage.app",
-  messagingSenderId: "170352568774",
-  appId: "1:170352568774:web:621c05df397bc057832ac7",
-  measurementId: "G-4H5XTW59TM",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig);
