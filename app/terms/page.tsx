@@ -54,16 +54,21 @@ function TermsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-white dark:bg-black text-slate-900 dark:text-white py-16 px-6 md:px-20 lg:px-40 transition-colors duration-500">
-      <div className="max-w-4xl mx-auto space-y-12">
-        {/* Title */}
-        <div className="text-center space-y-4">
-          <h1 className="text-4xl md:text-6xl font-black tracking-tight uppercase">
-            Terms & <span className="text-blue-600 dark:text-blue-400">Services</span>
+    <div className="min-h-screen bg-background pb-20">
+      <header className="page-header">
+        <div className="max-w-4xl mx-auto px-4 sm:px-8">
+          <h1>
+            Terms & <span className="text-primary">Services</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-slate-500 dark:text-slate-400 text-lg md:text-xl font-medium leading-relaxed">
-            By using our website, you agree to the following protocol. 
-            Please review our operational standards carefully.
+        </div>
+      </header>
+
+      <div className="max-w-4xl mx-auto px-4 sm:px-8 space-y-12">
+        {/* Intro */}
+        <div className="text-center space-y-4">
+          <p className="max-w-2xl mx-auto text-muted-foreground text-base md:text-lg font-medium leading-relaxed m-0">
+            By using our website, you agree to the following protocol. Please
+            review our operational standards carefully.
           </p>
         </div>
 
@@ -72,27 +77,33 @@ function TermsPage() {
           {terms.map((term, index) => (
             <div
               key={index}
-              className="bg-slate-50 dark:bg-slate-900 rounded-[2rem] border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all"
+              className="bg-card rounded-[2rem] border border-border shadow-sm overflow-hidden transition-all"
             >
               {/* Header */}
               <button
-                className="w-full flex justify-between items-center px-8 py-6 text-left font-black text-lg hover:bg-slate-100 dark:hover:bg-slate-800/50 transition-colors outline-none group"
+                className="w-full flex justify-between items-center px-6 sm:px-8 py-4 sm:py-6 text-left font-black text-lg hover:bg-muted/50 transition-colors outline-none group"
                 onClick={() => toggle(index)}
               >
-                <span className="group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{term.title}</span>
-                <div className={`p-2 rounded-xl bg-white dark:bg-slate-800 shadow-sm transition-transform ${openIndex === index ? "rotate-180 bg-blue-600 text-white" : ""}`}>
+                <span className="group-hover:text-primary transition-colors text-base sm:text-lg">
+                  {term.title}
+                </span>
+                <div
+                  className={`p-2 rounded-xl bg-muted shadow-sm transition-all ${openIndex === index ? "rotate-180 bg-primary text-primary-foreground" : ""}`}
+                >
                   <ChevronDown className="w-5 h-5" />
                 </div>
               </button>
 
               {/* Content */}
               <div
-                className={`transition-all duration-500 ease-in-out overflow-hidden ${
-                  openIndex === index ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+                className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                  openIndex === index
+                    ? "max-h-[500px] opacity-100"
+                    : "max-h-0 opacity-0"
                 }`}
               >
-                <div className="px-8 pb-8 text-slate-600 dark:text-slate-400 text-base md:text-lg leading-relaxed font-medium">
-                  <p className="p-6 bg-white dark:bg-slate-800/30 rounded-2xl border border-slate-100 dark:border-slate-800/50">
+                <div className="px-6 sm:px-8 pb-6 sm:pb-8 text-muted-foreground text-sm sm:text-base leading-relaxed font-medium">
+                  <p className="p-4 sm:p-6 bg-muted/30 rounded-2xl border border-border m-0">
                     {term.content}
                   </p>
                 </div>
@@ -102,13 +113,13 @@ function TermsPage() {
         </div>
 
         {/* Conclusion */}
-        <div className="pt-8 border-t border-slate-100 dark:border-slate-800 text-center">
-          <p className="text-slate-400 dark:text-slate-500 text-sm font-black uppercase tracking-[0.3em]">
-            Operational Sovereignty Reserved &copy; 2025
+        <div className="pt-8 border-t border-border text-center">
+          <p className="text-muted-foreground text-[10px] font-black uppercase tracking-[0.3em] m-0">
+            Operational Sovereignty Reserved &copy; {new Date().getFullYear()}
           </p>
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 

@@ -1,19 +1,19 @@
 import Link from "next/link";
 import Image from "next/image";
 import { categories } from "@/data/categories";
-import { 
-  Laptop, 
-  Monitor, 
-  Video, 
-  HardDrive, 
-  Headphones, 
-  Keyboard, 
-  Speaker, 
-  Printer, 
-  Mic, 
+import {
+  Laptop,
+  Monitor,
+  Video,
+  HardDrive,
+  Headphones,
+  Keyboard,
+  Speaker,
+  Printer,
+  Mic,
   Mouse,
   Smartphone,
-  Cpu
+  Cpu,
 } from "lucide-react";
 
 const IconMap: Record<string, any> = {
@@ -37,11 +37,11 @@ export default function Categories() {
     <section id="categories" className="py-3 scroll-mt-24">
       <div className="container mx-auto px-4 md:px-6 max-w-7xl">
         <div className="flex flex-col items-center mb-10 text-center">
-          <div className="w-12 h-1 bg-blue-600 rounded-full mb-4" />
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight mb-3 transition-colors">
+          <div className="w-12 h-1 bg-primary rounded-full mb-4" />
+          <h2 className="text-3xl md:text-4xl font-black text-foreground tracking-tight mb-3 transition-colors">
             Shop by Category
           </h2>
-          <p className="text-slate-500 dark:text-slate-400 max-w-lg mx-auto font-medium">
+          <p className="text-muted-foreground max-w-lg mx-auto font-medium">
             Explore our professional-grade hardware inventory
           </p>
         </div>
@@ -56,11 +56,11 @@ export default function Categories() {
               <Link
                 key={cat}
                 href={`/products/categories/${cat}`}
-                className="group flex flex-col items-center gap-3 p-4 rounded-[2.5rem] bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/50 transition-all duration-300 hover:bg-white dark:hover:bg-slate-800 hover:border-blue-200 dark:hover:border-blue-900 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1.5"
+                className="group flex flex-col items-center gap-3 p-4 rounded-[2.5rem] bg-card/50 border border-border transition-all duration-300 hover:bg-card hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-1.5"
               >
-                <div className="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center bg-white dark:bg-slate-900 rounded-[1.5rem] shadow-sm border border-slate-100 dark:border-slate-800 group-hover:bg-blue-50 dark:group-hover:bg-blue-900/50 group-hover:border-blue-200 dark:group-hover:border-blue-800 transition-all duration-300">
+                <div className="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center bg-card rounded-[1.5rem] shadow-sm border border-border group-hover:bg-primary/10 group-hover:border-primary/20 transition-all duration-300">
                   {Icon ? (
-                    <Icon className="w-8 h-8 md:w-10 md:h-10 text-slate-400 dark:text-slate-500 group-hover:text-blue-600 dark:group-hover:text-blue-400 group-hover:scale-110 transition-all" />
+                    <Icon className="w-8 h-8 md:w-10 md:h-10 text-muted-foreground group-hover:text-primary group-hover:scale-110 transition-all" />
                   ) : (
                     <div className="relative w-10 h-10 md:w-12 md:h-12 group-hover:scale-110 transition-transform">
                       <Image
@@ -73,7 +73,7 @@ export default function Categories() {
                   )}
                 </div>
 
-                <span className="text-[10px] md:text-xs font-black text-slate-600 dark:text-slate-500 text-center uppercase tracking-[0.1em] group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                <span className="text-[10px] md:text-xs font-black text-muted-foreground text-center uppercase tracking-[0.1em] group-hover:text-primary transition-colors">
                   {label}
                 </span>
               </Link>

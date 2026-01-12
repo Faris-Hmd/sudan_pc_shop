@@ -8,9 +8,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ShoppingCart, Trash2, Check, Plus, RefreshCw } from "lucide-react";
+import { ShoppingCart, Trash2, Check, Plus } from "lucide-react";
 import { ProductType } from "@/types/productsTypes";
 import { cn } from "@/lib/utils";
+import { Spinner } from "@/components/Loading";
 
 type CartProduct = ProductType & { p_qu: number };
 const CART_KEY = "sh";
@@ -26,7 +27,7 @@ function CartBtn({ product }: { product: ProductType }) {
   const saveCart = (cart: CartProduct[]) => {
     localStorage.setItem(CART_KEY, JSON.stringify(cart));
     import("@/hooks/useCart").then(({ dispatchCartUpdate }) =>
-      dispatchCartUpdate()
+      dispatchCartUpdate(),
     );
   };
 
@@ -45,11 +46,11 @@ function CartBtn({ product }: { product: ProductType }) {
       cart.push({ ...product, p_qu: Number(q) });
       saveCart(cart);
       setInCart(true);
-      
+
       // Artificial delay for tactile feedback
       setTimeout(() => setIsUpdating(false), 400);
     },
-    [product]
+    [product],
   );
 
   const remove = useCallback(() => {
@@ -60,10 +61,11 @@ function CartBtn({ product }: { product: ProductType }) {
 
   return (
     <div className="group flex flex-col sm:flex-row items-center gap-3 w-full">
-      
       {/* --- QUANTITY SELECTOR --- */}
       <div className="flex flex-col gap-1 w-full sm:w-auto">
-        <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Quantity</p>
+        <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">
+          Quantity
+        </p>
         <Select
           value={quantity}
           onValueChange={(v) => {
@@ -76,8 +78,12 @@ function CartBtn({ product }: { product: ProductType }) {
           </SelectTrigger>
           <SelectContent className="bg-white dark:bg-slate-900 border-slate-200 dark:border-white/10 rounded-xl">
             {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
-              <SelectItem key={n} value={n.toString()} className="text-xs font-bold uppercase tracking-tighter">
-                {n.toString().padStart(2, '0')} Units
+              <SelectItem
+                key={n}
+                value={n.toString()}
+                className="text-xs font-bold uppercase tracking-tighter"
+              >
+                {n.toString().padStart(2, "0")} Units
               </SelectItem>
             ))}
           </SelectContent>
@@ -86,19 +92,21 @@ function CartBtn({ product }: { product: ProductType }) {
 
       {/* --- MAIN ACTION BUTTON --- */}
       <div className="flex flex-col gap-1 w-full flex-1">
-        <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Deployment</p>
+        <p className="text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">
+          Deployment
+        </p>
         <div className="flex items-center gap-2">
           <button
             onClick={() => upsert(quantity)}
             className={cn(
               "relative flex-1 h-12 flex items-center justify-center gap-3 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] transition-all active:scale-[0.97] overflow-hidden",
-              inCart 
-                ? "bg-slate-900 dark:bg-white text-white dark:text-black shadow-xl shadow-slate-900/10" 
-                : "bg-blue-600 text-white shadow-xl shadow-blue-600/20 hover:bg-blue-700"
+              inCart
+                ? "bg-slate-900 dark:bg-white text-white dark:text-black shadow-xl shadow-slate-900/10"
+                : "bg-blue-600 text-white shadow-xl shadow-blue-600/20 hover:bg-blue-700",
             )}
           >
             {isUpdating ? (
-              <RefreshCw size={16} className="animate-spin" />
+              <Spinner size="sm" />
             ) : inCart ? (
               <>
                 <Check size={16} strokeWidth={3} className="text-blue-500" />

@@ -32,7 +32,7 @@ export default function BtmNav() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around border-t dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 pb-safe md:hidden h-16 px-2">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around border-t border-border bg-background pb-safe md:hidden h-16 px-2">
       {navItems.map((item) => {
         const Icon = item.icon;
         const isActive =
@@ -44,15 +44,13 @@ export default function BtmNav() {
             href={item.href as any}
             className={cn(
               "flex flex-1 flex-col items-center justify-center gap-1 transition-all duration-300",
-              isActive
-                ? "text-blue-600 dark:text-blue-400"
-                : "text-slate-500 dark:text-slate-400",
+              isActive ? "text-primary" : "text-muted-foreground",
             )}
           >
             <div
               className={cn(
                 "relative flex items-center justify-center rounded-full py-1 px-4 transition-all duration-300",
-                isActive ? "bg-blue-50 dark:bg-blue-900/20" : "bg-transparent",
+                isActive ? "bg-primary/10" : "bg-transparent",
               )}
             >
               <Icon

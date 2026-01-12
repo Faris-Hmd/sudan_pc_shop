@@ -3,26 +3,28 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Tag } from "lucide-react";
+import { Zap, ChevronRight, ChevronLeft } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
 import { ProductType } from "@/types/productsTypes";
 import QuickAddBtn from "./quickAddBtn";
+import { cn } from "@/lib/utils";
 
-export default function ProductsCarousel({ products }: { products: ProductType[] }) {
+export default function ProductsCarousel({
+  products,
+}: {
+  products: ProductType[];
+}) {
   const [api, setApi] = useState<CarouselApi>();
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Define plugin but don't activate yet
   const plugin = useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true })
+    Autoplay({ delay: 6000, stopOnInteraction: false, stopOnMouseEnter: true }),
   );
 
   const onSelect = useCallback((api: CarouselApi) => {
@@ -34,116 +36,123 @@ export default function ProductsCarousel({ products }: { products: ProductType[]
     if (!api) return;
     onSelect(api);
     api.on("select", onSelect);
-
-    // DISABLE autoplay on mobile devices (less than 768px)
-    if (window.innerWidth < 768) {
-      plugin.current.stop();
-    }
   }, [api, onSelect]);
 
+  if (!products || products.length === 0) return null;
+
   return (
-    <div className="w-full bg-white dark:bg-[#0a0c12] pb-4">
-      {/* --- HERO SECTION --- */}
-      <div className="relative h-[22vh] md:h-[60vh] w-full flex items-center overflow-hidden">
-        
-        {/* BACKGROUND */}
-        <div className="absolute inset-0 -z-10">
-          <div className="md:hidden absolute inset-0 bg-gradient-to-b from-blue-50/50 to-white dark:from-slate-900 dark:to-[#0a0c12]" />
+    <section className="relative py-8 md:py-16 overflow-hidden bg-muted/20 border border-border rounded-sm">
+      {/* Subtle Background Glows */}
+      <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-96 h-96 bg-primary/5 blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-96 h-96 bg-secondary/5 blur-[100px] rounded-full pointer-events-none" />
 
-          <div className="hidden md:block absolute inset-0">
-            {products?.slice(0, 5).map((prod, idx) => (
-              <div
-                key={`bg-${prod.id}`}
-                className={`absolute inset-0 transition-opacity duration-1000 ${
-                  idx === activeIndex ? "opacity-30 dark:opacity-20" : "opacity-0"
-                }`}
-              >
-                <Image
-                  src={prod.p_imgs[0].url}
-                  alt="bg"
-                  fill
-                  priority={idx === 0}
-                  className="object-cover transition-transform duration-[8000ms] scale-110"
-                />
-              </div>
-            ))}
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-[#0a0c12] via-transparent to-transparent z-10" />
-        </div>
-
-        {/* HERO TEXT */}
-        <div className="relative z-20 w-full max-w-7xl mx-auto px-5 md:px-6">
-          <div className="bg-blue-600/10 dark:bg-blue-500/10 w-fit px-2 py-0.5 rounded-full border border-blue-600/20 mb-2 md:mb-4">
-            <div className="flex items-center gap-1 text-blue-600 dark:text-blue-400">
-              <Tag size={9} />
-              <span className="text-[7px] md:text-[10px] font-black uppercase tracking-widest">Featured</span>
+      <div className="relative max-w-7xl mx-auto px-4 md:px-6">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:mb-2">
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded bg-primary/10 border border-primary/20">
+              <Zap size={12} className="text-primary animate-pulse" />
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">
+                High Performance
+              </span>
             </div>
+            <h2 className="text-2xl md:text-6xl font-black text-foreground uppercase tracking-tighter leading-[0.85]">
+              Featured
+              <span className="text-primary italic">Hardware</span>
+            </h2>
           </div>
-          <h1 className="text-2xl md:text-7xl font-black text-slate-900 dark:text-white leading-[0.9] uppercase tracking-tighter">
-            Featured <span className="text-blue-600">Deals</span>
-            <br />
-            <span className="hidden md:block text-slate-400 dark:text-slate-600 md:text-6xl">Hardware Deals</span>
-          </h1>
-        </div>
-      </div>
 
-      {/* --- CAROUSEL --- */}
-      <div className="relative z-30 -mt-2 md:-mt-20 max-w-7xl mx-auto px-3 md:px-4">
+          <div className="flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-2">
+              <button
+                onClick={() => api?.scrollPrev()}
+                className="w-10 h-10 border border-border flex items-center justify-center hover:bg-card hover:border-primary transition-all active:scale-95"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <button
+                onClick={() => api?.scrollNext()}
+                className="w-10 h-10 border border-border flex items-center justify-center hover:bg-card hover:border-primary transition-all active:scale-95"
+              >
+                <ChevronRight size={20} />
+              </button>
+            </div>
+            <div className="h-10 w-[1px] bg-border hidden md:block" />
+          </div>
+        </div>
+
+        {/* Carousel Component */}
         <Carousel
           setApi={setApi}
-          opts={{ align: "start", loop: true }}
           plugins={[plugin.current]}
+          opts={{
+            align: "start",
+            loop: true,
+          }}
           className="w-full"
         >
-          {/* Smaller Controls */}
-          <div className="flex justify-end items-center gap-1.5 mb-2 px-1">
-            <CarouselPrevious className="static translate-y-0 bg-slate-100 dark:bg-white/5 border-none h-7 w-7 md:h-10 md:w-10" />
-            <CarouselNext className="static translate-y-0 bg-slate-100 dark:bg-white/5 border-none h-7 w-7 md:h-10 md:w-10" />
-          </div>
-
-          <CarouselContent className="-ml-2 md:-ml-4">
-            {products?.map((prod, index) => (
+          <CarouselContent className="-ml-3 md:-ml-6">
+            {products.map((product, idx) => (
               <CarouselItem
-                key={prod.id}
-                className="pl-2 basis-[65%] sm:basis-1/2 md:basis-1/3 lg:basis-1/4"
+                key={product.id}
+                className="pl-3 md:pl-6 basis-[85%] sm:basis-1/2 lg:basis-1/3"
               >
-                <div 
-                  className={`group rounded-[1.2rem] md:rounded-[3rem] p-2 md:p-4 transition-all duration-300 border ${
-                    index === activeIndex 
-                    ? "bg-white dark:bg-[#161b26] border-blue-500/40 shadow-md" 
-                    : "bg-slate-50/20 dark:bg-[#11141d] border-transparent"
-                  }`}
+                <div
+                  className={cn(
+                    "group relative bg-card border border-border rounded-sm p-3 md:p-5 transition-all duration-500",
+                    idx === activeIndex
+                      ? "border-primary shadow-xl shadow-primary/5"
+                      : "hover:border-primary/50",
+                  )}
                 >
-                  {/* Image */}
-                  <div className="relative aspect-[16/9] overflow-hidden rounded-[1rem] md:rounded-[2.5rem] bg-slate-100 dark:bg-[#0d0f14]">
-                    <Link href={`/products/${prod.id}`}>
+                  {/* Product Media */}
+                  <div className="relative aspect-[16/10] overflow-hidden bg-muted mb-4 md:mb-6">
+                    <Link
+                      href={`/products/${product.id}`}
+                      className="block h-full"
+                    >
                       <Image
-                        className="object-cover md:transition-transform md:duration-700 md:group-hover:scale-110"
+                        src={product.p_imgs[0].url}
+                        alt={product.p_name}
                         fill
-                        sizes="(max-width: 768px) 40vw, 25vw"
-                        src={prod.p_imgs[0].url}
-                        alt={prod.p_name}
+                        className="object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                     </Link>
+
+                    <div className="absolute top-3 left-3">
+                      <span className="px-2 py-0.5 bg-background/90 backdrop-blur-sm border rounded-xl border-border text-[9px] font-black text-primary uppercase tracking-widest">
+                        {product.p_cat}
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Details */}
-                  <div className="mt-2 px-1">
-                    <span className="text-[7px] md:text-[9px] font-bold text-blue-600 uppercase tracking-widest">
-                      {prod.p_cat}
-                    </span>
-                    <h3 className="text-slate-800 dark:text-white font-bold text-[11px] md:text-base leading-tight line-clamp-1">
-                      {prod.p_name}
-                    </h3>
-                  </div>
+                  {/* Content Area */}
+                  <div className="space">
+                    <div className="">
+                      <h3 className="text-base md:text-xl font-black text-foreground leading-tight line-clamp-2 uppercase tracking-tight">
+                        {product.p_name}
+                      </h3>
+                    </div>
 
-                  {/* Action Bar */}
-                  <div className="mt-2 flex items-center justify-between bg-white dark:bg-[#0d0f14] p-1 pl-2.5 rounded-full border border-slate-100 dark:border-white/5">
-                    <span className="text-slate-900 dark:text-white font-black text-[10px] md:text-base">
-                      {Number(prod.p_cost).toLocaleString()}
-                      <span className="text-[6px] ml-0.5 text-slate-400">SDG</span>
-                    </span>
-                    <QuickAddBtn product={prod} />
+                    <div className="flex items-center justify-between pt-3 md:pt-4 border-t border-border">
+                      <div className="flex flex-col">
+                        <span className="text-[9px] font-black text-muted-foreground uppercase tracking-widest mb-1 opacity-60">
+                          Hardware Value
+                        </span>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-xl md:text-2xl font-black text-foreground tracking-tighter">
+                            {Number(product.p_cost).toLocaleString()}
+                          </span>
+                          <span className="text-[10px] font-black text-primary uppercase">
+                            SDG
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="shrink-0 scale-90 md:scale-100 origin-right">
+                        <QuickAddBtn product={product} />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </CarouselItem>
@@ -151,6 +160,6 @@ export default function ProductsCarousel({ products }: { products: ProductType[]
           </CarouselContent>
         </Carousel>
       </div>
-    </div>
+    </section>
   );
 }

@@ -5,10 +5,7 @@ import Link from "next/link";
 import { useCart, dispatchCartUpdate } from "@/hooks/useCart";
 import CheckoutBtn from "./components/CheckoutBtn";
 
-
 function page() {
-
-
   const { cart } = useCart();
 
   // Remove an item from the cart
@@ -24,7 +21,7 @@ function page() {
   function updateQuantity(id: string, newQuantity: number) {
     if (newQuantity < 1) return;
     const updated = cart.map((p) =>
-      p.id === id ? { ...p, p_qu: newQuantity } : p
+      p.id === id ? { ...p, p_qu: newQuantity } : p,
     );
 
     if (typeof window !== "undefined") {
@@ -38,13 +35,13 @@ function page() {
       <div className="space-y-4">
         {cart.map((product) => (
           <div
-            className="group bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded p-4 sm:p-6 flex flex sm:flex-row items-start sm:items-center gap-6 transition-all duration-300 hover:shadow-lg dark:hover:shadow-blue-900/10 hover:border-blue-100 dark:hover:border-blue-900"
+            className="group bg-card border border-border rounded p-4 sm:p-6 flex sm:flex-row items-start sm:items-center gap-6 transition-all duration-300 hover:shadow-lg hover:border-primary/20"
             key={product.id}
           >
             {/* Product Image */}
             <Link
               href={`/products/${product.id}`}
-              className="relative w-24 h-24 sm:w-28 sm:h-28 shrink-0 overflow-hidden rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50"
+              className="relative w-24 h-24 sm:w-28 sm:h-28 shrink-0 overflow-hidden rounded-xl border border-border bg-muted/50"
             >
               <Image
                 loading="eager"
@@ -66,17 +63,17 @@ function page() {
                 <div>
                   <Link
                     href={`/products/${product.id}`}
-                    className="text-lg font-bold text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors line-clamp-1"
+                    className="text-lg font-bold text-foreground hover:text-primary transition-colors line-clamp-1"
                   >
                     {product.p_name}
                   </Link>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+                  <p className="text-sm text-muted-foreground font-medium">
                     {product.p_cat}
                   </p>
                 </div>
                 <button
                   onClick={() => removeFromCart(product.id)}
-                  className="text-slate-400 dark:text-slate-600 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 rounded-xl transition-all"
+                  className="text-muted-foreground hover:text-error hover:bg-error/10 p-2 rounded-xl transition-all"
                   aria-label="Remove item"
                 >
                   <Trash size={18} />
@@ -84,26 +81,28 @@ function page() {
               </div>
 
               <div className="flex items-end justify-between pt-2">
-                <span className="text-lg font-black text-slate-900 dark:text-white">
+                <span className="text-lg font-black text-foreground">
                   {Number(product.p_cost).toLocaleString()}
-                  <span className="text-[10px] ml-1 text-slate-400 font-bold uppercase">SDG</span>
+                  <span className="text-[10px] ml-1 text-muted-foreground font-bold uppercase">
+                    SDG
+                  </span>
                 </span>
 
                 {/* Quantity Controls */}
-                <div className="flex items-center gap-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl p-1 border border-slate-200 dark:border-slate-700">
+                <div className="flex items-center gap-3 bg-muted/50 rounded-xl p-1 border border-border">
                   <button
                     onClick={() => updateQuantity(product.id, product.p_qu - 1)}
                     disabled={product.p_qu <= 1}
-                    className="w-8 h-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 shadow-sm border border-slate-100 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="w-8 h-8 flex items-center justify-center rounded-lg bg-card text-muted-foreground shadow-sm border border-border hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   >
                     <Minus size={14} strokeWidth={3} />
                   </button>
-                  <span className="w-6 text-center text-sm font-bold text-slate-700 dark:text-slate-300">
+                  <span className="w-6 text-center text-sm font-bold text-foreground">
                     {product.p_qu}
                   </span>
                   <button
                     onClick={() => updateQuantity(product.id, product.p_qu + 1)}
-                    className="w-8 h-8 flex items-center justify-center rounded-lg bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 shadow-sm border border-slate-100 dark:border-slate-700 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors"
+                    className="w-8 h-8 flex items-center justify-center rounded-lg bg-card text-primary shadow-sm border border-border hover:bg-primary/10 transition-colors"
                   >
                     <Plus size={14} strokeWidth={3} />
                   </button>
@@ -117,15 +116,15 @@ function page() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-32">
+    <div className="min-h-screen bg-background pb-32">
       {/* Header */}
-      <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4">
+      <header className="page-header">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h1 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white">
+            <h1 className="text-xl md:text-2xl font-black text-foreground">
               Shopping Cart
             </h1>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 font-medium">
+            <p className="text-sm text-muted-foreground mt-1 font-medium m-0">
               {cart.length > 0
                 ? `You have ${cart.length} items in your cart`
                 : "Your cart is currently empty"}
@@ -134,12 +133,11 @@ function page() {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 md:px-8 py-8">
-
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-4 sm:py-8">
         {cart.length > 0 ? (
           <div className="lg:grid lg:grid-cols-3 lg:gap-10 items-start">
             {/* Left Column: Cart Items */}
-            <div className="lg:col-span-2 space-y-6">
+            <div className="lg:col-span-2 space-y-4">
               <CartList />
             </div>
 
@@ -150,22 +148,22 @@ function page() {
           </div>
         ) : (
           // Empty Cart State
-          <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-slate-900 rounded-3xl border border-dashed border-slate-200 dark:border-slate-800">
-            <div className="w-24 h-24 bg-blue-50 dark:bg-blue-900/20 rounded-full flex items-center justify-center mb-6 animate-bounce">
-              <ShoppingBag className="w-10 h-10 text-blue-500 dark:text-blue-400" />
+          <div className="flex flex-col items-center justify-center py-16 sm:py-20 bg-card rounded-[2.5rem] border border-dashed border-border px-6">
+            <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6 animate-bounce">
+              <ShoppingBag className="w-10 h-10 text-primary" />
             </div>
 
-            <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">
+            <h2 className="text-2xl font-bold text-foreground mb-2">
               Your cart is empty
             </h2>
-            <p className="text-slate-500 dark:text-slate-400 max-w-sm text-center mb-8">
+            <p className="text-muted-foreground max-w-sm text-center mb-8">
               Looks like you haven't added anything to your cart yet. Browse our
               categories to find cool gadgets!
             </p>
 
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 px-8 py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 dark:shadow-none active:scale-95"
+              className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-primary-foreground font-semibold rounded-xl hover:opacity-90 transition-all shadow-lg shadow-primary/20 active:scale-95"
             >
               Start Shopping
               <ArrowRight className="w-4 h-4 ml-1" />
@@ -173,7 +171,7 @@ function page() {
           </div>
         )}
       </div>
-      </div>
+    </div>
   );
 }
 

@@ -23,134 +23,224 @@ const CompactOrderCard = ({ order }: { order: OrderData }) => {
   const { data: driver } = useSWR(
     order.driverId ? `driver-${order.driverId}` : null,
     () => getDriver(order.driverId!),
-    { revalidateOnFocus: false, dedupingInterval: 60000 }
+    { revalidateOnFocus: false, dedupingInterval: 60000 },
   );
 
   const statusConfig = useMemo(() => {
     switch (order.status) {
       case "Delivered":
-        return { color: "text-emerald-600 dark:text-emerald-400", bg: "bg-emerald-50 dark:bg-emerald-900/20", Icon: CheckCircle2, label: "Delivered" };
+        return {
+          color: "text-success",
+          bg: "bg-success/10",
+          Icon: CheckCircle2,
+          label: "Delivered",
+        };
       case "Shipped":
-        return { color: "text-blue-600 dark:text-blue-400", bg: "bg-blue-50 dark:bg-blue-900/20", Icon: Truck, label: "On the way" };
+        return {
+          color: "text-info",
+          bg: "bg-info/10",
+          Icon: Truck,
+          label: "On the way",
+        };
       case "Processing":
-        return { color: "text-amber-600 dark:text-amber-400", bg: "bg-amber-50 dark:bg-amber-900/20", Icon: Package, label: "Processing" };
+        return {
+          color: "text-warning",
+          bg: "bg-warning/10",
+          Icon: Package,
+          label: "Processing",
+        };
       case "Cancelled":
-        return { color: "text-rose-600 dark:text-rose-400", bg: "bg-rose-50 dark:bg-rose-900/20", Icon: XCircle, label: "Cancelled" };
+        return {
+          color: "text-error",
+          bg: "bg-error/10",
+          Icon: XCircle,
+          label: "Cancelled",
+        };
       default:
-        return { color: "text-slate-600 dark:text-slate-400", bg: "bg-slate-50 dark:bg-slate-800", Icon: Clock, label: order.status };
+        return {
+          color: "text-muted-foreground",
+          bg: "bg-muted",
+          Icon: Clock,
+          label: order.status,
+        };
     }
   }, [order.status]);
 
   const totalCostNumeric = useMemo(
-    () => order.productsList.reduce((acc, p) => acc + Number(p.p_cost) * (p.p_qu || 1), 0),
-    [order.productsList]
+    () =>
+      order.productsList.reduce(
+        (acc, p) => acc + Number(p.p_cost) * (p.p_qu || 1),
+        0,
+      ),
+    [order.productsList],
   );
 
   return (
-    <div className={cn(
-      "group w-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded transition-all duration-500 overflow-hidden",
-      isOpen ? "shadow-xl ring-1 ring-blue-500/5" : "shadow-sm hover:border-blue-100"
-    )}>
+    <div
+      className={cn(
+        "group w-full bg-card border border-border rounded transition-all duration-500 overflow-hidden",
+        isOpen
+          ? "shadow-xl ring-1 ring-primary/5"
+          : "shadow-sm hover:border-primary/10",
+      )}
+    >
       {/* --- HEADER --- */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between p-4 sm:p-5 text-left focus:outline-none"
       >
         <div className="flex items-center gap-4">
-          <div className={cn("w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center", statusConfig.bg, statusConfig.color)}>
+          <div
+            className={cn(
+              "w-10 h-10 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center",
+              statusConfig.bg,
+              statusConfig.color,
+            )}
+          >
             <statusConfig.Icon className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
           <div>
             <div className="flex flex-wrap items-center gap-2 mb-0.5">
-              <span className="text-sm sm:text-base font-black text-slate-900 dark:text-white">
+              <span className="text-sm sm:text-base font-black text-foreground">
                 #{order.id.slice(-6).toUpperCase()}
               </span>
-              <span className={cn("text-[8px] font-black uppercase px-2 py-0.5 rounded-full tracking-wider", statusConfig.bg, statusConfig.color)}>
+              <span
+                className={cn(
+                  "text-[8px] font-black uppercase px-2 py-0.5 rounded-full tracking-wider",
+                  statusConfig.bg,
+                  statusConfig.color,
+                )}
+              >
                 {statusConfig.label}
               </span>
               {/* Mobile Price Tag */}
-              <span className="sm:hidden text-xs font-black text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20 px-2 py-0.5 rounded-full">
-                {totalCostNumeric.toLocaleString()} <span className="text-[8px]">SDG</span>
+              <span className="sm:hidden text-xs font-black text-primary bg-primary/10 px-2 py-0.5 rounded-full">
+                {totalCostNumeric.toLocaleString()}{" "}
+                <span className="text-[8px]">SDG</span>
               </span>
             </div>
-            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tight">
-              {new Date(order.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
+            <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-tight">
+              {new Date(order.createdAt).toLocaleDateString(undefined, {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              })}
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-4 sm:gap-6">
           <div className="text-right hidden sm:block">
-            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-0.5">Grand Total</p>
-            <p className="text-lg font-black text-slate-900 dark:text-white">
-              {totalCostNumeric.toLocaleString()} <span className="text-[10px] text-slate-400">SDG</span>
+            <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-0.5">
+              Grand Total
+            </p>
+            <p className="text-lg font-black text-foreground">
+              {totalCostNumeric.toLocaleString()}{" "}
+              <span className="text-[10px] text-muted-foreground">SDG</span>
             </p>
           </div>
-          
-          <div className={cn(
-            "w-8 h-8 rounded-xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-400 transition-all duration-500",
-            isOpen && "rotate-180 bg-blue-600 text-white shadow-lg"
-          )}>
+
+          <div
+            className={cn(
+              "w-8 h-8 rounded-xl bg-muted flex items-center justify-center text-muted-foreground transition-all duration-500",
+              isOpen &&
+                "rotate-180 bg-primary text-primary-foreground shadow-lg",
+            )}
+          >
             <ChevronDown size={18} strokeWidth={3} />
           </div>
         </div>
       </button>
 
       {/* --- EXPANDED CONTENT --- */}
-      <div className={cn(
-        "border-t border-slate-50 dark:border-slate-800 transition-all duration-500 ease-in-out bg-slate-50/30 dark:bg-slate-800/10",
-        isOpen ? "max-h-[1000px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"
-      )}>
+      <div
+        className={cn(
+          "border-t border-border transition-all duration-500 ease-in-out bg-muted/10",
+          isOpen
+            ? "max-h-[1000px] opacity-100"
+            : "max-h-0 opacity-0 overflow-hidden",
+        )}
+      >
         <div className="p-4 sm:p-6 space-y-6">
-          
           {driver && (
-            <div className="flex items-center justify-between p-4 bg-white dark:bg-slate-900 border border-blue-50 dark:border-blue-900/30 rounded-2xl shadow-sm">
+            <div className="flex items-center justify-between p-4 bg-card border border-primary/10 rounded-2xl shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-primary/10 text-primary rounded-xl flex items-center justify-center">
                   <Truck size={20} />
                 </div>
                 <div>
-                  <p className="text-xs font-black text-slate-900 dark:text-white">{driver.name}</p>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase">Courier assigned • {driver.vehicle}</p>
+                  <p className="text-xs font-black text-foreground">
+                    {driver.name}
+                  </p>
+                  <p className="text-[10px] font-bold text-muted-foreground uppercase">
+                    Courier assigned • {driver.vehicle}
+                  </p>
                 </div>
               </div>
               <div className="flex gap-2">
-                <a href={`tel:${driver.phone}`} className="w-9 h-9 flex items-center justify-center rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600"><Phone size={16} /></a>
-                <a href={`https://wa.me/${driver.phone.replace(/\+/g, '')}`} target="_blank" className="w-9 h-9 flex items-center justify-center rounded-xl bg-emerald-600 text-white shadow-lg"><MessageSquare size={16} /></a>
+                <a
+                  href={`tel:${driver.phone}`}
+                  className="w-9 h-9 flex items-center justify-center rounded-xl bg-muted text-foreground/70"
+                >
+                  <Phone size={16} />
+                </a>
+                <a
+                  href={`https://wa.me/${driver.phone.replace(/\+/g, "")}`}
+                  target="_blank"
+                  className="w-9 h-9 flex items-center justify-center rounded-xl bg-success text-success-foreground shadow-lg"
+                >
+                  <MessageSquare size={16} />
+                </a>
               </div>
             </div>
           )}
 
           {/* --- DETAILED MANIFEST --- */}
           <div className="space-y-2">
-            <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] mb-3 ml-1">Order Manifest</h4>
+            <h4 className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.15em] mb-3 ml-1">
+              Order Manifest
+            </h4>
             {order.productsList.map((product, i) => (
-              <div key={i} className="flex items-center justify-between p-3 bg-white dark:bg-slate-900 border border-slate-50 dark:border-slate-800/50 rounded-2xl transition-colors">
+              <div
+                key={i}
+                className="flex items-center justify-between p-3 bg-card border border-border rounded-2xl transition-colors"
+              >
                 <div className="flex items-center gap-3">
                   <div>
-                    <Link href={`/products/${product.id}`} className="text-xs font-black text-slate-800 dark:text-slate-200 hover:text-blue-600 line-clamp-1">
+                    <Link
+                      href={`/products/${product.id}`}
+                      className="text-xs font-black text-foreground hover:text-primary line-clamp-1"
+                    >
                       {product.p_name}
                     </Link>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase">
-                      {product.p_qu} Unit{'s'} × {Number(product.p_cost).toLocaleString()} SDG
+                    <p className="text-[10px] font-bold text-muted-foreground uppercase">
+                      {product.p_qu} Unit{"s"} ×{" "}
+                      {Number(product.p_cost).toLocaleString()} SDG
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="font-black text-slate-900 dark:text-white text-xs">
-                    {(Number(product.p_cost) * (product.p_qu || 1)).toLocaleString()}
+                  <span className="font-black text-foreground text-xs">
+                    {(
+                      Number(product.p_cost) * (product.p_qu || 1)
+                    ).toLocaleString()}
                   </span>
-                  <p className="text-[8px] font-bold text-slate-400 uppercase">Total</p>
+                  <p className="text-[8px] font-bold text-muted-foreground uppercase">
+                    Total
+                  </p>
                 </div>
               </div>
             ))}
-            
+
             {/* Expanded Footer Total */}
-            <div className="mt-4 p-4 rounded-2xl bg-slate-900 dark:bg-slate-800 text-white flex justify-between items-center shadow-inner">
-               <span className="text-[10px] font-black uppercase tracking-widest opacity-60">Order Net Total</span>
-               <span className="text-lg font-black tracking-tighter">
-                 {totalCostNumeric.toLocaleString()} <span className="text-[10px] opacity-60 uppercase">Sdg</span>
-               </span>
+            <div className="mt-4 p-4 rounded-2xl bg-foreground text-background flex justify-between items-center shadow-inner">
+              <span className="text-[10px] font-black uppercase tracking-widest opacity-60">
+                Order Net Total
+              </span>
+              <span className="text-lg font-black tracking-tighter">
+                {totalCostNumeric.toLocaleString()}{" "}
+                <span className="text-[10px] opacity-60 uppercase">Sdg</span>
+              </span>
             </div>
           </div>
         </div>

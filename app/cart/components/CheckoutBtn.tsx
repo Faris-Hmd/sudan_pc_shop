@@ -1,4 +1,4 @@
-import { ArrowRight, Loader2, ShieldCheck, CreditCard, AlertCircle } from "lucide-react";
+import { ArrowRight, ShieldCheck, CreditCard, AlertCircle } from "lucide-react";
 import React, { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
@@ -8,6 +8,7 @@ import { useCart } from "@/hooks/useCart";
 import useSWR from "swr";
 import { getUser } from "@/services/userServices";
 import { useRouter } from "next/navigation";
+import { Spinner } from "@/components/Loading";
 
 function CheckoutBtn() {
   const { cart } = useCart();
@@ -19,7 +20,7 @@ function CheckoutBtn() {
   // Fetch user data to check shipping info
   const { data: userData, isLoading: userLoading } = useSWR(
     user?.email ? `checkout-user-${user.email}` : null,
-    () => getUser(user?.email as string)
+    () => getUser(user?.email as string),
   );
 
   const total = useMemo(() => {
@@ -61,7 +62,11 @@ function CheckoutBtn() {
     }
 
     // Validate shipping info
-    if (!userData?.shippingInfo || !userData.shippingInfo.address || !userData.shippingInfo.phone) {
+    if (
+      !userData?.shippingInfo ||
+      !userData.shippingInfo.address ||
+      !userData.shippingInfo.phone
+    ) {
       toast.error("Please complete your shipping information before checkout.");
       router.push("/profile/edit" as any);
       return;
@@ -95,19 +100,23 @@ function CheckoutBtn() {
   }
 
   return (
-    <div className="mt-2 bg-white dark:bg-slate-900 rounded border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden transition-all duration-300">
+    <div className="mt-2 bg-card rounded border border-border shadow-sm overflow-hidden transition-all duration-300">
       <div className="p-6 space-y-4">
-        <h2 className="text-lg font-bold text-slate-800 dark:text-slate-100">Order Summary</h2>
+        <h2 className="text-lg font-bold text-foreground">Order Summary</h2>
 
         {/* Breakdown */}
-        <div className="space-y-2 text-sm text-slate-600 dark:text-slate-400">
+        <div className="space-y-2 text-sm text-muted-foreground">
           <div className="flex justify-between">
             <span>Subtotal ({cart.length} items)</span>
-            <span className="font-medium text-slate-900 dark:text-slate-100">{total.toLocaleString()} SDG</span>
+            <span className="font-medium text-foreground">
+              {total.toLocaleString()} SDG
+            </span>
           </div>
           <div className="flex justify-between">
             <span>Shipping</span>
-            <span className="text-green-600 dark:text-emerald-400 font-bold uppercase text-[10px] tracking-wider">Free</span>
+            <span className="text-success font-bold uppercase text-[10px] tracking-wider">
+              Free
+            </span>
           </div>
           <div className="flex justify-between">
             <span>Taxes</span>
@@ -115,12 +124,12 @@ function CheckoutBtn() {
           </div>
         </div>
 
-        <div className="border-t border-slate-100 dark:border-slate-800 my-4" />
+        <div className="border-t border-border my-4" />
 
         {/* Total */}
         <div className="flex justify-between items-center mb-6">
-          <span className="text-base font-bold text-slate-800 dark:text-slate-100">Total</span>
-          <span className="text-2xl font-black text-blue-600 dark:text-blue-400">
+          <span className="text-base font-bold text-foreground">Total</span>
+          <span className="text-2xl font-black text-primary">
             {total.toLocaleString()} <span className="text-xs">SDG</span>
           </span>
         </div>
@@ -131,18 +140,14 @@ function CheckoutBtn() {
             disabled={isPending || cart.length === 0}
             className={cn(
               "group w-full py-4 px-6 flex items-center justify-center gap-3",
-              "bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 dark:disabled:bg-slate-800 disabled:cursor-not-allowed",
-              "text-white text-lg font-bold rounded-xl shadow-lg shadow-blue-200/50 dark:shadow-none",
+              "bg-primary hover:opacity-90 disabled:bg-muted disabled:cursor-not-allowed",
+              "text-primary-foreground text-lg font-bold rounded-xl shadow-lg shadow-primary/20",
               "transition-all duration-200 active:scale-[0.98]",
-              isPending && "opacity-80"
+              isPending && "opacity-80",
             )}
             type="submit"
           >
-            {isPending ? (
-              <Loader2 size={24} className="animate-spin" />
-            ) : (
-              <CreditCard size={24} />
-            )}
+            {isPending ? <Spinner size="md" /> : <CreditCard size={24} />}
             {isPending ? "Processing..." : "Checkout Securely"}
             {!isPending && (
               <ArrowRight
@@ -154,7 +159,7 @@ function CheckoutBtn() {
         </form>
 
         {/* Trust Badges */}
-        <div className="flex items-center justify-center gap-2 text-xs text-slate-400 dark:text-slate-600 mt-4 font-bold uppercase tracking-tight">
+        <div className="flex items-center justify-center gap-2 text-xs text-muted-foreground mt-4 font-bold uppercase tracking-tight">
           <ShieldCheck size={14} />
           <span>SSL Secure Payment</span>
         </div>

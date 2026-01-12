@@ -4,10 +4,11 @@ import React, { useMemo } from "react";
 import useSWR from "swr";
 import OrderList from "../components/orderList";
 import { useSession } from "next-auth/react";
-import { ArrowLeft, Loader2, PackageSearch } from "lucide-react";
+import { ArrowLeft, PackageSearch } from "lucide-react";
 import Link from "next/link";
 import { OrderData } from "@/types/productsTypes";
 import { getOrdersWh } from "@/services/ordersServices";
+import Loading from "@/components/Loading";
 
 export default function HistoryPage() {
   const { data: session, status } = useSession();
@@ -45,30 +46,23 @@ export default function HistoryPage() {
   }, [orders]);
 
   if (status === "loading" || isLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-3">
-        <Loader2 className="animate-spin text-blue-600" size={32} />
-        <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-          Loading Archives...
-        </p>
-      </div>
-    );
+    return <Loading size="lg" text="Loading Archives..." />;
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 pb-32">
+    <div className="min-h-screen bg-background pb-32">
       {/* Header */}
-      <header className="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+      <header className="page-header">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
               href={"/orders" as any}
-              className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
+              className="p-2 hover:bg-muted rounded-xl transition-colors"
             >
               <ArrowLeft size={20} />
             </Link>
-            <h1 className="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">
-              Mission <span className="text-emerald-500">History</span>
+            <h1 className="text-xl font-black text-foreground uppercase tracking-tighter m-0">
+              Mission <span className="text-success">History</span>
             </h1>
           </div>
         </div>
@@ -78,29 +72,29 @@ export default function HistoryPage() {
         {orders && orders.length > 0 ? (
           <div className="space-y-6">
             {/* --- COMPACT MINIFIED STATS BAR --- */}
-            <div className="grid grid-cols-3 gap-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-2 rounded-xl shadow-sm">
-              <div className="flex flex-col items-center justify-center py-1 border-r border-slate-100 dark:border-slate-800">
-                <span className="text-[12px] font-black text-slate-400 uppercase tracking-tighter">
+            <div className="grid grid-cols-3 gap-2 bg-card border border-border p-2 pb-0   rounded shadow-sm">
+              <div className="flex flex-col items-center justify-center py-1 border-border">
+                <span className="text-[12px] font-black text-muted-foreground uppercase tracking-tighter">
                   Spend
                 </span>
-                <p className="text-xs font-black text-slate-900 dark:text-white">
+                <p className="text-xs font-black text-foreground">
                   {Math.round(stats.totalSpend / 1000)}k{" "}
-                  <span className="text-[7px] text-blue-500">SDG</span>
+                  <span className="text-[7px] text-primary">SDG</span>
                 </p>
               </div>
-              <div className="flex flex-col items-center justify-center py-1 border-r border-slate-100 dark:border-slate-800">
-                <span className="text-[12px] font-black text-slate-400 uppercase tracking-tighter">
+              <div className="flex flex-col items-center justify-center py-1 border-border">
+                <span className="text-[12px] font-black text-muted-foreground uppercase tracking-tighter">
                   Units
                 </span>
-                <p className="text-xs font-black text-slate-900 dark:text-white">
+                <p className="text-xs font-black text-foreground">
                   {stats.totalItems}
                 </p>
               </div>
               <div className="flex flex-col items-center justify-center py-1">
-                <span className="text-[12px] font-black text-slate-400 uppercase tracking-tighter">
+                <span className="text-[12px] font-black text-muted-foreground uppercase tracking-tighter">
                   Orders
                 </span>
-                <p className="text-xs font-black text-slate-900 dark:text-white">
+                <p className="text-xs font-black text-foreground">
                   {stats.count}
                 </p>
               </div>
@@ -108,10 +102,10 @@ export default function HistoryPage() {
 
             {/* List Header */}
             <div className="flex items-center justify-between px-1">
-              <h2 className="text-[12px] font-black text-slate-400 uppercase tracking-[0.2em]">
+              <h2 className="text-[12px] font-black text-muted-foreground uppercase tracking-[0.2em]">
                 Deployment Log
               </h2>
-              <span className="text-[12px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded-md">
+              <span className="text-[12px] font-bold text-muted-foreground bg-muted px-2 py-1 rounded-md">
                 {stats.count} Total
               </span>
             </div>
@@ -125,13 +119,13 @@ export default function HistoryPage() {
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center p-10 md:p-20 text-center">
-            <div className="w-16 h-16 bg-slate-100 dark:bg-slate-900 rounded-2xl flex items-center justify-center mb-6">
-              <PackageSearch className="w-8 h-8 text-slate-300 " />
+            <div className="w-16 h-16 bg-muted rounded-2xl flex items-center justify-center mb-6">
+              <PackageSearch className="w-8 h-8 text-muted-foreground/30 " />
             </div>
-            <h2 className="text-lg font-black text-slate-800 dark:text-white uppercase tracking-tighter">
+            <h2 className="text-lg font-black text-foreground uppercase tracking-tighter">
               No History Found
             </h2>
-            <p className="text-slate-500 dark:text-slate-400 max-w-xs mx-auto text-[12px] font-bold uppercase tracking-widest mt-2">
+            <p className="text-muted-foreground max-w-xs mx-auto text-[12px] font-bold uppercase tracking-widest mt-2">
               You haven't received any orders yet.
             </p>
           </div>

@@ -17,7 +17,8 @@ const roboto = Nunito({
 
 export const metadata: Metadata = {
   title: "Sudan PC | Premium Gaming Components",
-  description: "The ultimate destination for PC builders and gamers in Sudan. Quality components, rapid delivery.",
+  description:
+    "The ultimate destination for PC builders and gamers in Sudan. Quality components, rapid delivery.",
 };
 
 export default function RootLayout({
@@ -28,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${roboto.className} antialiased text-slate-900 dark:text-slate-100 flex flex-col transition-colors duration-300`}
+        className={`${roboto.className} antialiased flex flex-col transition-colors duration-300`}
       >
         <SessionProvider>
           <ThemeProvider
@@ -38,12 +39,9 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <ScrollTop />
-            <main className="w-full grow min-h-screen">
-              <NavBar />
-              <Toaster position="top-center" expand />
-              <div className="pt-0.5"></div>
-              {children}
-            </main>
+            <NavBar />
+            <Toaster position="top-center" expand />
+            <main className="w-full grow min-h-screen">{children}</main>
             <BtmNav />
             <AppFooter />
           </ThemeProvider>
